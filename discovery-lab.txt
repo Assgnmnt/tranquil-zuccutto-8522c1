@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Discovery Lab — Define Your Assignment | The Assignment Room™</title>
   <!-- SEO: Core -->
+
   <meta name="robots" content="index, follow">
   <meta name="author" content="Jackie Parker">
   <meta name="keywords" content="discovery lab women assignment, define your assignment, assignment brief, women purpose program, Jackie Parker discovery lab, assignment room program, faith women program">
