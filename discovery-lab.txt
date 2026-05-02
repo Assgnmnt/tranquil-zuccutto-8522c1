@@ -660,7 +660,7 @@ footer p { font-size: 12px; color: rgba(255,255,255,0.25); }
           <div style="display:flex;gap:8px;margin-bottom:6px;"><div style="width:5px;height:5px;border-radius:50%;background:var(--teal);margin-top:5px;flex-shrink:0;"></div><p style="font-size:12px;color:rgba(255,255,255,0.75);">Activation Map™ — milestones, actions, 14-day sprint</p></div>
           <div style="display:flex;gap:8px;"><div style="width:5px;height:5px;border-radius:50%;background:var(--gold);margin-top:5px;flex-shrink:0;"></div><p style="font-size:12px;color:rgba(255,255,255,0.75);font-weight:500;">Assignment Brief™ PDF — delivered within 48 hours</p></div>
         </div>
-        <a class="btn-enroll-main" href="/discovery-lab-signup?tier=deepdive" style="background:var(--gold);color:var(--charcoal);margin-bottom:0.5rem;">Book Assignment Brief™ Intensive</a>
+        <a class="btn-enroll-main" href="https://buy.stripe.com/eVq14n7Y64IK1hy076dnW02" style="background:var(--gold);color:var(--charcoal);margin-bottom:0.5rem;">Book Assignment Brief™ Intensive</a>
         <p style="font-size:11px;color:rgba(255,255,255,0.3);text-align:center;">Stripe payment link coming soon</p>
       </div>
 
