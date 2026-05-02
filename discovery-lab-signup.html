@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reserve Your Spot — Discovery Lab · The Assignment Room™</title>
+<meta name="description" content="Book your Discovery Lab session with The Assignment Room™. Define your assignment and build your plan in one session.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--teal:#058E97;--teal-dark:#046870;--teal-deeper:#023c40;--teal-light:#e6f7f8;--gold:#C9A84C;--gold-light:#E0CE8D;--gold-bg:#fdf8ee;--cream:#F8F4EE;--charcoal:#1C1C1A;--ink:#2e2e2b;--muted:#5a5855;--border:rgba(0,0,0,0.1);--white:#ffffff}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{padding-top:76px;font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh}
+nav{background:var(--charcoal);padding:1.25rem 2rem;display:flex;align-items:center;justify-content:space-between;border-bottom:0.5px solid rgba(201,168,76,0.2)}
+.nav-brand{font-family:'Cormorant Garamond',serif;font-size:15px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold-light);text-decoration:none}
+.nav-back{font-size:13px;color:rgba(255,255,255,0.45);text-decoration:none;transition:color 0.2s}
+.nav-back:hover{color:rgba(255,255,255,0.8)}
+.page-header{background:var(--teal);padding:4rem 2rem;text-align:center;position:relative;overflow:hidden}
+.page-header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center top,rgba(255,255,255,0.1) 0%,transparent 70%)}
+.page-header .eyebrow{font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:1rem;position:relative;z-index:2}
+.page-header h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.25rem,5vw,3.5rem);font-weight:500;color:var(--white);line-height:1.2;margin-bottom:1rem;position:relative;z-index:2}
+.page-header h1 em{font-style:italic;color:rgba(255,255,255,0.8)}
+.page-header p{font-size:16px;color:rgba(255,255,255,0.8);max-width:520px;margin:0 auto;line-height:1.75;position:relative;z-index:2}
+.form-wrap{max-width:620px;margin:2rem auto 4rem;background:var(--white);border-radius:6px;border:0.5px solid rgba(0,0,0,0.08);overflow:hidden}
+.form-notice{background:var(--gold-bg);border-bottom:0.5px solid rgba(201,168,76,0.3);padding:1.25rem 2rem;display:flex;gap:1rem;align-items:flex-start}
+.notice-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);margin-top:5px;flex-shrink:0}
+.notice-text{font-size:14px;color:#633806;line-height:1.6}
+.what-you-get{padding:2rem 2.5rem;border-bottom:0.5px solid rgba(0,0,0,0.07)}
+.wg-title{font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--teal);font-weight:500;margin-bottom:1rem}
+.wg-items{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem}
+.wg-item{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--ink)}
+.wg-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);flex-shrink:0}
+.form-body{padding:2.5rem}
+.field{margin-bottom:1.25rem}
+.field label{font-size:13px;font-weight:500;color:var(--ink);display:block;margin-bottom:6px}
+.field .hint{font-size:12px;color:var(--muted);margin-bottom:6px;line-height:1.5}
+.field input,.field select,.field textarea{width:100%;padding:0.85rem 1rem;border:0.5px solid rgba(0,0,0,0.15);border-radius:4px;font-size:15px;font-family:'DM Sans',sans-serif;color:var(--ink);background:var(--white);outline:none;transition:border-color 0.2s}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--teal)}
+.field textarea{resize:vertical;min-height:80px;line-height:1.6}
+.field select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235a5855' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;cursor:pointer}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.required{color:#A32D2D;margin-left:2px}
+.price-row{display:flex;align-items:center;justify-content:space-between;background:var(--cream);border-radius:4px;padding:1rem 1.25rem;margin-bottom:1.5rem}
+.price-label{font-size:14px;color:var(--muted)}
+.price-amount{font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--charcoal);font-weight:500}
+.price-note{font-size:12px;color:var(--muted)}
+.form-footer{padding:1.5rem 2.5rem;background:var(--cream);border-top:0.5px solid rgba(0,0,0,0.07)}
+.submit-btn{display:block;width:100%;padding:1.1rem;background:var(--teal);color:var(--white);border:none;border-radius:4px;font-size:16px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;letter-spacing:0.02em;transition:background 0.2s,transform 0.15s;margin-bottom:1rem}
+.submit-btn:hover{background:var(--teal-dark);transform:translateY(-1px)}
+.submit-note{font-size:13px;color:var(--muted);text-align:center;line-height:1.6}
+.success-view{display:none;padding:3rem 2.5rem;text-align:center}
+.success-icon{width:56px;height:56px;border-radius:50%;background:var(--teal-light);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem}
+.success-icon-inner{width:22px;height:22px;border-radius:50%;background:var(--teal)}
+.success-view h2{font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--charcoal);margin-bottom:0.75rem}
+.success-view p{font-size:15px;color:var(--muted);line-height:1.8;max-width:420px;margin:0 auto 1rem}
+.success-sig{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--teal);font-style:italic;margin-top:1.5rem}
+footer{background:var(--charcoal);padding:2.5rem 2rem;text-align:center;border-top:0.5px solid rgba(201,168,76,0.15)}
+.footer-brand{font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold-light);margin-bottom:0.5rem}
+footer p{font-size:13px;color:rgba(255,255,255,0.3)}
+@media(max-width:600px){.form-wrap{margin:1rem 1rem 3rem}.form-body{padding:1.75rem 1.25rem}.form-footer{padding:1.25rem}.what-you-get{padding:1.5rem 1.25rem}.wg-items{grid-template-columns:1fr}.field-row{grid-template-columns:1fr}nav{padding:1rem 1.25rem}}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-brand" href="/">The Assignment Room™</a>
+  <a class="nav-back" href="/discovery-lab">← Back to Discovery Lab</a>
+</nav>
+
+<div class="page-header">
+  <p class="eyebrow">Phase 1 · Define it</p>
+  <h1>Book<br><em>The Reveal™</em></h1>
+  <p>One session. Your assignment defined, your plan built, your decision made. Your assignment defined, your plan built, your decision made. Reserve your spot below.</p>
+</div>
+
+<div class="form-wrap">
+  <div class="form-notice">
+    <div class="notice-dot"></div>
+    <p class="notice-text">The Discovery Lab is a single structured session. Once you submit, Morgan Ellis, our Client Experience Coordinator, will follow up within 24 hours to confirm your session date and payment details.</p>
+  </div>
+
+  <div class="what-you-get">
+    <p class="wg-title">What you walk away with</p>
+    <div class="wg-items">
+      <div class="wg-item"><div class="wg-dot"></div>Defined Assignment Statement</div>
+      <div class="wg-item"><div class="wg-dot"></div>Activation Map™</div>
+      <div class="wg-item"><div class="wg-dot"></div>14-day sprint mapped</div>
+      <div class="wg-item"><div class="wg-dot"></div>Decision made + documented</div>
+      <div class="wg-item"><div class="wg-dot"></div>Assignment Activation Plan™</div>
+      <div class="wg-item"><div class="wg-dot"></div>Direct access to your coordinator</div>
+    </div>
+  </div>
+
+  <div id="form-content">
+    <form class="form-body" id="discovery-form" onsubmit="submitForm(event)">
+      <div class="price-row">
+        <div>
+          <div class="price-label">Program investment</div>
+          <div class="price-note">One-time payment · Due upon enrollment confirmation</div>
+        </div>
+        <div class="price-amount">$197</div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>First name <span class="required">*</span></label>
+          <input type="text" name="first_name" required placeholder="First name">
+        </div>
+        <div class="field">
+          <label>Last name <span class="required">*</span></label>
+          <input type="text" name="last_name" required placeholder="Last name">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Email address <span class="required">*</span></label>
+        <input type="email" name="email" required placeholder="your@email.com">
+      </div>
+
+      <div class="field">
+        <label>Phone number</label>
+        <input type="tel" name="phone" placeholder="(optional) best number to reach you">
+      </div>
+
+      <div class="field">
+        <label>Where are you right now? <span class="required">*</span></label>
+        <select name="current_stage" required>
+          <option value="">Select what resonates most</option>
+          <option value="awakening">I feel called but haven't defined it yet</option>
+          <option value="discernment">I can describe it but haven't moved toward it</option>
+          <option value="agreement_barrier">Fear or a belief is blocking me from moving</option>
+          <option value="detachment">I'm releasing what I've built to move into something new</option>
+          <option value="not_sure">I'm not sure — I need the diagnostic to tell me</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>What made you decide to reserve your spot today?</label>
+        <div class="hint">Optional — but this helps Morgan prepare for your session.</div>
+        <textarea name="why_now" placeholder="What shifted? What are you ready to stop negotiating with?"></textarea>
+      </div>
+
+      <div class="field">
+        <label>How did you find The Assignment Room?</label>
+        <select name="referral_source">
+          <option value="">Select one</option>
+          <option value="tiktok">TikTok</option>
+          <option value="instagram">Instagram</option>
+          <option value="referral">Referred by someone</option>
+          <option value="diagnostic">I took the Readiness Diagnostic</option>
+          <option value="search">Google / Search</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <input type="hidden" name="_subject" value="New Reveal™ Session Request — The Assignment Room™">
+      <input type="hidden" name="source" value="Discovery Lab Session Request">
+    </form>
+
+    <div class="form-footer">
+      <button class="submit-btn" onclick="submitForm(event)">Book The Reveal™ — $197</button>
+      <p class="submit-note">No payment collected here. Morgan Ellis, our Client Experience Coordinator, will follow up within 24 hours with payment and session details.</p>
+    </div>
+  </div>
+
+  <div class="success-view" id="success-view">
+    <div class="success-icon"><div class="success-icon-inner"></div></div>
+    <h2>You're booked.</h2>
+    <p>Thank you for moving forward. Morgan Ellis, our Client Experience Coordinator, will follow up within 24 hours to confirm your session date and send everything you need to prepare.</p>
+
+    <div style="background:var(--cream);border:0.5px solid rgba(0,0,0,0.08);border-radius:6px;padding:1.5rem;margin:1.5rem 0;text-align:left;">
+      <p style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--teal);font-weight:500;margin-bottom:0.75rem;">After Your Session</p>
+      <p style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--charcoal);margin-bottom:0.75rem;line-height:1.3;">You found the rung. Now uncover the agreement underneath it.</p>
+      <p style="font-size:14px;color:var(--muted);line-height:1.75;margin-bottom:0.75rem;">Your rung is visible. The belief keeping you attached usually isn't.</p>
+      <p style="font-size:14px;color:var(--muted);line-height:1.75;margin-bottom:1rem;">That belief was formed in a real moment — and has been quietly governing your decisions ever since. The Deep Dive helps you identify it, break it, and move forward with clarity.</p>
+      <div style="border-top:0.5px solid rgba(0,0,0,0.07);padding-top:1rem;">
+        <p style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--teal);font-weight:500;margin-bottom:0.25rem;">The Deep Dive™</p>
+        <p style="font-size:12px;color:var(--muted);margin-bottom:0.25rem;">3-Hour Private Intensive · Includes Your Assignment Brief™</p>
+        <p style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--charcoal);font-weight:300;margin-bottom:0.75rem;">$497</p>
+        <a href="/discovery-lab#enroll" style="display:block;width:100%;padding:0.85rem;background:var(--teal);color:var(--white);border:none;border-radius:4px;font-size:14px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;text-align:center;text-decoration:none;">Continue →</a>
+      </div>
+    </div>
+
+    <div class="success-sig">Morgan Ellis</div>
+    <p style="font-size:12px;color:var(--muted);margin-top:0.35rem">Client Experience Coordinator · The Assignment Room™</p>
+  </div>
+</div>
+
+<footer>
+  <p class="footer-brand">The Assignment Room™</p>
+  <p>© 2025 The Assignment Room · assignmentroom.com · All rights reserved.</p>
+</footer>
+
+<script>
+function submitForm(e) {
+  e.preventDefault();
+  const form = document.getElementById('discovery-form');
+  const data = new FormData(form);
+  const body = {};
+  data.forEach(function(val, key) { body[key] = val; });
+
+  fetch('https://formspree.io/f/xreonaqg', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(body)
+  }).then(function(res) {
+    showSuccess();
+  }).catch(function() {
+    const name = (document.querySelector('[name=first_name]').value + ' ' + document.querySelector('[name=last_name]').value).trim();
+    const email = document.querySelector('[name=email]').value;
+    const subject = encodeURIComponent('Discovery Lab Reservation — ' + name);
+    const bodyText = encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\nI am reserving my spot in the Discovery Lab.');
+    window.location.href = 'mailto:hello@assignmentroom.com?subject=' + subject + '&body=' + bodyText;
+    showSuccess();
+  });
+}
+
+function showSuccess() {
+  document.getElementById('form-content').style.display = 'none';
+  document.getElementById('success-view').style.display = 'block';
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>
