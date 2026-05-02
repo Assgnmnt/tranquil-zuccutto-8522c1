@@ -639,7 +639,7 @@ footer p { font-size: 12px; color: rgba(255,255,255,0.25); }
           <div style="display:flex;gap:8px;margin-bottom:6px;"><div style="width:5px;height:5px;border-radius:50%;background:var(--teal);margin-top:5px;flex-shrink:0;"></div><p style="font-size:12px;color:var(--ink);">The Ladder Audit™ — your rung identified and documented</p></div>
           <div style="display:flex;gap:8px;"><div style="width:5px;height:5px;border-radius:50%;background:var(--teal);margin-top:5px;flex-shrink:0;"></div><p style="font-size:12px;color:var(--ink);">Assignment Readiness Forensic Report™ — 15-page PDF delivered within 24 hours</p></div>
         </div>
-        <a class="btn-enroll-main" href="/discovery-lab-signup?tier=reveal" style="margin-bottom:0.5rem;">Book The Reveal™</a>
+        <a class="btn-enroll-main" href="https://buy.stripe.com/fZucN55PYcbc5xO1badnW01" style="margin-bottom:0.5rem;">Book The Reveal™</a>
         <p style="font-size:11px;color:var(--muted);text-align:center;">Stripe payment link coming soon</p>
       </div>
 
