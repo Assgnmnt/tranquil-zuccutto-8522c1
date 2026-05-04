@@ -503,7 +503,7 @@ footer p { font-size: 13px; color: rgba(255,255,255,0.3); }
         <div class="pathway-body">
           <div class="pathway-label">Phase 2 · Build it</div>
           <h3>Activation Program</h3>
-          <p>Build your assignment and launch it in 8 weeks. You already know what you're supposed to do. This is where you stop circling it and actually build it.</p>
+          <p>Build your assignment and launch it in 4 weeks. You already know what you're supposed to do. This is where you stop circling it and actually build it.</p>
           <div class="pathway-arrow">Charter Cohort · June 2026 →</div>
         </div>
       </a>
@@ -579,9 +579,7 @@ footer p { font-size: 13px; color: rgba(255,255,255,0.3); }
 
 <script>
 const reveals = document.querySelectorAll('.reveal');
-// Mark all as visible immediately to prevent invisible content
 reveals.forEach(el => el.classList.add('visible'));
-// Then re-animate those in view for a nice effect
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry, i) => {
     if (entry.isIntersecting) {
