@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book Jackie to Speak — The Assignment Room™</title>
+<meta name="description" content="Invite Jackie Parker to speak at your conference, retreat, or leadership event. Keynotes and workshops on assignment, reinvention, and execution.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --teal: #058E97;
+  --teal-dark: #046870;
+  --teal-light: #e6f7f8;
+  --gold: #C9A84C;
+  --gold-light: #E0CE8D;
+  --gold-bg: #fdf8ee;
+  --charcoal: #1C1C1A;
+  --ink: #2e2e2b;
+  --cream: #F8F4EE;
+  --muted: #7a7870;
+  --border: rgba(0,0,0,0.08);
+  --white: #ffffff;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+/* NAV */
+nav {
+  background: var(--charcoal);
+  padding: 1.25rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 0.5px solid rgba(201,168,76,0.2);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.nav-brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  text-decoration: none;
+}
+.nav-cta {
+  font-size: 13px;
+  color: var(--teal);
+  text-decoration: none;
+  border: 0.5px solid var(--teal);
+  padding: 6px 16px;
+  border-radius: 2px;
+  transition: all 0.2s;
+}
+.nav-cta:hover { background: var(--teal); color: var(--white); }
+
+/* PAGE HEADER */
+.page-header {
+  background: var(--charcoal);
+  padding: 5rem 2rem 6rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.page-header::before {
+  content: '';
+  position: absolute;
+  top: -20%; left: 50%;
+  transform: translateX(-50%);
+  width: 700px; height: 500px;
+  background: radial-gradient(ellipse, rgba(5,142,151,0.15) 0%, transparent 65%);
+  pointer-events: none;
+}
+.page-header::after {
+  content: '';
+  position: absolute;
+  bottom: -10%; right: -5%;
+  width: 400px; height: 400px;
+  background: radial-gradient(ellipse, rgba(201,168,76,0.08) 0%, transparent 65%);
+  pointer-events: none;
+}
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.25rem;
+  position: relative;
+}
+.page-header h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 300;
+  color: var(--white);
+  line-height: 1.1;
+  margin-bottom: 1.25rem;
+  position: relative;
+}
+.page-header h1 em { font-style: italic; color: var(--gold-light); }
+.page-header p {
+  font-size: 1.05rem;
+  color: rgba(255,255,255,0.55);
+  max-width: 520px;
+  margin: 0 auto 2rem;
+  line-height: 1.75;
+  position: relative;
+}
+.btn-inquire-hero {
+  display: inline-block;
+  padding: 1rem 2.5rem;
+  background: var(--teal);
+  color: var(--white);
+  text-decoration: none;
+  border-radius: 3px;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: background 0.2s, transform 0.15s;
+  position: relative;
+}
+.btn-inquire-hero:hover { background: var(--teal-dark); transform: translateY(-2px); }
+
+/* SECTION */
+.section { padding: 5rem 2rem; }
+.section-inner { max-width: 960px; margin: 0 auto; }
+.section-label {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+}
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 400;
+  color: var(--charcoal);
+  line-height: 1.2;
+  margin-bottom: 0.75rem;
+}
+.section-title em { font-style: italic; color: var(--gold); }
+.section-lead {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.8;
+  max-width: 600px;
+  margin-bottom: 3rem;
+}
+
+/* CREDIBILITY BAR */
+.cred-bar {
+  background: var(--charcoal);
+  padding: 2rem;
+  border-top: 0.5px solid rgba(201,168,76,0.2);
+  border-bottom: 0.5px solid rgba(201,168,76,0.2);
+}
+.cred-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.cred-item {
+  text-align: center;
+}
+.cred-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  font-weight: 300;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.cred-label {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+}
+
+/* TALKS */
+.talks-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.talk-card {
+  border: 0.5px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--white);
+  transition: border-color 0.2s, transform 0.15s;
+}
+.talk-card:hover { border-color: rgba(5,142,151,0.3); transform: translateY(-2px); }
+
+.talk-card.flagship {
+  border-color: rgba(201,168,76,0.4);
+  background: var(--charcoal);
+}
+
+.talk-header {
+  padding: 2rem 2rem 1.5rem;
+  border-bottom: 0.5px solid var(--border);
+}
+.talk-card.flagship .talk-header {
+  border-bottom-color: rgba(255,255,255,0.08);
+}
+
+.talk-badge {
+  display: inline-block;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 2px;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+.badge-flagship { background: rgba(201,168,76,0.15); color: var(--gold); border: 0.5px solid rgba(201,168,76,0.3); }
+.badge-keynote { background: var(--teal-light); color: var(--teal); }
+.badge-workshop { background: rgba(0,0,0,0.04); color: var(--muted); border: 0.5px solid var(--border); }
+
+.talk-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.75rem;
+  font-weight: 400;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+.talk-card.flagship .talk-title { color: var(--white); }
+.talk-card:not(.flagship) .talk-title { color: var(--charcoal); }
+
+.talk-subtitle {
+  font-size: 14px;
+  line-height: 1.6;
+}
+.talk-card.flagship .talk-subtitle { color: rgba(255,255,255,0.55); }
+.talk-card:not(.flagship) .talk-subtitle { color: var(--muted); }
+
+.talk-body { padding: 1.5rem 2rem 2rem; }
+
+.talk-desc {
+  font-size: 14px;
+  line-height: 1.75;
+  margin-bottom: 1.25rem;
+}
+.talk-card.flagship .talk-desc { color: rgba(255,255,255,0.65); }
+.talk-card:not(.flagship) .talk-desc { color: var(--muted); }
+
+.talk-meta {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.talk-meta-item {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.talk-card.flagship .talk-meta-item { color: rgba(255,255,255,0.3); }
+.talk-card:not(.flagship) .talk-meta-item { color: var(--muted); }
+.talk-meta-item span {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  margin-top: 2px;
+}
+.talk-card.flagship .talk-meta-item span { color: var(--gold-light); }
+.talk-card:not(.flagship) .talk-meta-item span { color: var(--ink); }
+
+/* AUDIENCES */
+.audience-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.audience-card {
+  padding: 1.5rem;
+  border-radius: 6px;
+  border: 0.5px solid var(--border);
+  background: var(--white);
+}
+.audience-card.primary { border-color: rgba(5,142,151,0.2); }
+.audience-type {
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-bottom: 0.4rem;
+}
+.primary .audience-type { color: var(--teal); }
+.secondary .audience-type { color: var(--muted); }
+.audience-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  color: var(--charcoal);
+  margin-bottom: 0.25rem;
+}
+.audience-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+/* ABOUT STRIP */
+.about-strip {
+  background: var(--charcoal);
+  padding: 4rem 2rem;
+}
+.about-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+.about-label {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 1rem;
+}
+.about-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.5rem;
+  font-weight: 300;
+  color: var(--white);
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+.about-name em { font-style: italic; color: var(--gold-light); }
+.about-bio {
+  font-size: 14px;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+.about-creds {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.about-cred {
+  font-size: 12px;
+  color: rgba(255,255,255,0.35);
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+.about-cred::before {
+  content: '—';
+  color: var(--gold);
+  flex-shrink: 0;
+}
+.about-quote {
+  background: rgba(255,255,255,0.04);
+  border: 0.5px solid rgba(201,168,76,0.2);
+  border-radius: 6px;
+  padding: 2.5rem;
+}
+.about-quote-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  font-style: italic;
+  color: var(--gold-light);
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+.about-quote-attr {
+  font-size: 11px;
+  color: rgba(255,255,255,0.25);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* INQUIRY FORM */
+.form-section {
+  background: var(--cream);
+  padding: 5rem 2rem;
+}
+.form-inner {
+  max-width: 640px;
+  margin: 0 auto;
+}
+.form-card {
+  background: var(--white);
+  border: 0.5px solid var(--border);
+  border-radius: 6px;
+  padding: 2.5rem;
+}
+.form-group { margin-bottom: 1.25rem; }
+.form-label {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.form-input, .form-select, .form-textarea {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 0.5px solid rgba(0,0,0,0.15);
+  border-radius: 4px;
+  font-size: 15px;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--ink);
+  background: var(--white);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  border-color: var(--teal);
+}
+.form-textarea { resize: vertical; min-height: 120px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.btn-submit {
+  display: block;
+  width: 100%;
+  padding: 1.1rem;
+  background: var(--teal);
+  color: var(--white);
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: background 0.2s, transform 0.15s;
+  margin-top: 0.5rem;
+}
+.btn-submit:hover { background: var(--teal-dark); transform: translateY(-1px); }
+.form-note {
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 1rem;
+  line-height: 1.6;
+}
+
+/* SUCCESS */
+#success-msg {
+  display: none;
+  text-align: center;
+  padding: 2rem;
+}
+#success-msg h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.75rem;
+  color: var(--charcoal);
+  margin-bottom: 0.75rem;
+}
+#success-msg p { font-size: 15px; color: var(--muted); line-height: 1.7; }
+
+/* FOOTER */
+footer {
+  background: var(--charcoal);
+  padding: 2rem;
+  text-align: center;
+  border-top: 0.5px solid rgba(201,168,76,0.2);
+}
+footer .brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  margin-bottom: 0.5rem;
+}
+footer p { font-size: 12px; color: rgba(255,255,255,0.25); }
+
+/* RESPONSIVE */
+@media (max-width: 640px) {
+  .about-inner { grid-template-columns: 1fr; gap: 2rem; }
+  .audience-grid { grid-template-columns: 1fr; }
+  .form-grid { grid-template-columns: 1fr; }
+  .cred-inner { gap: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="/">The Assignment Room™</a>
+  <a class="nav-cta" href="#inquire">Book Jackie</a>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <p class="eyebrow">Speaking & Keynotes</p>
+  <h1>Invite Jackie<br>to <em>Speak</em></h1>
+  <p>Jackie Parker brings Fortune 500 executive authority, personal reinvention, and the Assignment Room™ framework to stages that are ready for a different kind of conversation.</p>
+  <a href="#inquire" class="btn-inquire-hero">Inquire About Availability</a>
+</div>
+
+<!-- CREDIBILITY BAR -->
+<div class="cred-bar">
+  <div class="cred-inner">
+    <div class="cred-item">
+      <div class="cred-num">20+</div>
+      <div class="cred-label">Years Fortune 500</div>
+    </div>
+    <div class="cred-item">
+      <div class="cred-num">27K</div>
+      <div class="cred-label">Employees Led</div>
+    </div>
+    <div class="cred-item">
+      <div class="cred-num">40</div>
+      <div class="cred-label">Countries</div>
+    </div>
+    <div class="cred-item">
+      <div class="cred-num">3</div>
+      <div class="cred-label">Signature Talks</div>
+    </div>
+  </div>
+</div>
+
+<!-- SIGNATURE TALKS -->
+<section class="section" style="background:var(--cream)">
+  <div class="section-inner">
+    <p class="section-label">Signature Talks</p>
+    <h2 class="section-title">Three talks.<br><em>One message.</em></h2>
+    <p class="section-lead">Every talk is built around one central truth: the hardest part is not hearing God. It is moving after He speaks.</p>
+
+    <div class="talks-grid">
+
+      <!-- FLAGSHIP -->
+      <div class="talk-card flagship">
+        <div class="talk-header">
+          <span class="talk-badge badge-flagship">Flagship Keynote</span>
+          <h3 class="talk-title">Stop Negotiating. Move.</h3>
+          <p class="talk-subtitle">The internal agreements keeping high-achievers from their next assignment — and how to break them.</p>
+        </div>
+        <div class="talk-body">
+          <p class="talk-desc">Most high-achievers are not confused about what they are called to do. They are protecting something — security, identity, recognition — that feels too expensive to release. This keynote exposes the specific internal agreements that masquerade as wisdom, patience, and responsibility. It names what most audiences have never heard named. And it forces a decision.</p>
+          <div class="talk-meta">
+            <div class="talk-meta-item">Format<span>Keynote · Workshop · Retreat</span></div>
+            <div class="talk-meta-item">Length<span>45 · 60 · 90 min</span></div>
+            <div class="talk-meta-item">Best For<span>Faith · Corporate · Executive</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- KEYNOTE 2 -->
+      <div class="talk-card">
+        <div class="talk-header">
+          <span class="talk-badge badge-keynote">Personal Story Keynote</span>
+          <h3 class="talk-title">From the Boardroom to the Assignment</h3>
+          <p class="talk-subtitle">A personal keynote on reinvention, obedience, and building what God showed you.</p>
+        </div>
+        <div class="talk-body">
+          <p class="talk-desc">Jackie spent more than two decades at the top of the ladder — SVP at Global Payments, Chief Talent Officer, President of the GM Foundation. And then God called her off it. This is the story of that moment, the fear that followed, and the decision that produced The Assignment Room™. It is the talk that answers: what does it actually look like to step off the ladder you spent years climbing?</p>
+          <div class="talk-meta">
+            <div class="talk-meta-item">Format<span>Keynote · Opening · Closing</span></div>
+            <div class="talk-meta-item">Length<span>30 · 45 · 60 min</span></div>
+            <div class="talk-meta-item">Best For<span>Women's · Reinvention · Faith</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- KEYNOTE 3 -->
+      <div class="talk-card">
+        <div class="talk-header">
+          <span class="talk-badge badge-workshop">Strategic Keynote · Workshop</span>
+          <h3 class="talk-title">The Assignment Economy™</h3>
+          <p class="talk-subtitle">Why clarity without execution is costing more than you think.</p>
+        </div>
+        <div class="talk-body">
+          <p class="talk-desc">Clarity has an expiration date. This talk addresses the most expensive mistake high-achieving professionals make — accumulating insight, strategy, and vision without converting any of it into execution. Using the Assignment Economy™ framework, Jackie shows audiences how to move from perpetual preparation to measurable, sustained action. Built for corporate, entrepreneurial, and marketplace ministry audiences who are tired of knowing without building.</p>
+          <div class="talk-meta">
+            <div class="talk-meta-item">Format<span>Keynote · Workshop · Offsite</span></div>
+            <div class="talk-meta-item">Length<span>60 · 90 min · Half day</span></div>
+            <div class="talk-meta-item">Best For<span>Corporate · Entrepreneurs · HR</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- AUDIENCES -->
+<section class="section" style="background:var(--white);padding-top:3rem;padding-bottom:3rem;">
+  <div class="section-inner">
+    <p class="section-label">Who Jackie Speaks For</p>
+    <h2 class="section-title">The right stage<br><em>makes the difference.</em></h2>
+    <p class="section-lead">Jackie brings the same message to every stage — with language, examples, and energy calibrated to the room.</p>
+
+    <div class="audience-grid">
+      <div class="audience-card primary">
+        <div class="audience-type">Primary</div>
+        <div class="audience-name">Faith-Based Women's Conferences</div>
+        <div class="audience-desc">Strongest fit for The Assignment Room™ voice, message, and spiritual framework.</div>
+      </div>
+      <div class="audience-card primary">
+        <div class="audience-type">Primary</div>
+        <div class="audience-name">Corporate Leadership Events</div>
+        <div class="audience-desc">Leverages 20+ years of Fortune 500 executive credibility and strategic frameworks.</div>
+      </div>
+      <div class="audience-card primary">
+        <div class="audience-type">Primary</div>
+        <div class="audience-name">Executive Leadership Retreats</div>
+        <div class="audience-desc">Best fit for reinvention, identity, transition, and assignment work at the leadership level.</div>
+      </div>
+      <div class="audience-card secondary">
+        <div class="audience-type">Secondary</div>
+        <div class="audience-name">Entrepreneurship Conferences</div>
+        <div class="audience-desc">Strong fit for execution, clarity, and building what God showed you.</div>
+      </div>
+      <div class="audience-card secondary">
+        <div class="audience-type">Secondary</div>
+        <div class="audience-name">HR & Talent Conferences</div>
+        <div class="audience-desc">Useful bridge from corporate authority to purpose-driven leadership development.</div>
+      </div>
+      <div class="audience-card secondary">
+        <div class="audience-type">Secondary</div>
+        <div class="audience-name">Church & Ministry Events</div>
+        <div class="audience-desc">Spiritually aligned with deep relevance for leaders navigating calling and assignment.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT STRIP -->
+<div class="about-strip">
+  <div class="about-inner">
+    <div>
+      <p class="about-label">About the Speaker</p>
+      <h2 class="about-name">Jackie<br><em>Parker</em></h2>
+      <p class="about-bio">Jackie Parker spent more than two decades at the highest levels of Fortune 500 leadership before stepping off the ladder to build The Assignment Room™. She speaks from lived authority — not theory.</p>
+      <div class="about-creds">
+        <div class="about-cred">SVP Global Payments · $7.4B NYSE Fortune 500 · 40 countries</div>
+        <div class="about-cred">Chief Talent & Diversity Officer</div>
+        <div class="about-cred">President, GM Foundation</div>
+        <div class="about-cred">MS Johns Hopkins · BS Hampton University</div>
+        <div class="about-cred">Certified Professional Coach (CPCC)</div>
+        <div class="about-cred">Founder, The Assignment Room™</div>
+      </div>
+    </div>
+    <div class="about-quote">
+      <p class="about-quote-text">"Most people don't reject their assignment. They negotiate with it."</p>
+      <p class="about-quote-attr">Jackie Parker · Founder, The Assignment Room™</p>
+    </div>
+  </div>
+</div>
+
+<!-- INQUIRY FORM -->
+<section class="form-section" id="inquire">
+  <div class="form-inner">
+    <div style="text-align:center;margin-bottom:2.5rem;">
+      <p class="section-label" style="justify-content:center;display:block;">Speaking Inquiry</p>
+      <h2 class="section-title" style="font-size:2rem;">Let's talk about<br><em>your event.</em></h2>
+      <p class="section-lead" style="margin:0 auto;text-align:center;">Speaking fees are customized based on format, audience size, travel requirements, and scope of engagement.</p>
+    </div>
+
+    <div class="form-card">
+      <div id="success-msg">
+        <h3>Inquiry received.</h3>
+        <p>Morgan Ellis, our Client Experience Coordinator, will follow up within 24 hours to discuss your event and Jackie's availability.</p>
+      </div>
+      <form id="speak-form" action="https://formspree.io/f/meepylgv" method="POST">
+        <input type="hidden" name="_subject" value="Speaking Inquiry — The Assignment Room™">
+        <input type="hidden" name="source" value="Speaking Page">
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">First Name</label>
+            <input type="text" name="first_name" class="form-input" placeholder="First name" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Last Name</label>
+            <input type="text" name="last_name" class="form-input" placeholder="Last name" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" name="email" class="form-input" placeholder="your@email.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Organization / Event Name</label>
+          <input type="text" name="organization" class="form-input" placeholder="Organization or event name" required>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Event Date</label>
+            <input type="text" name="event_date" class="form-input" placeholder="Approximate date">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Expected Audience Size</label>
+            <select name="audience_size" class="form-select">
+              <option value="">Select range</option>
+              <option>Under 50</option>
+              <option>50 – 150</option>
+              <option>150 – 500</option>
+              <option>500 – 1,000</option>
+              <option>1,000+</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Event Type</label>
+          <select name="event_type" class="form-select">
+            <option value="">Select type</option>
+            <option>Faith-Based Women's Conference</option>
+            <option>Corporate Leadership Event</option>
+            <option>Executive Leadership Retreat</option>
+            <option>Entrepreneurship Conference</option>
+            <option>HR & Talent Conference</option>
+            <option>Church / Ministry Event</option>
+            <option>Leadership Team Offsite</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Preferred Talk (optional)</label>
+          <select name="preferred_talk" class="form-select">
+            <option value="">No preference</option>
+            <option>Stop Negotiating. Move.</option>
+            <option>From the Boardroom to the Assignment</option>
+            <option>The Assignment Economy™</option>
+            <option>Open to Jackie's recommendation</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tell us about your event</label>
+          <textarea name="event_details" class="form-textarea" placeholder="Share any details about your event, audience, and what you are hoping Jackie's presence will produce."></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Submit Speaking Inquiry →</button>
+        <p class="form-note">Morgan Ellis, our Client Experience Coordinator, will follow up within 24 hours.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p class="brand">The Assignment Room™</p>
+  <p>© 2026 The Assignment Room™ · assignmentroom.com</p>
+</footer>
+
+<script>
+document.getElementById('speak-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var form = this;
+  fetch(form.action, {
+    method: 'POST',
+    body: new FormData(form),
+    headers: { 'Accept': 'application/json' }
+  }).then(function(r) {
+    if (r.ok) {
+      form.style.display = 'none';
+      document.getElementById('success-msg').style.display = 'block';
+      window.scrollTo(0, document.getElementById('inquire').offsetTop);
+    }
+  }).catch(function() {
+    form.style.display = 'none';
+    document.getElementById('success-msg').style.display = 'block';
+  });
+});
+</script>
+</body>
+</html>
