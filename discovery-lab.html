@@ -3,64 +3,45 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Discovery Lab — Define Your Assignment | The Assignment Room™</title>
-  <!-- SEO: Core -->
+<title>Start Here: Diagnose + Define — The Assignment Room™</title>
   <meta name="robots" content="index, follow">
   <meta name="author" content="Jackie Parker">
-  <meta name="keywords" content="discovery lab women assignment, define your assignment, assignment brief, women purpose program, Jackie Parker discovery lab, assignment room program, faith women program">
+  <meta name="keywords" content="the reveal assignment room, assignment brief intensive, women assignment diagnostic, Jackie Parker private session, assignment room diagnose define, women purpose clarity session">
   <link rel="canonical" href="https://assignmentroom.com/discovery-lab">
-
-  <!-- SEO: Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="The Assignment Room™">
-  <meta property="og:title" content="Discovery Lab — Define Your Assignment | The Assignment Room™">
-  <meta property="og:description" content="The Discovery Lab — The Reveal™ ($197 · 60 min) and Assignment Brief™ Intensive ($497 · 3 hours). 1:1 with Jackie Parker. Define your assignment. Build your plan. Move.">
+  <meta property="og:title" content="Start Here: Diagnose + Define — The Assignment Room™">
+  <meta property="og:description" content="Two private entry points into The Assignment Room™ system. The Reveal™ ($197 · 60 min) and Assignment Brief™ Intensive ($497 · 3 hours). 1:1 with Jackie Parker.">
   <meta property="og:url" content="https://assignmentroom.com/discovery-lab">
   <meta property="og:image" content="https://assignmentroom.com/jackie-headshot.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:locale" content="en_US">
-
-  <!-- SEO: Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@iamjwp">
   <meta name="twitter:creator" content="@iamjwp">
-  <meta name="twitter:title" content="Discovery Lab — Define Your Assignment | The Assignment Room™">
-  <meta name="twitter:description" content="The Discovery Lab — The Reveal™ ($197 · 60 min) and Assignment Brief™ Intensive ($497 · 3 hours). 1:1 with Jackie Parker. Define your assignment. Build your plan. Move.">
+  <meta name="twitter:title" content="Start Here: Diagnose + Define — The Assignment Room™">
+  <meta name="twitter:description" content="Two private entry points into The Assignment Room™ system. The Reveal™ ($197 · 60 min) and Assignment Brief™ Intensive ($497 · 3 hours). 1:1 with Jackie Parker.">
   <meta name="twitter:image" content="https://assignmentroom.com/jackie-headshot.jpg">
-
-  <!-- SEO: Schema.org JSON-LD -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Course",
-    "name": "Discovery Lab",
+    "@type": "Service",
+    "name": "Start Here: Diagnose + Define",
     "url": "https://assignmentroom.com/discovery-lab",
-    "description": "A one-session structured build where women define their assignment, build their Activation Map™, and make the decision that produces movement.",
+    "description": "Two private entry points into The Assignment Room™ system — The Reveal™ and the Assignment Brief™ Intensive.",
     "provider": {
       "@type": "Organization",
       "name": "The Assignment Room™",
       "url": "https://assignmentroom.com"
     },
-    "instructor": {
-      "@type": "Person",
-      "name": "Jackie Parker",
-      "jobTitle": "Founder, The Assignment Room™"
-    },
-    "offers": {
-      "@type": "Offer",
-      "price": "197",
-      "priceCurrency": "USD",
-      "availability": "https://schema.org/InStock"
-    },
-    "courseMode": "online",
-    "audience": {
-      "@type": "Audience",
-      "audienceType": "High-achieving women on assignment"
-    }
+    "offers": [
+      {"@type": "Offer", "name": "The Reveal™", "price": "197", "priceCurrency": "USD"},
+      {"@type": "Offer", "name": "Assignment Brief™ Intensive", "price": "497", "priceCurrency": "USD"}
+    ]
   }
   </script>
-<meta name="description" content="The Discovery Lab — The Reveal™ ($197 · 60 min) and Assignment Brief™ Intensive ($497 · 3 hours). 1:1 with Jackie Parker. Define your assignment. Build your plan. Move.">
+<meta name="description" content="Two private entry points into The Assignment Room™ system. The Reveal™ ($197 · 60 min) and Assignment Brief™ Intensive ($497 · 3 hours). 1:1 with Jackie Parker.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -154,10 +135,10 @@ nav {
 }
 .hero h1 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
   font-weight: 500;
   color: var(--white);
-  line-height: 1.15;
+  line-height: 1.2;
   margin-bottom: 1.5rem;
 }
 .hero h1 em { font-style: italic; color: var(--gold-light); }
@@ -182,91 +163,174 @@ nav {
   letter-spacing: 0.03em;
 }
 
-/* PRICE CARD */
-.price-card {
-  background: var(--white);
-  border-radius: 6px;
-  padding: 2rem;
+/* TWO OFFER CARDS */
+.offer-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
   position: sticky;
   top: 90px;
+  min-width: 320px;
+  max-width: 380px;
 }
-.price-label {
-  font-size: 11px;
-  letter-spacing: 0.15em;
+
+.offer-card-light {
+  background: var(--white);
+  border: 0.5px solid rgba(0,0,0,0.1);
+  border-radius: 6px;
+  padding: 1.5rem;
+}
+.offer-card-dark {
+  background: var(--charcoal);
+  border: 0.5px solid rgba(201,168,76,0.3);
+  border-radius: 6px;
+  padding: 1.5rem;
+}
+
+.card-header-label {
+  font-size: 10px;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--muted);
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+.card-header-label.teal { color: var(--teal); }
+.card-header-label.gold { color: var(--gold); }
+
+.card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+.card-title.dark { color: var(--charcoal); }
+.card-title.light { color: var(--gold-light); }
+
+.card-price {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  font-weight: 300;
+  line-height: 1;
   margin-bottom: 0.6rem;
 }
-.price-amount {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 3.5rem;
-  font-weight: 500;
-  color: var(--charcoal);
-  line-height: 1;
-  margin-bottom: 0.25rem;
-}
-.price-note {
-  font-size: 13px;
-  color: var(--muted);
-  margin-bottom: 1.5rem;
-  line-height: 1.5;
-}
-.price-divider {
-  height: 0.5px;
-  background: var(--border);
-  margin-bottom: 1.5rem;
-}
-.price-includes {
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--muted);
+.card-price.dark { color: var(--charcoal); }
+.card-price.light { color: var(--white); }
+
+.card-desc {
+  font-size: 12px;
+  line-height: 1.55;
   margin-bottom: 1rem;
 }
-.price-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
+.card-desc.dark { color: var(--muted); }
+.card-desc.light { color: rgba(255,255,255,0.6); }
+
+.card-divider {
+  height: 0.5px;
   margin-bottom: 0.85rem;
 }
-.price-dot {
-  width: 6px; height: 6px;
+.card-divider.dark { background: rgba(0,0,0,0.07); }
+.card-divider.light { background: rgba(255,255,255,0.1); }
+
+.card-bullet {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.card-dot {
+  width: 5px; height: 5px;
   border-radius: 50%;
-  background: var(--teal);
-  margin-top: 6px;
+  margin-top: 5px;
   flex-shrink: 0;
 }
-.price-item-text {
-  font-size: 14px;
-  color: var(--ink);
+.card-dot.teal { background: var(--teal); }
+.card-dot.gold { background: var(--gold); }
+
+.card-bullet-text {
+  font-size: 12px;
   line-height: 1.5;
 }
-.btn-enroll-main {
+.card-bullet-text.dark { color: var(--ink); }
+.card-bullet-text.light { color: rgba(255,255,255,0.75); }
+
+.card-best-for {
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  padding: 0.5rem 0.75rem;
+  border-radius: 3px;
+  margin: 0.85rem 0;
+  line-height: 1.5;
+}
+.card-best-for.dark {
+  background: var(--teal-light);
+  color: var(--teal-deeper);
+}
+.card-best-for.light {
+  background: rgba(201,168,76,0.12);
+  color: var(--gold-light);
+}
+
+.btn-card {
   display: block;
   width: 100%;
-  padding: 1.1rem;
-  background: var(--teal);
-  color: var(--white);
+  padding: 0.9rem;
   border: none;
   border-radius: 4px;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 500;
   font-family: 'DM Sans', sans-serif;
   cursor: pointer;
   text-align: center;
   text-decoration: none;
-  transition: background 0.2s, transform 0.15s;
+  transition: all 0.2s;
   letter-spacing: 0.02em;
-  margin-top: 1.5rem;
-  margin-bottom: 0.75rem;
 }
-.btn-enroll-main:hover { background: var(--teal-dark); transform: translateY(-1px); }
-.enroll-micro {
-  font-size: 12px;
-  color: var(--muted);
-  text-align: center;
-  line-height: 1.5;
+.btn-card.teal {
+  background: var(--teal);
+  color: var(--white);
 }
+.btn-card.teal:hover { background: var(--teal-dark); transform: translateY(-1px); }
+.btn-card.gold {
+  background: var(--gold);
+  color: var(--charcoal);
+}
+.btn-card.gold:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+/* BRIDGE SECTION */
+.bridge-section {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 2rem 0;
+}
+.bridge-box {
+  background: var(--teal-light);
+  border: 0.5px solid rgba(5,142,151,0.25);
+  border-radius: 6px;
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.bridge-text p {
+  font-size: 14px;
+  color: var(--teal-deeper);
+  line-height: 1.7;
+}
+.btn-bridge {
+  white-space: nowrap;
+  padding: 0.75rem 1.5rem;
+  background: var(--teal);
+  color: var(--white);
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  letter-spacing: 0.03em;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.btn-bridge:hover { background: var(--teal-dark); }
 
 /* SECTIONS */
 .section { padding: 5rem 2rem; }
@@ -342,72 +406,6 @@ nav {
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
   font-size: 17px;
-}
-
-/* JOURNEY */
-.journey {
-  margin-top: 3rem;
-  position: relative;
-}
-.journey-line {
-  position: absolute;
-  left: 22px;
-  top: 24px;
-  bottom: 24px;
-  width: 1px;
-  background: linear-gradient(to bottom, var(--teal), rgba(5,142,151,0.1));
-}
-.journey-step {
-  display: flex;
-  gap: 1.5rem;
-  align-items: flex-start;
-  margin-bottom: 2.25rem;
-  position: relative;
-}
-.journey-num {
-  width: 44px; height: 44px;
-  border-radius: 50%;
-  background: var(--charcoal);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.1rem;
-  font-weight: 500;
-  color: var(--gold-light);
-  flex-shrink: 0;
-  position: relative;
-  z-index: 1;
-}
-.journey-body h3 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.35rem;
-  color: var(--charcoal);
-  margin-bottom: 0.35rem;
-}
-.journey-body .phase {
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--teal);
-  margin-bottom: 0.6rem;
-  font-weight: 500;
-}
-.journey-body p {
-  font-size: 14px;
-  color: var(--muted);
-  line-height: 1.7;
-  max-width: 480px;
-}
-.journey-tool {
-  display: inline-block;
-  margin-top: 0.6rem;
-  font-size: 12px;
-  color: var(--teal-dark);
-  background: var(--teal-light);
-  padding: 3px 10px;
-  border-radius: 2px;
-  letter-spacing: 0.05em;
 }
 
 /* TOOLS */
@@ -578,18 +576,16 @@ footer p { font-size: 12px; color: rgba(255,255,255,0.25); }
 
 /* REVEAL */
 .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
-.section-dark .reveal { opacity: 0; }
-@media (prefers-reduced-motion: reduce) { .reveal { opacity: 1 !important; transform: none !important; } }
 .reveal.visible { opacity: 1; transform: translateY(0); }
 
 /* RESPONSIVE */
 @media (max-width: 800px) {
   .hero-inner { grid-template-columns: 1fr; }
-  .price-card { position: static; margin-top: 2rem; }
+  .offer-cards { position: static; margin-top: 2rem; min-width: auto; max-width: 100%; }
   .foryou-grid { grid-template-columns: 1fr; }
   .tools-grid { grid-template-columns: 1fr 1fr; }
   .testimonials { grid-template-columns: 1fr; }
-  .journey-line { display: none; }
+  .bridge-box { flex-direction: column; gap: 1rem; }
 }
 @media (max-width: 520px) {
   .tools-grid { grid-template-columns: 1fr; }
@@ -602,67 +598,99 @@ footer p { font-size: 12px; color: rgba(255,255,255,0.25); }
 
 <nav>
   <a class="nav-brand" href="/">The Assignment Room™</a>
-  <a class="nav-enroll" href="#enroll">Choose Your Path</a>
+  <a class="nav-enroll" href="#enroll">Choose Your Session</a>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
   <div class="hero-inner">
     <div>
-      <p class="hero-eyebrow">Phase 1 · Define it</p>
-      <h1>Discovery<br><em>Lab</em></h1>
-      <p class="hero-desc">You don't need more time to think. You need one session where everything stops being a feeling and starts being a plan.</p>
+      <p class="hero-eyebrow">Phase 1 · Diagnose + Define</p>
+      <h1>Start Here:<br><em>Diagnose + Define</em></h1>
+      <p class="hero-desc">You do not need more time to think. You need a structured room to name what is holding you — and decide what comes next.</p>
       <div class="hero-tags">
-        <span class="tag">1:1 with Jackie</span>
-        <span class="tag">Ladder Audit</span>
-        <span class="tag">Assignment Brief™</span>
+        <span class="tag">Private Session</span>
+        <span class="tag">Ladder Audit™</span>
         <span class="tag">Diagnostic</span>
-        <span class="tag">Decision Lock</span>
+        <span class="tag">Define + Document</span>
+        <span class="tag">Decision Point</span>
       </div>
     </div>
 
-    <!-- TWO TIER PRICE CARDS -->
-    <div class="price-card" id="enroll" style="padding:0;overflow:hidden;background:transparent;border:none;box-shadow:none;min-width:320px;max-width:380px;">
+    <!-- TWO OFFER CARDS -->
+    <div class="offer-cards" id="enroll">
 
-      <!-- SESSION 1 -->
-      <div style="background:var(--white);border:0.5px solid rgba(0,0,0,0.1);border-radius:6px;padding:1.5rem;margin-bottom:1rem;">
+      <!-- THE REVEAL™ -->
+      <div class="offer-card-light">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.75rem;">
           <div>
-            <p style="font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--teal);font-weight:500;margin-bottom:4px;">The Reveal™</p>
-            <p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--charcoal);font-weight:500;">Diagnostic Session</p>
+            <p class="card-header-label teal">The Reveal™</p>
+            <p class="card-title dark">Diagnostic Session</p>
           </div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--charcoal);font-weight:300;line-height:1;">$197</div>
+          <div class="card-price dark">$197</div>
         </div>
-        <p style="font-size:12px;color:var(--muted);margin-bottom:1rem;line-height:1.5;">You leave knowing exactly which rung is holding you — and what it has been costing you to stay there.</p>
-        <div style="border-top:0.5px solid rgba(0,0,0,0.07);padding-top:0.85rem;margin-bottom:1rem;">
-          <div style="display:flex;gap:8px;margin-bottom:6px;"><div style="width:5px;height:5px;border-radius:50%;background:var(--teal);margin-top:5px;flex-shrink:0;"></div><p style="font-size:12px;color:var(--ink);">The Ladder Audit™ — your rung identified and documented</p></div>
-          <div style="display:flex;gap:8px;"><div style="width:5px;height:5px;border-radius:50%;background:var(--teal);margin-top:5px;flex-shrink:0;"></div><p style="font-size:12px;color:var(--ink);">Assignment Readiness Forensic Report™ — 15-page PDF delivered within 24 hours</p></div>
+        <p class="card-desc dark">You leave knowing exactly which rung you have been gripping — and what it has been costing you to hold on.</p>
+        <div class="card-divider dark"></div>
+        <div class="card-bullet">
+          <div class="card-dot teal"></div>
+          <p class="card-bullet-text dark">The Ladder Audit™ — your rung identified and documented</p>
         </div>
-        <a class="btn-enroll-main" href="https://buy.stripe.com/fZucN55PYcbc5xO1badnW01" style="margin-bottom:0.5rem;">Book The Reveal™</a>
-        
+        <div class="card-bullet">
+          <div class="card-dot teal"></div>
+          <p class="card-bullet-text dark">Assignment Readiness Forensic Report™ — 15-page PDF delivered within 24 hours</p>
+        </div>
+        <div class="card-bullet">
+          <div class="card-dot teal"></div>
+          <p class="card-bullet-text dark">Recommended next step based on your results</p>
+        </div>
+        <p class="card-best-for dark">Best for women who need diagnosis before they decide.</p>
+        <a class="btn-card teal" href="https://buy.stripe.com/fZucN55PYcbc5xO1badnW01">Book The Reveal™</a>
       </div>
 
-      <!-- DEEP DIVE -->
-      <div style="background:var(--charcoal);border:0.5px solid rgba(201,168,76,0.3);border-radius:6px;padding:1.5rem;">
+      <!-- ASSIGNMENT BRIEF™ INTENSIVE -->
+      <div class="offer-card-dark">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.75rem;">
           <div>
-            <p style="font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:4px;">Assignment Brief™ Intensive</p>
-            <p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold-light);font-weight:500;">$497 · 3 Hours</p>
+            <p class="card-header-label gold">Assignment Brief™ Intensive</p>
+            <p class="card-title light">$497 · 3 Hours</p>
           </div>
-          
         </div>
-        <p style="font-size:12px;color:rgba(255,255,255,0.55);margin-bottom:1rem;line-height:1.5;">3 hours · You leave with your agreement terminated, your mandate defined, and your plan built.</p>
-        <div style="border-top:0.5px solid rgba(255,255,255,0.1);padding-top:0.85rem;margin-bottom:1rem;">
-          <div style="display:flex;gap:8px;margin-bottom:6px;"><div style="width:5px;height:5px;border-radius:50%;background:var(--teal);margin-top:5px;flex-shrink:0;"></div><p style="font-size:12px;color:rgba(255,255,255,0.75);">The Ladder Audit™ + Forensic Report™</p></div>
-          <div style="display:flex;gap:8px;margin-bottom:6px;"><div style="width:5px;height:5px;border-radius:50%;background:var(--teal);margin-top:5px;flex-shrink:0;"></div><p style="font-size:12px;color:rgba(255,255,255,0.75);">Breach of Agreement™ — terminated and signed</p></div>
-          <div style="display:flex;gap:8px;margin-bottom:6px;"><div style="width:5px;height:5px;border-radius:50%;background:var(--teal);margin-top:5px;flex-shrink:0;"></div><p style="font-size:12px;color:rgba(255,255,255,0.75);">Mandate Statement — defined with precision</p></div>
-          <div style="display:flex;gap:8px;margin-bottom:6px;"><div style="width:5px;height:5px;border-radius:50%;background:var(--teal);margin-top:5px;flex-shrink:0;"></div><p style="font-size:12px;color:rgba(255,255,255,0.75);">Activation Map™ — milestones, actions, 14-day sprint</p></div>
-          <div style="display:flex;gap:8px;"><div style="width:5px;height:5px;border-radius:50%;background:var(--gold);margin-top:5px;flex-shrink:0;"></div><p style="font-size:12px;color:rgba(255,255,255,0.75);font-weight:500;">Assignment Brief™ PDF — delivered within 48 hours</p></div>
+        <p class="card-desc light">You leave with the agreement named, the mandate defined, and the first move built.</p>
+        <div class="card-divider light"></div>
+        <div class="card-bullet">
+          <div class="card-dot teal"></div>
+          <p class="card-bullet-text light">Ladder Audit™ + Forensic Report™</p>
         </div>
-        <a class="btn-enroll-main" href="https://buy.stripe.com/eVq14n7Y64IK1hy076dnW02" style="background:var(--gold);color:var(--charcoal);margin-bottom:0.5rem;">Book Assignment Brief™ Intensive</a>
-        
+        <div class="card-bullet">
+          <div class="card-dot teal"></div>
+          <p class="card-bullet-text light">Breach of Agreement™ — terminated and signed</p>
+        </div>
+        <div class="card-bullet">
+          <div class="card-dot teal"></div>
+          <p class="card-bullet-text light">Mandate Statement — defined with precision</p>
+        </div>
+        <div class="card-bullet">
+          <div class="card-dot teal"></div>
+          <p class="card-bullet-text light">Activation Map™ — milestones, actions, 14-day sprint</p>
+        </div>
+        <div class="card-bullet">
+          <div class="card-dot gold"></div>
+          <p class="card-bullet-text light" style="font-weight:500;">Assignment Brief™ PDF — delivered within 48 hours</p>
+        </div>
+        <p class="card-best-for light">Best for women who want a private fast-track from insight to documented action.</p>
+        <a class="btn-card gold" href="https://buy.stripe.com/eVq14n7Y64IK1hy076dnW02">Book Assignment Brief™ Intensive</a>
       </div>
 
+    </div>
+  </div>
+
+  <!-- BRIDGE TO DISCOVERY LAB -->
+  <div class="bridge-section" style="margin-top:2.5rem;">
+    <div class="bridge-box">
+      <div class="bridge-text">
+        <p>Prefer a small-group experience with teaching, witness, and accountability?<br>The Discovery Lab™ Charter Cohort moves through the full Assignment Room™ system over four weeks.</p>
+      </div>
+      <a class="btn-bridge" href="activation-program.html">Explore Discovery Lab™ →</a>
     </div>
   </div>
 </section>
@@ -672,7 +700,7 @@ footer p { font-size: 12px; color: rgba(255,255,255,0.25); }
   <div class="container">
     <p class="eyebrow reveal">This is for you if</p>
     <h2 class="section-title reveal" style="color:var(--charcoal)">You're not confused.<br>You're misaligned.</h2>
-    <p class="section-lead reveal">The Discovery Lab is not coaching. It is a diagnostic and build session. It is for women who have been carrying an assignment long enough — and are ready to stop feeling it and start executing it.</p>
+    <p class="section-lead reveal">These sessions are not coaching. They are diagnostic and build sessions — for women who have been carrying an assignment long enough and are ready to stop feeling it and start executing it.</p>
     <div class="foryou-grid">
       <div class="foryou-card reveal">
         <div class="foryou-mark"><div class="foryou-mark-inner"></div></div>
@@ -688,7 +716,7 @@ footer p { font-size: 12px; color: rgba(255,255,255,0.25); }
       </div>
       <div class="foryou-card reveal">
         <div class="foryou-mark"><div class="foryou-mark-inner"></div></div>
-        <p>"I keep preparing, researching, and waiting for the 'right time' — but I'm not actually moving."</p>
+        <p>"I keep preparing, researching, and waiting for the right time — but I'm not actually moving."</p>
       </div>
       <div class="foryou-card reveal">
         <div class="foryou-mark"><div class="foryou-mark-inner"></div></div>
@@ -707,7 +735,7 @@ footer p { font-size: 12px; color: rgba(255,255,255,0.25); }
   <div class="container">
     <p class="eyebrow reveal">Proprietary diagnostic tools</p>
     <h2 class="section-title reveal" style="color:var(--charcoal)">This is a system.<br>Not content. Not inspiration.</h2>
-    <p class="section-lead reveal">Every tool inside the Discovery Lab is designed to diagnose exactly where you are — and tell you precisely what to do next.</p>
+    <p class="section-lead reveal">Every tool inside these sessions is designed to diagnose exactly where you are — and tell you precisely what to do next.</p>
     <div class="tools-grid">
       <div class="tool-card reveal">
         <div class="tool-name">Readiness Diagnostic™</div>
@@ -744,12 +772,12 @@ footer p { font-size: 12px; color: rgba(255,255,255,0.25); }
     <h2 class="section-title reveal" style="color:var(--white)">From negotiating<br>to moving.</h2>
     <div class="testimonials">
       <div class="testimonial reveal">
-        <p class="t-quote">"I had been telling myself I needed more clarity. The Discovery Lab showed me I had plenty of clarity — I was just agreeing with fear. That shift changed everything."</p>
+        <p class="t-quote">"I had been telling myself I needed more clarity. This session showed me I had plenty of clarity — I was just agreeing with fear. That shift changed everything."</p>
         <div class="t-author">
           <div class="t-dot">LM</div>
           <div>
             <p class="t-name">L. Mitchell</p>
-            <p class="t-title">Senior Executive · Discovery Lab Graduate</p>
+            <p class="t-title">Senior Executive · The Reveal™ Graduate</p>
           </div>
         </div>
       </div>
@@ -759,7 +787,7 @@ footer p { font-size: 12px; color: rgba(255,255,255,0.25); }
           <div class="t-dot">TW</div>
           <div>
             <p class="t-name">T. Washington</p>
-            <p class="t-title">Ministry Leader · Discovery Lab Graduate</p>
+            <p class="t-title">Ministry Leader · Assignment Brief™ Intensive Graduate</p>
           </div>
         </div>
       </div>
@@ -769,7 +797,7 @@ footer p { font-size: 12px; color: rgba(255,255,255,0.25); }
           <div class="t-dot">RC</div>
           <div>
             <p class="t-name">R. Coleman</p>
-            <p class="t-title">Former VP · Discovery Lab Graduate</p>
+            <p class="t-title">Former VP · The Reveal™ Graduate</p>
           </div>
         </div>
       </div>
@@ -779,7 +807,7 @@ footer p { font-size: 12px; color: rgba(255,255,255,0.25); }
           <div class="t-dot">AP</div>
           <div>
             <p class="t-name">A. Patterson</p>
-            <p class="t-title">Entrepreneur · Discovery Lab Graduate</p>
+            <p class="t-title">Entrepreneur · Assignment Brief™ Intensive Graduate</p>
           </div>
         </div>
       </div>
@@ -791,27 +819,23 @@ footer p { font-size: 12px; color: rgba(255,255,255,0.25); }
 <section class="section section-white">
   <div class="container-narrow">
     <p class="eyebrow reveal">Common questions</p>
-    <h2 class="section-title reveal" style="color:var(--charcoal)">Everything you need<br>to know before enrolling.</h2>
+    <h2 class="section-title reveal" style="color:var(--charcoal)">Everything you need<br>to know before booking.</h2>
     <div class="faqs reveal">
       <div class="faq" onclick="toggleFaq(this)">
-        <div class="faq-q">What exactly is the Discovery Lab? <span class="faq-icon">+</span></div>
-        <div class="faq-a">The Discovery Lab has two formats. The Reveal™ ($197 · 60 min) is your diagnostic session — your rung identified and your Forensic Report™ delivered. The Assignment Brief™ Intensive ($497 · 3 hours) goes deeper — your agreement terminated, your mandate defined, your plan built, and your Assignment Brief™ delivered within 48 hours. Neither is a course, a cohort, or coaching.</div>
+        <div class="faq-q">What is the difference between The Reveal™ and the Assignment Brief™ Intensive? <span class="faq-icon">+</span></div>
+        <div class="faq-a">The Reveal™ ($197 · 60 min) is your diagnostic session — your rung identified and your Forensic Report™ delivered. It is for women who need diagnosis before they decide. The Assignment Brief™ Intensive ($497 · 3 hours) goes deeper — your agreement terminated, your mandate defined, your plan built, and your Assignment Brief™ delivered within 48 hours. It is for women who want a private fast-track from insight to documented action.</div>
       </div>
       <div class="faq" onclick="toggleFaq(this)">
-        <div class="faq-q">How is this different from a coaching program or course? <span class="faq-icon">+</span></div>
-        <div class="faq-a">Most programs give you content and inspiration. The Discovery Lab gives you diagnosis and direction. We don't add more information — we identify exactly what's blocking you and tell you precisely what to do next. It's a structured system, not a curriculum.</div>
+        <div class="faq-q">How are these different from the Discovery Lab™ Charter Cohort? <span class="faq-icon">+</span></div>
+        <div class="faq-a">The Reveal™ and Assignment Brief™ Intensive are private — 1:1 with Jackie Parker. Discovery Lab™ is a 4-week small-group experience with teaching, witness, rhythm, and accountability. If you want a private conversation, start here. If you want a group container, go to Discovery Lab™.</div>
       </div>
       <div class="faq" onclick="toggleFaq(this)">
-        <div class="faq-q">Do I need to know my assignment before I join? <span class="faq-icon">+</span></div>
-        <div class="faq-a">No. The Discovery Lab is specifically designed for women who feel called but cannot yet fully define or articulate their assignment. If you already have total clarity, you may be a better fit for the Activation Program. Take the free Readiness Diagnostic to confirm your stage.</div>
+        <div class="faq-q">Do I need to know my assignment before I book? <span class="faq-icon">+</span></div>
+        <div class="faq-a">No. These sessions are specifically designed for women who feel called but cannot yet fully define or articulate their assignment. Take the free Assignment Readiness Diagnostic™ first to confirm your stage — it takes 3 minutes and will tell you exactly where you are.</div>
       </div>
       <div class="faq" onclick="toggleFaq(this)">
-        <div class="faq-q">How long is the session? <span class="faq-icon">+</span></div>
-        <div class="faq-a">The Reveal™ is 60 minutes. The Assignment Brief™ Intensive is 3 hours. Both are 1:1 with Jackie Parker. Both require pre-work completed in advance. You come prepared to work — not to think out loud. No homework. No follow-up sessions required.</div>
-      </div>
-      <div class="faq" onclick="toggleFaq(this)">
-        <div class="faq-q">What happens after the Discovery Lab? <span class="faq-icon">+</span></div>
-        <div class="faq-a">Women who complete the Discovery Lab with a defined assignment and clear activation readiness are invited to apply for the Activation Program — the next stage of The Assignment Room system where you build, execute, and launch what God showed you.</div>
+        <div class="faq-q">Which session is right for me? <span class="faq-icon">+</span></div>
+        <div class="faq-a">If you need clarity on what is holding you back — start with The Reveal™. If you are ready to terminate the agreement, define the mandate, and leave with a documented plan — book the Assignment Brief™ Intensive. If you want a group experience over four weeks — go to Discovery Lab™.</div>
       </div>
       <div class="faq" onclick="toggleFaq(this)">
         <div class="faq-q">How do I book my session? <span class="faq-icon">+</span></div>
@@ -825,9 +849,9 @@ footer p { font-size: 12px; color: rgba(255,255,255,0.25); }
 <section class="bottom-cta">
   <div class="container-narrow">
     <h2 class="reveal">The negotiation<br>ends here.</h2>
-    <p class="reveal">You have been sensing this long enough. The Discovery Lab gives you the structure to stop feeling your assignment — and start executing it.</p>
+    <p class="reveal">You have been sensing this long enough. Choose your session — and leave with something in your hands.</p>
     <a class="btn-white reveal" href="#enroll">Choose Your Session →</a>
-    <p class="bottom-micro reveal">One session · Your plan — built and ready to execute</p>
+    <p class="bottom-micro reveal">Private · 1:1 with Jackie Parker · Your results documented and delivered</p>
   </div>
 </section>
 
@@ -840,7 +864,6 @@ footer p { font-size: 12px; color: rgba(255,255,255,0.25); }
 function toggleFaq(el) {
   el.classList.toggle('open');
 }
-
 const reveals = document.querySelectorAll('.reveal');
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry, i) => {
