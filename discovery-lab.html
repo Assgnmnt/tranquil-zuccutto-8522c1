@@ -408,30 +408,86 @@ nav {
   font-size: 17px;
 }
 
-/* TOOLS */
-.tools-grid {
+/* GROUPED METHOD STAGES */
+.method-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.25rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
   margin-top: 2.5rem;
 }
-.tool-card {
+.method-stage {
   border: 0.5px solid var(--border);
-  border-radius: 4px;
-  padding: 1.5rem;
+  border-radius: 6px;
+  padding: 1.75rem;
   background: var(--white);
+  border-top: 3px solid var(--teal);
 }
-.tool-name {
+.method-stage-label {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--teal);
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+.method-stage-title {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1.15rem;
+  font-size: 1.35rem;
   color: var(--charcoal);
   margin-bottom: 0.5rem;
 }
-.tool-desc {
+.method-stage-purpose {
   font-size: 13px;
   color: var(--muted);
   line-height: 1.6;
+  margin-bottom: 1rem;
+  font-style: italic;
 }
+.method-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.method-tool-pill {
+  font-size: 11px;
+  color: var(--teal-deeper);
+  background: var(--teal-light);
+  padding: 3px 10px;
+  border-radius: 2px;
+  letter-spacing: 0.04em;
+}
+
+/* WHERE THIS FITS TABLE */
+.fits-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 2.5rem;
+}
+.fits-table th {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 500;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-bottom: 1.5px solid var(--border);
+}
+.fits-table td {
+  font-size: 14px;
+  color: var(--ink);
+  padding: 1rem;
+  border-bottom: 0.5px solid var(--border);
+  line-height: 1.5;
+  vertical-align: top;
+}
+.fits-table tr:last-child td { border-bottom: none; }
+.fits-table tr.fits-active td { background: rgba(5,142,151,0.05); }
+.fits-table tr.fits-active td:first-child { border-left: 3px solid var(--teal); }
+.fits-table tr.fits-future td { opacity: 0.55; }
+.fits-phase { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); font-weight: 500; }
+.fits-phase-gold { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); font-weight: 500; }
+.fits-offer { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; color: var(--charcoal); font-weight: 500; }
 
 /* TESTIMONIALS */
 .testimonials {
@@ -605,7 +661,7 @@ footer p { font-size: 12px; color: rgba(255,255,255,0.25); }
 <section class="hero">
   <div class="hero-inner">
     <div>
-      <p class="hero-eyebrow">Phase 1 · Diagnose + Define</p>
+      <p class="hero-eyebrow">Phase 1 · Diagnose + Define · Private Sessions</p>
       <h1>Start Here:<br><em>Diagnose + Define</em></h1>
       <p class="hero-desc">You do not need more time to think. You need a structured room to name what is holding you — and decide what comes next.</p>
       <div class="hero-tags">
@@ -730,38 +786,96 @@ footer p { font-size: 12px; color: rgba(255,255,255,0.25); }
   </div>
 </section>
 
-<!-- TOOLS -->
-<section class="section section-cream">
+<!-- METHOD -->
+<section class="section section-white">
   <div class="container">
-    <p class="eyebrow reveal">Proprietary diagnostic tools</p>
-    <h2 class="section-title reveal" style="color:var(--charcoal)">This is a system.<br>Not content. Not inspiration.</h2>
-    <p class="section-lead reveal">Every tool inside these sessions is designed to diagnose exactly where you are — and tell you precisely what to do next.</p>
-    <div class="tools-grid">
-      <div class="tool-card reveal">
-        <div class="tool-name">Readiness Diagnostic™</div>
-        <p class="tool-desc">Identifies your current stage in the assignment journey and the primary barrier blocking your movement.</p>
+    <p class="eyebrow reveal">The method</p>
+    <h2 class="section-title reveal" style="color:var(--charcoal)">A system for diagnosing what is holding you —<br>and building what comes next.</h2>
+    <p class="section-lead reveal">This is not a library of worksheets. Every tool inside The Assignment Room™ has a specific job: to help you identify the pattern, name the agreement, define the assignment, and build the first movement structure.</p>
+    <div class="method-grid">
+      <div class="method-stage reveal">
+        <p class="method-stage-label">Stage 1 — Diagnose</p>
+        <h3 class="method-stage-title">Identify where you are and what is blocking movement</h3>
+        <p class="method-stage-purpose">Before anything can be named, it must be seen. These tools identify your current stage and expose the primary barrier.</p>
+        <div class="method-tools">
+          <span class="method-tool-pill">Assignment Readiness Diagnostic™</span>
+          <span class="method-tool-pill">Ladder Audit™</span>
+          <span class="method-tool-pill">Forensic Report™</span>
+        </div>
       </div>
-      <div class="tool-card reveal">
-        <div class="tool-name">Assignment Diagnostic™</div>
-        <p class="tool-desc">Moves you from a vague sense of calling to a clearly defined, articulable assignment.</p>
+      <div class="method-stage reveal">
+        <p class="method-stage-label">Stage 2 — Expose</p>
+        <h3 class="method-stage-title">Name the internal agreement</h3>
+        <p class="method-stage-purpose">Delay is not confusion. It is an agreement. These tools surface it, trace it, and provide the structure to terminate it.</p>
+        <div class="method-tools">
+          <span class="method-tool-pill">Internal Agreements Diagnostic™</span>
+          <span class="method-tool-pill">Fear Negotiation Model™</span>
+          <span class="method-tool-pill">Breach of Agreement™</span>
+        </div>
       </div>
-      <div class="tool-card reveal">
-        <div class="tool-name">Internal Agreements Diagnostic™</div>
-        <p class="tool-desc">Surfaces the specific belief — rooted in time, security, capability, or comparison — that has been negotiating against your obedience.</p>
+      <div class="method-stage reveal">
+        <p class="method-stage-label">Stage 3 — Define</p>
+        <h3 class="method-stage-title">Move from vague calling to clear mandate</h3>
+        <p class="method-stage-purpose">A sense of calling becomes an executable assignment. These tools take the vague and make it precise and documentable.</p>
+        <div class="method-tools">
+          <span class="method-tool-pill">Assignment Diagnostic™</span>
+          <span class="method-tool-pill">Mandate Statement</span>
+          <span class="method-tool-pill">Assignment Brief™</span>
+        </div>
       </div>
-      <div class="tool-card reveal">
-        <div class="tool-name">Assignment Maturity Index™</div>
-        <p class="tool-desc">Measures exactly where you are across six leadership levels — from awakening through multiplication.</p>
-      </div>
-      <div class="tool-card reveal">
-        <div class="tool-name">Fear Negotiation Model™</div>
-        <p class="tool-desc">Exposes the predictable pattern fear uses to delay your assignment — so you can recognize and interrupt it.</p>
-      </div>
-      <div class="tool-card reveal">
-        <div class="tool-name">Activation Readiness Check</div>
-        <p class="tool-desc">Determines where you are in your assignment development — and what your next move is.</p>
+      <div class="method-stage reveal">
+        <p class="method-stage-label">Stage 4 — Activate</p>
+        <h3 class="method-stage-title">Convert clarity into movement</h3>
+        <p class="method-stage-purpose">Clarity without structure produces more delay. These tools convert the defined mandate into a first movement plan.</p>
+        <div class="method-tools">
+          <span class="method-tool-pill">Activation Map™</span>
+          <span class="method-tool-pill">14-Day Sprint</span>
+          <span class="method-tool-pill">Transformation Scorecard™</span>
+          <span class="method-tool-pill">Activation Readiness Check</span>
+        </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- WHERE THIS FITS -->
+<section class="section section-cream">
+  <div class="container">
+    <p class="eyebrow reveal">The Assignment Room™ System</p>
+    <h2 class="section-title reveal" style="color:var(--charcoal)">Where this fits.</h2>
+    <p class="section-lead reveal">The Diagnostic reveals. The Reveal™ diagnoses. The Intensive defines. Discovery Lab™ activates. Activation Program™ sustains. Fellowship™ multiplies. Each offer exists for a specific reason — and they do not collapse into each other.</p>
+    <table class="fits-table reveal">
+      <thead>
+        <tr><th>Phase</th><th>Offer</th><th>Outcome</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="fits-phase">Phase 0 · Begin</span></td>
+          <td><span class="fits-offer">Assignment Readiness Diagnostic™</span></td>
+          <td>Identify where you are and what may be blocking movement</td>
+        </tr>
+        <tr class="fits-active">
+          <td><span class="fits-phase">Phase 1 · Diagnose + Define</span></td>
+          <td><span class="fits-offer" style="color:var(--teal)">The Reveal™ + Assignment Brief™ Intensive <span style="font-size:10px;background:var(--teal);color:#fff;padding:2px 7px;border-radius:2px;margin-left:4px;font-family:'DM Sans',sans-serif;letter-spacing:0.08em;">YOU ARE HERE</span></span></td>
+          <td>Name the rung, identify the agreement, and define the mandate privately</td>
+        </tr>
+        <tr>
+          <td><span class="fits-phase">Phase 2 · Activate</span></td>
+          <td><span class="fits-offer">Discovery Lab™</span></td>
+          <td>Move through the 4-week group activation process with teaching, witness, and accountability</td>
+        </tr>
+        <tr class="fits-future">
+          <td><span class="fits-phase-gold">Phase 3 · Sustain</span></td>
+          <td><span class="fits-offer" style="color:var(--muted)">Activation Program™ <em style="font-size:12px;">(Coming Soon)</em></span></td>
+          <td>Build execution rhythm, maturity, capacity, and measurable progress</td>
+        </tr>
+        <tr class="fits-future">
+          <td><span class="fits-phase-gold">Phase 4 · Multiply</span></td>
+          <td><span class="fits-offer" style="color:var(--muted)">Fellowship™ <em style="font-size:12px;">(By Application)</em></span></td>
+          <td>Learn to facilitate approved rooms and multiply the framework responsibly</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </section>
 
@@ -815,6 +929,59 @@ footer p { font-size: 12px; color: rgba(255,255,255,0.25); }
   </div>
 </section>
 
+<!-- CHOOSE YOUR PATH -->
+<section class="section section-white">
+  <div class="container-narrow">
+    <p class="eyebrow reveal">Which one is right for you</p>
+    <h2 class="section-title reveal" style="color:var(--charcoal)">Choose your path.</h2>
+    <p class="section-lead reveal">The private sessions and the group experience are different pathways. They are not interchangeable — and neither is wrong.</p>
+    <div style="margin-top:2rem;border:0.5px solid var(--border);border-radius:6px;overflow:hidden;" class="reveal">
+      <table style="width:100%;border-collapse:collapse;">
+        <thead>
+          <tr style="background:var(--charcoal);">
+            <th style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);font-weight:500;text-align:left;padding:1rem 1.25rem;width:40%;">If you need…</th>
+            <th style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);font-weight:500;text-align:left;padding:1rem 1.25rem;">Choose…</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:0.5px solid var(--border);">
+            <td style="padding:1rem 1.25rem;font-size:14px;color:var(--muted);line-height:1.5;">To understand your diagnostic result and name what is holding you</td>
+            <td style="padding:1rem 1.25rem;font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--teal);font-weight:500;">The Reveal™</td>
+          </tr>
+          <tr style="border-bottom:0.5px solid var(--border);">
+            <td style="padding:1rem 1.25rem;font-size:14px;color:var(--muted);line-height:1.5;">A private fast-track to define and document the assignment in one session</td>
+            <td style="padding:1rem 1.25rem;font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--teal);font-weight:500;">Assignment Brief™ Intensive</td>
+          </tr>
+          <tr style="border-bottom:0.5px solid var(--border);">
+            <td style="padding:1rem 1.25rem;font-size:14px;color:var(--muted);line-height:1.5;">A small-group experience with teaching, witness, rhythm, and accountability over four weeks</td>
+            <td style="padding:1rem 1.25rem;font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--teal);font-weight:500;">Discovery Lab™</td>
+          </tr>
+          <tr style="border-bottom:0.5px solid var(--border);">
+            <td style="padding:1rem 1.25rem;font-size:14px;color:var(--muted);line-height:1.5;">Deeper execution and sustainment after the assignment is named</td>
+            <td style="padding:1rem 1.25rem;font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--muted);font-weight:500;">Activation Program™ <em style="font-size:12px;">(Coming Soon)</em></td>
+          </tr>
+          <tr>
+            <td style="padding:1rem 1.25rem;font-size:14px;color:var(--muted);line-height:1.5;">To facilitate rooms and multiply the framework for others</td>
+            <td style="padding:1rem 1.25rem;font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--muted);font-weight:500;">Fellowship™ <em style="font-size:12px;">(By Application)</em></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- NOT FOR YOU -->
+<section class="section section-cream">
+  <div class="container-narrow">
+    <p class="eyebrow reveal">A word of clarity</p>
+    <h2 class="section-title reveal" style="color:var(--charcoal)">This is not for everyone.</h2>
+    <div style="background:var(--white);border-left:3px solid var(--gold);border-radius:0 4px 4px 0;padding:1.5rem 1.75rem;margin-top:2rem;" class="reveal">
+      <p style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--charcoal);line-height:1.7;font-style:italic;margin-bottom:1rem;">The Assignment Brief™ Intensive is not for the woman who wants to keep every option open. You will be asked to name the agreement, make a decision, and leave with a documented mandate. If you are not ready to close what you have been carrying — this is not your moment yet.</p>
+      <p style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--charcoal);line-height:1.7;font-style:italic;">The Reveal™ is the right first step if you are still in the diagnosis stage — not yet ready to define and document, but ready to see what you have been protecting.</p>
+    </div>
+  </div>
+</section>
+
 <!-- FAQ -->
 <section class="section section-white">
   <div class="container-narrow">
@@ -852,6 +1019,9 @@ footer p { font-size: 12px; color: rgba(255,255,255,0.25); }
     <p class="reveal">You have been sensing this long enough. Choose your session — and leave with something in your hands.</p>
     <a class="btn-white reveal" href="#enroll">Choose Your Session →</a>
     <p class="bottom-micro reveal">Private · 1:1 with Jackie Parker · Your results documented and delivered</p>
+    <div style="margin-top:1.75rem;">
+      <a href="diagnostic.html" style="font-size:14px;color:rgba(255,255,255,0.6);text-decoration:underline;text-underline-offset:3px;">Not sure where to start? Take the free Diagnostic first →</a>
+    </div>
   </div>
 </section>
 
