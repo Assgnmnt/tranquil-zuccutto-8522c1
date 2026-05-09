@@ -86,6 +86,25 @@ section{padding:5rem 2rem}
 footer{background:var(--charcoal);padding:2.5rem 2rem;text-align:center;border-top:0.5px solid rgba(201,168,76,0.15)}
 .footer-brand{font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold-light);margin-bottom:0.5rem}
 footer p{font-size:13px;color:rgba(255,255,255,0.3)}
+
+/* YOU ARE HERE — Pathway System */
+.pathway-system { padding: 2rem 2rem; background: var(--cream); border-bottom: 0.5px solid var(--border); }
+.pathway-system-inner { max-width: 900px; margin: 0 auto; }
+.pathway-system-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; text-align: center; }
+.pathway-rooms { display: flex; align-items: stretch; gap: 0; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
+.pathway-room { flex: 1; min-width: 120px; padding: 0.85rem 0.75rem; text-align: center; border: 0.5px solid var(--border); border-right: none; background: var(--white); position: relative; transition: background 0.2s; }
+.pathway-room:first-child { border-radius: 4px 0 0 4px; }
+.pathway-room:last-child { border-right: 0.5px solid var(--border); border-radius: 0 4px 4px 0; }
+.pathway-room.active { background: var(--charcoal); border-color: var(--charcoal); z-index: 1; }
+.pathway-room.active + .pathway-room { border-left-color: var(--charcoal); }
+.pathway-room-entry { font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
+.pathway-room.active .pathway-room-entry { color: var(--gold); }
+.pathway-room-name { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; color: var(--ink); line-height: 1.3; margin-bottom: 3px; font-weight: 500; }
+.pathway-room.active .pathway-room-name { color: var(--white); }
+.pathway-room-desc { font-size: 10px; color: var(--muted); line-height: 1.4; display: none; }
+.pathway-room.active .pathway-room-desc { color: rgba(255,255,255,0.55); display: block; }
+@media (max-width: 640px) { .pathway-room { min-width: 100px; padding: 0.7rem 0.5rem; } .pathway-room-name { font-size: 0.85rem; } }
+
 .reveal{opacity:0;transform:translateY(20px);transition:opacity 0.6s ease,transform 0.6s ease}
 .reveal.visible{opacity:1;transform:translateY(0)}
 @media(max-width:800px){.hero-inner{grid-template-columns:1fr}.price-card{position:static;margin-top:2rem}.foryou-grid{grid-template-columns:1fr}.journey-line{display:none}}
@@ -133,6 +152,22 @@ footer p{font-size:13px;color:rgba(255,255,255,0.3)}
     </div>
   </div>
 </section>
+
+<!-- YOU ARE HERE -->
+<div class="pathway-system">
+  <div class="pathway-system-inner">
+    <p class="pathway-system-label">The Assignment Room™ — Where You Are</p>
+    <div class="pathway-rooms">
+      <div class="pathway-room"><div class="pathway-room-entry">Entry</div><div class="pathway-room-name">Diagnostic™</div><div class="pathway-room-desc">Reveals where you are</div></div>
+      <div class="pathway-room"><div class="pathway-room-entry">Diagnosis</div><div class="pathway-room-name">Forensic Report™</div><div class="pathway-room-desc">Written diagnosis</div></div>
+      <div class="pathway-room"><div class="pathway-room-entry">Phase 1</div><div class="pathway-room-name">Private Sessions</div><div class="pathway-room-desc">Decision + definition</div></div>
+      <div class="pathway-room"><div class="pathway-room-entry">Phase 2</div><div class="pathway-room-name">Discovery Lab™</div><div class="pathway-room-desc">Activates in community</div></div>
+      <div class="pathway-room active"><div class="pathway-room-entry">Phase 3</div><div class="pathway-room-name">Activation Program™</div><div class="pathway-room-desc">Sustains execution</div></div>
+      <div class="pathway-room"><div class="pathway-room-entry">Phase 4</div><div class="pathway-room-name">Fellowship™</div><div class="pathway-room-desc">Multiplies the room</div></div>
+    </div>
+  </div>
+</div>
+
 
 <section class="section-cream">
   <div class="container">
