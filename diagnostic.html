@@ -661,41 +661,46 @@ const results = [
   {
     stage: 'Awakening Stage',
     desc: 'You sense that God is calling you to something new — but you haven\'t yet defined what it is. This is the beginning of the process, and it is a holy moment. The shift you feel is real. It is not confusion — it is conception.',
-    barrier: 'You need clarity and confirmation before you can commit. The call is there — but the assignment isn\'t fully formed yet. The Discovery Lab will help you define it.',
-    next: 'Discovery Lab',
-    detail: 'Define your assignment — from identity through calling to specific, actionable direction.',
+    barrier: 'You have your results. Now identify what you\'re protecting. The diagnostic revealed your current stage — but stages don\'t explain why you\'re still stuck. Most women are not lacking clarity. They\'re protecting a version of life that feels too expensive to release.',
+    next: 'The Reveal™',
+    price: '$397 · 60-Minute Private Decision Session',
+    detail: 'Name the decision your diagnostic exposed — and identify what that delay has been protecting.',
     program: 'discovery-lab.html'
   },
   {
     stage: 'Discernment Stage',
     desc: 'You are gaining clarity on your assignment. You can feel it and even describe it — but something is still holding you back from full, committed movement. The gap between knowing and going is real.',
-    barrier: 'You\'re closer than you think. The barrier is no longer clarity — it\'s commitment. The next step is moving from recognition to decision.',
-    next: 'Discovery Lab',
-    detail: 'Align your identity to your calling and make the internal decision that produces external movement.',
+    barrier: 'You have your results. The barrier is no longer clarity — it\'s the decision underneath the clarity. You\'re closer than you think. What you need now is to name the decision you have been circling.',
+    next: 'The Reveal™',
+    price: '$397 · 60-Minute Private Decision Session',
+    detail: 'Identify the decision your diagnostic exposed — and name what the delay has been protecting.',
     program: 'discovery-lab.html'
   },
   {
     stage: 'Agreement Barrier',
     desc: 'Your primary obstacle right now is not confusion — it is a belief you have made an agreement with. The assignment is clearer than you admit. But an internal agreement formed from fear, comparison, or past experience is negotiating against your obedience.',
-    barrier: 'The delay isn\'t confusion. It\'s a belief you\'ve accepted as truth. Identify it. Name it. Break it. That is where movement begins.',
-    next: 'Discovery Lab',
-    detail: 'Break the internal agreement that has been delaying your obedience — and replace it with a decision.',
+    barrier: 'The delay isn\'t confusion. It\'s an agreement you\'ve accepted as truth. The Reveal™ helps you name that decision, identify what the delay has been protecting, and determine the one move that interrupts the pattern.',
+    next: 'The Reveal™',
+    price: '$397 · 60-Minute Private Decision Session',
+    detail: 'Name the agreement operating beneath the delay — and identify the decision that terminates it.',
     program: 'discovery-lab.html'
   },
   {
     stage: 'Detachment Stage',
     desc: 'You are in the process of releasing what you\'ve built in order to step into what God is building through you. This is one of the most difficult — and most necessary — transitions you will face on assignment.',
-    barrier: 'Security, identity, and fear of loss are the primary battleground. You don\'t need more clarity. You need the courage and structure to let go and build the next thing.',
-    next: 'Activation Program',
-    detail: 'Build the structure and discipline to execute your assignment — even while releasing what came before.',
-    program: 'activation-program.html'
+    barrier: 'Security, identity, and fear of loss are the primary battleground. You don\'t need more clarity. You need a private session to define the mandate, terminate the agreement, and leave with a documented plan.',
+    next: 'Assignment Brief™ Intensive',
+    price: '$997 · 3-Hour Private Assignment Intensive',
+    detail: 'Define the mandate, terminate the agreement, and leave with your Assignment Brief™ PDF.',
+    program: 'discovery-lab.html'
   },
   {
     stage: 'Activation Stage',
     desc: 'You are moving. You have done the internal work and are executing — or very close to it. The greatest risk at your stage is not fear. It is inconsistency and isolation.',
-    barrier: 'Sustained execution and multiplication are your next frontier. You need structure, accountability, and a community of others who are also building.',
-    next: 'Activation Program',
-    detail: 'Build the systems, discipline, and momentum to sustain and scale what you have started.',
+    barrier: 'You need structure, witness, and accountability. Discovery Lab™ is a 4-week small-group movement room where the assignment gets named, the agreement gets confronted, and movement becomes documented.',
+    next: 'Discovery Lab™',
+    price: '$1,497 · 4-Week Small-Group Movement Room',
+    detail: 'Build the systems, accountability, and documented momentum to sustain what you have started.',
     program: 'activation-program.html'
   }
 ];
@@ -901,8 +906,8 @@ function showResult(firstName) {
     html += '<div style="border-top:0.5px solid rgba(255,255,255,0.12);padding-top:1.25rem;margin-bottom:1.25rem">';
     html += '<p style="font-size:13px;color:rgba(255,255,255,0.55);line-height:1.65;font-style:italic">' + forensic.hook + '</p>';
     html += '</div>';
-    html += '<a href="https://payhip.com/b/40xXG" style="display:block;width:100%;padding:1rem;background:#058E97;color:#fff;border:none;border-radius:4px;font-size:15px;font-weight:500;font-family:\'DM Sans\',sans-serif;cursor:pointer;text-align:center;text-decoration:none;letter-spacing:0.02em;margin-bottom:0.6rem">Download My Full 15-Page Forensic Report — $97</a>';
-    html += '<p style="font-size:12px;color:rgba(255,255,255,0.35);text-align:center">Instant delivery · Includes the Breach of Agreement™ Worksheet</p>';
+    html += '<a href="https://payhip.com/b/40xXG" style="display:block;width:100%;padding:1rem;background:#058E97;color:#fff;border:none;border-radius:4px;font-size:15px;font-weight:500;font-family:\'DM Sans\',sans-serif;cursor:pointer;text-align:center;text-decoration:none;letter-spacing:0.02em;margin-bottom:0.6rem">Order My Forensic Report™ — $97</a>';
+    html += '<p style="font-size:12px;color:rgba(255,255,255,0.35);text-align:center">Delivered within 24–48 hours after your diagnostic data is reviewed.</p>';
     html += '</div>';
   }
 
@@ -912,12 +917,13 @@ function showResult(firstName) {
   html += '</div>';
 
   html += '<div class="next-step-box">';
-  html += '<div class="label">Recommended program</div>';
+  html += '<div class="label">Recommended next step</div>';
   html += '<div class="program">' + info.next + '</div>';
+  html += '<div class="detail" style="margin-bottom:0.5rem">' + info.price + '</div>';
   html += '<div class="detail">' + info.detail + '</div>';
   html += '</div>';
 
-  html += '<a class="btn-enroll" href="' + info.program + '">Learn about the ' + info.next + ' →</a>';
+  html += '<a class="btn-enroll" href="' + info.program + '">Learn about ' + info.next + ' →</a>';
   html += '<button class="btn-retake" onclick="retake()">Retake the diagnostic</button>';
 
   document.getElementById('view-result').innerHTML = html;
