@@ -88,22 +88,17 @@ footer{background:var(--charcoal);padding:2.5rem 2rem;text-align:center;border-t
 footer p{font-size:13px;color:rgba(255,255,255,0.3)}
 
 /* YOU ARE HERE — Pathway System */
-.pathway-system { padding: 2rem 2rem; background: var(--cream); border-bottom: 0.5px solid var(--border); }
+.pathway-system { padding: 1.75rem 2rem; background: #F8F4EE; border-bottom: 0.5px solid rgba(0,0,0,0.08); }
 .pathway-system-inner { max-width: 900px; margin: 0 auto; }
-.pathway-system-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; text-align: center; }
-.pathway-rooms { display: flex; align-items: stretch; gap: 0; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
-.pathway-room { flex: 1; min-width: 120px; padding: 0.85rem 0.75rem; text-align: center; border: 0.5px solid var(--border); border-right: none; background: var(--white); position: relative; transition: background 0.2s; }
-.pathway-room:first-child { border-radius: 4px 0 0 4px; }
-.pathway-room:last-child { border-right: 0.5px solid var(--border); border-radius: 0 4px 4px 0; }
-.pathway-room.active { background: var(--charcoal); border-color: var(--charcoal); z-index: 1; }
-.pathway-room.active + .pathway-room { border-left-color: var(--charcoal); }
-.pathway-room-entry { font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
-.pathway-room.active .pathway-room-entry { color: var(--gold); }
-.pathway-room-name { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; color: var(--ink); line-height: 1.3; margin-bottom: 3px; font-weight: 500; }
-.pathway-room.active .pathway-room-name { color: var(--white); }
-.pathway-room-desc { font-size: 10px; color: var(--muted); line-height: 1.4; display: none; }
-.pathway-room.active .pathway-room-desc { color: rgba(255,255,255,0.55); display: block; }
-@media (max-width: 640px) { .pathway-room { min-width: 100px; padding: 0.7rem 0.5rem; } .pathway-room-name { font-size: 0.85rem; } }
+.pathway-system-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: #7a7870; margin-bottom: 1rem; text-align: center; }
+.pathway-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.pathway-cell { padding: 0.75rem 0.5rem; text-align: center; border: 0.5px solid rgba(0,0,0,0.1); border-right: none; background: #ffffff; vertical-align: top; }
+.pathway-cell:last-child { border-right: 0.5px solid rgba(0,0,0,0.1); }
+.pathway-cell.active { background: #1C1C1A; border-color: #1C1C1A; }
+.pathway-cell-phase { font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: #7a7870; margin-bottom: 3px; font-family: 'DM Sans', sans-serif; }
+.pathway-cell.active .pathway-cell-phase { color: #C9A84C; }
+.pathway-cell-name { font-family: 'Cormorant Garamond', serif; font-size: 0.9rem; color: #2e2e2b; line-height: 1.3; font-weight: 500; }
+.pathway-cell.active .pathway-cell-name { color: #ffffff; }
 
 .reveal{opacity:0;transform:translateY(20px);transition:opacity 0.6s ease,transform 0.6s ease}
 .reveal.visible{opacity:1;transform:translateY(0)}
@@ -153,20 +148,25 @@ footer p{font-size:13px;color:rgba(255,255,255,0.3)}
   </div>
 </section>
 
+
+
 <!-- YOU ARE HERE -->
-<div class="pathway-system">
-  <div class="pathway-system-inner">
-    <p class="pathway-system-label">The Assignment Room™ — Where You Are</p>
-    <div class="pathway-rooms">
-      <div class="pathway-room"><div class="pathway-room-entry">Entry</div><div class="pathway-room-name">Diagnostic™</div><div class="pathway-room-desc">Reveals where you are</div></div>
-      <div class="pathway-room"><div class="pathway-room-entry">Diagnosis</div><div class="pathway-room-name">Forensic Report™</div><div class="pathway-room-desc">Written diagnosis</div></div>
-      <div class="pathway-room"><div class="pathway-room-entry">Phase 1</div><div class="pathway-room-name">Private Sessions</div><div class="pathway-room-desc">Decision + definition</div></div>
-      <div class="pathway-room"><div class="pathway-room-entry">Phase 2</div><div class="pathway-room-name">Discovery Lab™</div><div class="pathway-room-desc">Activates in community</div></div>
-      <div class="pathway-room active"><div class="pathway-room-entry">Phase 3</div><div class="pathway-room-name">Activation Program™</div><div class="pathway-room-desc">Sustains execution</div></div>
-      <div class="pathway-room"><div class="pathway-room-entry">Phase 4</div><div class="pathway-room-name">Fellowship™</div><div class="pathway-room-desc">Multiplies the room</div></div>
+<div style="padding:1.5rem 2rem;background:#F8F4EE;border-bottom:1px solid #e0ddd8;">
+  <div style="max-width:900px;margin:0 auto;">
+    <p style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#7a7870;margin-bottom:1rem;text-align:center;font-family:DM Sans,sans-serif;">The Assignment Room™ — Where You Are</p>
+    <div style="display:table;width:100%;border-collapse:collapse;table-layout:fixed;">
+      <div style="display:table-row;">
+        <div style="display:table-cell;width:16.66%;padding:10px 6px;text-align:center;background:#ffffff;border:1px solid #e0ddd8;border-right:none;vertical-align:top;"><span style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#7a7870;margin:0 0 3px 0;font-family:sans-serif;display:block;">Entry</span><span style="font-size:0.85rem;color:#2e2e2b;line-height:1.3;font-weight:500;display:block;font-family:serif;">Diagnostic™</span></div>
+        <div style="display:table-cell;width:16.66%;padding:10px 6px;text-align:center;background:#ffffff;border:1px solid #e0ddd8;border-right:none;vertical-align:top;"><span style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#7a7870;margin:0 0 3px 0;font-family:sans-serif;display:block;">Diagnosis</span><span style="font-size:0.85rem;color:#2e2e2b;line-height:1.3;font-weight:500;display:block;font-family:serif;">Forensic Report™</span></div>
+        <div style="display:table-cell;width:16.66%;padding:10px 6px;text-align:center;background:#ffffff;border:1px solid #e0ddd8;border-right:none;vertical-align:top;"><span style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#7a7870;margin:0 0 3px 0;font-family:sans-serif;display:block;">Phase 1</span><span style="font-size:0.85rem;color:#2e2e2b;line-height:1.3;font-weight:500;display:block;font-family:serif;">Private Sessions</span></div>
+        <div style="display:table-cell;width:16.66%;padding:10px 6px;text-align:center;background:#ffffff;border:1px solid #e0ddd8;border-right:none;vertical-align:top;"><span style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#7a7870;margin:0 0 3px 0;font-family:sans-serif;display:block;">Phase 2</span><span style="font-size:0.85rem;color:#2e2e2b;line-height:1.3;font-weight:500;display:block;font-family:serif;">Discovery Lab™</span></div>
+        <div style="display:table-cell;width:16.66%;padding:10px 6px;text-align:center;background:#1C1C1A;border:1px solid #1C1C1A;border-right:none;vertical-align:top;"><span style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#C9A84C;margin:0 0 3px 0;font-family:sans-serif;display:block;">Phase 3</span><span style="font-size:0.85rem;color:#ffffff;line-height:1.3;font-weight:500;display:block;font-family:serif;">Activation Program™</span></div>
+        <div style="display:table-cell;width:16.66%;padding:10px 6px;text-align:center;background:#ffffff;border:1px solid #e0ddd8;vertical-align:top;"><span style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#7a7870;margin:0 0 3px 0;font-family:sans-serif;display:block;">Phase 4</span><span style="font-size:0.85rem;color:#2e2e2b;line-height:1.3;font-weight:500;display:block;font-family:serif;">Fellowship™</span></div>
+      </div>
     </div>
   </div>
 </div>
+      
 
 
 <section class="section-cream">
