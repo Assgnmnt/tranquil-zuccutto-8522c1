@@ -1,1 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Fellowship™  -  The Assignment Room™</title>
+<meta name="description" content="An advanced, application-only pathway for women who are ready to steward, facilitate, or multiply the work responsibly. Fellowship™ is not the next step for everyone." />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream:    #F8F4EE;
+    --cream-dk: #EDE8E0;
+    --teal:     #058E97;
+    --teal-lt:  #E8F5F6;
+    --gold:     #C9A84C;
+    --gold-lt:  #F7F1E4;
+    --charcoal: #1C1C1A;
+    --mid:      #5A5A56;
+    --border:   #DDD8D0;
+    --num-color: #7A7068;
+    --font-serif: 'Cormorant Garamond', Georgia, serif;
+    --font-sans:  'DM Sans', sans-serif;
+    --max: 1080px;
+    --pad: clamp(1.25rem, 5vw, 2.5rem);
+  }
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body {
+    background: var(--cream);
+    color: var(--charcoal);
+    font-family: var(--font-sans);
+    font-weight: 300;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
 
+  /* NAV */
+  nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem var(--pad); border-bottom: 1px solid var(--border);
+    background: var(--cream); position: sticky; top: 0; z-index: 100;
+  }
+  .nav-logo {
+    font-family: var(--font-serif); font-size: 1.05rem; font-weight: 500;
+    letter-spacing: 0.06em; text-transform: uppercase; color: var(--charcoal); text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.78rem; font-weight: 400; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--mid); text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--teal); }
+  @media (max-width: 640px) { .nav-links { display: none; } }
+
+  /* LAYOUT */
+  .inner { max-width: var(--max); margin: 0 auto; padding-left: var(--pad); padding-right: var(--pad); }
+  .section-label {
+    display: inline-block; font-size: 0.7rem; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase; color: #7A5F20; margin-bottom: 1.25rem;
+  }
+  .section-label.teal { color: var(--teal); }
+  section { padding: 4.5rem 0; }
+  section + section { border-top: 1px solid var(--border); }
+  .sec-header {
+    font-family: var(--font-serif); font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+    font-weight: 400; line-height: 1.25; color: var(--charcoal); margin-bottom: 0.75rem;
+  }
+  .sec-sub { font-size: 0.9rem; color: var(--mid); max-width: 560px; margin-bottom: 2.5rem; line-height: 1.75; }
+
+  /* HERO  -  full-width, elevated, charcoal */
+  .hero-band {
+    background: var(--charcoal);
+    padding: 5.5rem var(--pad) 5rem;
+    border-bottom: 3px solid var(--gold);
+  }
+  .hero-inner {
+    max-width: var(--max); margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 300px; gap: 5rem; align-items: start;
+  }
+  @media (max-width: 820px) { .hero-inner { grid-template-columns: 1fr; gap: 3rem; } }
+
+  .hero-eyebrow { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.75rem; }
+  .eyebrow-rule { width: 28px; height: 1px; background: var(--gold); }
+  .eyebrow-text { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: #9acdcf; }
+
+  .hero-band h1 {
+    font-family: var(--font-serif); font-size: clamp(2.8rem, 7vw, 5rem);
+    font-weight: 400; line-height: 1.05; color: var(--cream); margin-bottom: 0.5rem;
+  }
+  .hero-band h1 em { font-style: italic; color: var(--gold); }
+  .hero-sub-text {
+    font-family: var(--font-serif); font-style: italic;
+    font-size: 1.15rem; color: #b0ada8; margin-bottom: 2.5rem; line-height: 1.5; max-width: 480px;
+  }
+  .hero-rule { width: 40px; height: 1px; background: var(--gold); margin: 2rem 0; }
+  .hero-desc { font-size: 0.92rem; color: #b0ada8; line-height: 1.85; max-width: 460px; margin-bottom: 2.5rem; }
+  .btn-apply-gold {
+    display: inline-block; font-family: var(--font-sans);
+    font-size: 0.78rem; font-weight: 500; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--charcoal); background: var(--gold);
+    text-decoration: none; padding: 0.95rem 2.5rem; transition: background 0.2s;
+  }
+  .btn-apply-gold:hover { background: #b5943e; }
+  .hero-meta { display: flex; gap: 2.5rem; margin-top: 1.75rem; flex-wrap: wrap; }
+  .hero-meta-item { display: flex; flex-direction: column; gap: 0.15rem; }
+  .hero-meta-val { font-family: var(--font-serif); font-size: 1.3rem; font-weight: 400; color: var(--cream); line-height: 1; }
+  .hero-meta-lbl { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: #6a6a66; }
+
+  /* HERO CARD */
+  .hero-card {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    border-top: 3px solid var(--gold); padding: 2rem;
+    position: sticky; top: 5.5rem;
+  }
+  .hc-label { font-size: 0.67rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+  .hc-name { font-family: var(--font-serif); font-size: 1.3rem; font-weight: 500; color: var(--cream); margin-bottom: 1.25rem; }
+  .hc-rows { margin-bottom: 1.5rem; }
+  .hc-row { padding: 0.6rem 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .hc-row:last-child { border-bottom: none; }
+  .hc-row-label { font-size: 0.67rem; letter-spacing: 0.1em; text-transform: uppercase; color: #6a6a66; margin-bottom: 0.2rem; }
+  .hc-row-val { font-size: 0.85rem; color: #b0ada8; line-height: 1.5; }
+  .hc-investment {
+    background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.3);
+    padding: 1rem; margin-bottom: 1.25rem; text-align: center;
+  }
+  .hc-investment-label { font-size: 0.67rem; letter-spacing: 0.1em; text-transform: uppercase; color: #6a6a66; margin-bottom: 0.25rem; }
+  .hc-investment-val { font-family: var(--font-serif); font-size: 1rem; font-weight: 500; color: var(--gold); }
+  .btn-apply-card {
+    display: block; text-align: center; font-family: var(--font-sans);
+    font-size: 0.78rem; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--charcoal); background: var(--gold);
+    text-decoration: none; padding: 0.95rem; transition: background 0.2s;
+  }
+  .btn-apply-card:hover { background: #b5943e; }
+  .hc-note { margin-top: 0.85rem; font-family: var(--font-serif); font-style: italic; font-size: 0.8rem; color: #c8c4be; text-align: center; line-height: 1.5; }
+
+  /* NOT FOR EVERYONE STRIP */
+  .not-everyone {
+    background: var(--gold-lt); border-bottom: 1px solid #e2d5b0;
+    padding: 1.5rem var(--pad);
+  }
+  .not-everyone-inner {
+    max-width: var(--max); margin: 0 auto;
+    display: flex; align-items: flex-start; gap: 1rem; flex-wrap: wrap;
+  }
+  .ne-icon {
+    width: 18px; height: 18px; border: 1px solid var(--gold);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 0.1rem;
+  }
+  .ne-icon svg { width: 9px; height: 9px; }
+  .not-everyone p { font-size: 0.88rem; color: var(--charcoal); line-height: 1.7; max-width: 780px; }
+  .not-everyone a { color: var(--teal); text-decoration: none; border-bottom: 1px solid var(--teal); }
+
+  /* WHAT MULTIPLICATION MEANS */
+  .multiplication-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start;
+  }
+  @media (max-width: 680px) { .multiplication-grid { grid-template-columns: 1fr; gap: 2rem; } }
+  .mg-left p { font-size: 0.92rem; color: var(--mid); line-height: 1.85; margin-bottom: 1rem; }
+  .mg-left p:last-child { margin-bottom: 0; }
+  .mg-pull {
+    border-left: 3px solid var(--gold); padding: 1.25rem 1.5rem;
+    background: var(--gold-lt); margin-bottom: 1.5rem;
+  }
+  .mg-pull p {
+    font-family: var(--font-serif); font-style: italic;
+    font-size: 1.15rem; color: var(--charcoal); line-height: 1.55; margin: 0;
+  }
+  .mg-right {}
+  .multiplication-types { list-style: none; }
+  .mt-item { padding: 1.25rem 0; border-bottom: 1px solid var(--border); }
+  .mt-item:first-child { padding-top: 0; }
+  .mt-item:last-child { border-bottom: none; }
+  .mt-type {
+    font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: #7A5F20; margin-bottom: 0.4rem;
+  }
+  .mt-name { font-family: var(--font-serif); font-size: 1.05rem; font-weight: 500; color: var(--charcoal); margin-bottom: 0.35rem; }
+  .mt-desc { font-size: 0.85rem; color: var(--mid); line-height: 1.7; }
+
+  /* FELLOWSHIP PATHWAY */
+  .pathway-arc {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+    background: var(--border); border: 1px solid var(--border);
+  }
+  @media (max-width: 640px) { .pathway-arc { grid-template-columns: 1fr; } }
+  .pa-item { background: var(--cream); padding: 2.5rem 2rem; }
+  .pa-num {
+    font-family: var(--font-serif); font-size: 2.5rem; font-weight: 300;
+    color: #7A7068; line-height: 1; margin-bottom: 1rem;
+  }
+  .pa-phase {
+    font-size: 0.67rem; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: #7A5F20; margin-bottom: 0.5rem;
+  }
+  .pa-title { font-family: var(--font-serif); font-size: 1.1rem; font-weight: 500; color: var(--charcoal); margin-bottom: 0.6rem; line-height: 1.3; }
+  .pa-desc { font-size: 0.85rem; color: var(--mid); line-height: 1.7; }
+  .pa-note {
+    margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--border);
+    font-family: var(--font-sans); font-size: 0.82rem;
+    color: var(--charcoal); line-height: 1.5;
+  }
+
+  /* WHAT FELLOWSHIP IS NOT */
+  .not-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+  }
+  @media (max-width: 580px) { .not-grid { grid-template-columns: 1fr; } }
+  .not-item {
+    padding: 1.75rem; background: var(--cream-dk);
+    border-left: 2px solid var(--border);
+  }
+  .not-item-x {
+    font-family: var(--font-sans); font-size: 1rem; color: #b0806a;
+    margin-bottom: 0.75rem; line-height: 1;
+  }
+  .not-item-text { font-size: 0.87rem; color: var(--mid); line-height: 1.7; }
+
+  /* WHO */
+  .who-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  @media (max-width: 680px) { .who-grid { grid-template-columns: 1fr; gap: 2rem; } }
+  .who-prose p { font-size: 0.92rem; color: var(--mid); line-height: 1.85; margin-bottom: 1rem; }
+  .who-prose p:last-child { margin-bottom: 0; }
+  .who-markers { list-style: none; }
+  .who-markers li {
+    font-family: var(--font-sans); font-style: normal; font-size: 0.88rem;
+    color: var(--charcoal); padding: 0.85rem 0 0.85rem 1rem;
+    border-bottom: 1px solid var(--border); border-left: 2px solid var(--gold);
+    margin-bottom: 0.75rem; line-height: 1.5;
+  }
+  .who-markers li:last-child { margin-bottom: 0; }
+
+  /* APPLICATION PROCESS */
+  .application-steps {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    background: var(--border); border: 1px solid var(--border);
+    margin-bottom: 3rem;
+  }
+  @media (max-width: 680px) { .application-steps { grid-template-columns: 1fr 1fr; } }
+  .as-item { background: #fff; padding: 2rem 1.75rem; }
+  .as-num {
+    font-family: var(--font-serif); font-size: 2rem; font-weight: 300;
+    color: #7A7068; line-height: 1; margin-bottom: 0.85rem;
+  }
+  .as-title { font-family: var(--font-serif); font-size: 1rem; font-weight: 500; color: var(--charcoal); margin-bottom: 0.4rem; line-height: 1.3; }
+  .as-desc { font-size: 0.82rem; color: var(--mid); line-height: 1.65; }
+
+  .discernment-note {
+    background: var(--gold-lt); border: 1px solid #e2d5b0; border-left: 3px solid var(--gold);
+    padding: 1.75rem 2rem; max-width: 680px;
+  }
+  .dn-label { font-size: 0.67rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #7A5F20; margin-bottom: 0.6rem; }
+  .discernment-note p { font-family: var(--font-serif); font-size: 1.05rem; color: var(--charcoal); line-height: 1.65; font-style: italic; }
+
+  /* FAQ */
+  .faq-list { max-width: 680px; }
+  .faq-item { border-bottom: 1px solid var(--border); }
+  .faq-item:first-child { border-top: 1px solid var(--border); }
+  .faq-btn {
+    width: 100%; background: none; border: none; cursor: pointer;
+    padding: 1.2rem 0; display: flex; align-items: center;
+    justify-content: space-between; gap: 1rem; text-align: left;
+  }
+  .faq-btn-text { font-family: var(--font-serif); font-size: 1.05rem; font-weight: 400; color: var(--charcoal); line-height: 1.4; }
+  .faq-icon { flex-shrink: 0; width: 20px; height: 20px; border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background 0.2s, border-color 0.2s; }
+  .faq-icon svg { width: 10px; height: 10px; transition: transform 0.2s; }
+  .faq-item.open .faq-icon { background: var(--gold); border-color: var(--gold); }
+  .faq-item.open .faq-icon svg { transform: rotate(45deg); }
+  .faq-item.open .faq-icon svg line { stroke: #fff; }
+  .faq-body { display: none; padding: 0 0 1.25rem; font-size: 0.9rem; color: var(--mid); line-height: 1.75; max-width: 580px; }
+  .faq-item.open .faq-body { display: block; }
+
+  /* CTA SECTION */
+  .cta-section { background: var(--charcoal); padding: 6rem 0; border-top: 3px solid var(--gold); }
+  .cta-inner { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); display: grid; grid-template-columns: 1fr 380px; gap: 5rem; align-items: center; }
+  @media (max-width: 820px) { .cta-inner { grid-template-columns: 1fr; gap: 3rem; } }
+  .cl .section-label { color: #7A5F20; }
+  .cl h2 { font-family: var(--font-serif); font-size: clamp(1.9rem, 4.5vw, 3rem); font-weight: 400; color: var(--cream); line-height: 1.15; margin-bottom: 1.25rem; }
+  .cl p { font-size: 0.9rem; color: #b0ada8; line-height: 1.85; margin-bottom: 0.75rem; }
+
+  .cta-card { background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.25); border-top: 3px solid var(--gold); padding: 2.5rem; }
+  .cc-label { font-size: 0.67rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+  .cc-name { font-family: var(--font-serif); font-size: 1.4rem; font-weight: 500; color: var(--cream); margin-bottom: 1.5rem; line-height: 1.2; }
+  .cc-rows { margin-bottom: 1.5rem; }
+  .cc-row { padding: 0.65rem 0; border-bottom: 1px solid rgba(255,255,255,0.07); }
+  .cc-row:last-child { border-bottom: none; }
+  .cc-row-label { font-size: 0.67rem; letter-spacing: 0.1em; text-transform: uppercase; color: #6a6a66; margin-bottom: 0.2rem; }
+  .cc-row-val { font-size: 0.85rem; color: #b0ada8; line-height: 1.5; }
+  .cc-investment {
+    background: rgba(201,168,76,0.12); border: 1px solid rgba(201,168,76,0.2);
+    padding: 1rem; margin-bottom: 1.5rem; text-align: center;
+  }
+  .cc-inv-label { font-size: 0.67rem; letter-spacing: 0.1em; text-transform: uppercase; color: #6a6a66; margin-bottom: 0.25rem; }
+  .cc-inv-val { font-family: var(--font-serif); font-size: 1.1rem; font-weight: 500; color: var(--gold); letter-spacing: 0.04em; }
+  .btn-apply-cta {
+    display: block; text-align: center; font-family: var(--font-sans);
+    font-size: 0.78rem; font-weight: 500; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--charcoal); background: var(--gold);
+    text-decoration: none; padding: 1rem; transition: background 0.2s;
+  }
+  .btn-apply-cta:hover { background: #b5943e; }
+  .cc-reassurance { margin-top: 0.85rem; font-family: var(--font-serif); font-style: italic; font-size: 0.82rem; color: #c8c4be; text-align: center; line-height: 1.5; }
+
+  /* PATHWAY MAP */
+  .full-pathway { display: flex; flex-direction: column; gap: 0; max-width: 520px; }
+  .fp-step { display: grid; grid-template-columns: 2.25rem 1fr; gap: 1rem; padding: 0.85rem 0; border-bottom: 1px solid rgba(255,255,255,0.07); align-items: start; }
+  .fp-step:last-child { border-bottom: none; }
+  .fp-badge {
+    width: 2rem; height: 2rem; border: 1px solid rgba(255,255,255,0.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.65rem; color: #6a6a66; font-weight: 500; flex-shrink: 0;
+  }
+  .fp-badge.active { background: var(--gold); border-color: var(--gold); color: var(--charcoal); }
+  .fp-name { font-size: 0.85rem; color: #b0ada8; line-height: 1.5; }
+  .fp-name.active { color: var(--gold); font-weight: 500; }
+  .fp-detail { font-size: 0.75rem; color: #6a6a66; }
+
+  /* FOOTER */
+  footer { padding: 3rem var(--pad) 2.5rem; border-top: 1px solid var(--border); display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem; max-width: var(--max); margin: 0 auto; }
+  @media (max-width: 600px) { footer { grid-template-columns: 1fr; } }
+  .footer-logo { font-family: var(--font-serif); font-size: 1rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--charcoal); margin-bottom: 0.5rem; }
+  .footer-tagline { font-size: 0.8rem; color: var(--mid); line-height: 1.6; max-width: 220px; }
+  .footer-col-title { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); margin-bottom: 1rem; }
+  .footer-links { list-style: none; }
+  .footer-links li { margin-bottom: 0.5rem; }
+  .footer-links a { font-size: 0.82rem; color: var(--charcoal); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--teal); }
+  .footer-bottom { max-width: var(--max); margin: 0 auto; padding: 1.25rem var(--pad); border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--mid); flex-wrap: wrap; gap: 0.5rem; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="/">The Assignment Room™</a>
+  <ul class="nav-links">
+    <li><a href="/diagnostic">Start with the Diagnostic</a></li>
+    <li><a href="/start-here">Work With Me</a></li>
+    <li><a href="/about">About Jackie</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO  -  charcoal, elevated -->
+<div class="hero-band">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">
+        <span class="eyebrow-rule"></span>
+        <span class="eyebrow-text">Advanced Pathway · Application Only</span>
+      </div>
+      <h1><em>Fellowship™</em></h1>
+      <p class="hero-sub-text">An advanced, application-only pathway for women who are ready to steward, facilitate, or multiply the work responsibly.</p>
+      <div class="hero-rule"></div>
+      <p class="hero-desc">Fellowship™ is not the next step after Discovery Lab™ or the Activation Program™ for everyone. It is the pathway for women who have built something real  -  and who sense that the next call is not to build more, but to steward what has already been built beyond themselves. Responsibly. With structure. With accountability to the work it has taken to get here.</p>
+      <a href="https://formspree.io/f/mlgoqwbw" target="_blank" class="btn-apply-gold">Apply for Fellowship™</a>
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span class="hero-meta-val">Stage 6</span>
+          <span class="hero-meta-lbl">Multiplication</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-val">Application</span>
+          <span class="hero-meta-lbl">Only  -  not open enrollment</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-val">Advanced</span>
+          <span class="hero-meta-lbl">Pathway  -  not a course</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero card -->
+    <div class="hero-card">
+      <div class="hc-label">Apply for This Pathway</div>
+      <div class="hc-name">Fellowship™</div>
+      <div class="hc-rows">
+        <div class="hc-row">
+          <div class="hc-row-label">Format</div>
+          <div class="hc-row-val">Advanced pathway · Disclosed after application review</div>
+        </div>
+        <div class="hc-row">
+          <div class="hc-row-label">Stage Required</div>
+          <div class="hc-row-val">Multiplication  -  you have built something and are ready to steward it beyond yourself</div>
+        </div>
+        <div class="hc-row">
+          <div class="hc-row-label">Prerequisite</div>
+          <div class="hc-row-val">Prior completion of at least one Assignment Room™ offer</div>
+        </div>
+        <div class="hc-row">
+          <div class="hc-row-label">Access</div>
+          <div class="hc-row-val">Application only · Not open enrollment</div>
+        </div>
+      </div>
+      <div class="hc-investment">
+        <div class="hc-investment-label">Investment</div>
+        <div class="hc-investment-val">Disclosed upon application review</div>
+      </div>
+      <a href="https://formspree.io/f/mlgoqwbw" target="_blank" class="btn-apply-card">Apply for Fellowship™</a>
+      <p class="hc-note">The application is part of the discernment  -  not a barrier to it.</p>
+    </div>
+  </div>
+</div>
+
+<!-- NOT FOR EVERYONE STRIP -->
+<div class="not-everyone">
+  <div class="not-everyone-inner">
+    <div class="ne-icon">
+      <svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="5" cy="5" r="4" stroke="#C9A84C" stroke-width="1"/>
+        <line x1="5" y1="2.5" x2="5" y2="5.5" stroke="#C9A84C" stroke-width="1" stroke-linecap="round"/>
+        <circle cx="5" cy="7" r="0.5" fill="#C9A84C"/>
+      </svg>
+    </div>
+    <p>Fellowship™ is not the next step for every woman who completes the Activation Program™. If you are still in the process of defining, executing, or sustaining the assignment, <a href="/start-here">the prior rooms</a> are the right place to be. Fellowship™ is for women who have done that work  -  and who are now responsible to carry it beyond themselves.</p>
+  </div>
+</div>
+
+<!-- WHAT MULTIPLICATION MEANS -->
+<section>
+  <div class="inner">
+    <span class="section-label">What Multiplication Means Here</span>
+    <h2 class="sec-header">This is not scale for its own sake.</h2>
+    <p class="sec-sub">Multiplication in The Assignment Room™ context has a specific meaning. Understanding it helps you know whether Fellowship™ is the right room for where you are.</p>
+
+    <div class="multiplication-grid">
+      <div class="mg-left">
+        <div class="mg-pull">
+          <p>Multiplication is not expansion. It is stewardship  -  the deliberate, structured work of carrying what has been built into the hands of others without losing what it cost to build it.</p>
+        </div>
+        <p>There is a significant difference between building more and stewarding well. Building more means adding  -  more content, more clients, more revenue, more reach. Stewarding well means ensuring that what has already been built is held, taught, and multiplied in a way that preserves its integrity.</p>
+        <p>Fellowship™ is for women who have reached the point where the assignment is no longer only theirs to carry. They are being asked to bring others into it  -  as students, as practitioners, as the next generation of women doing this same work in their own contexts. And they want to do that responsibly.</p>
+        <p>The application process is the first step in discerning whether this is the right season for that responsibility  -  and whether Fellowship™ is the right structure to hold it.</p>
+      </div>
+      <div class="mg-right">
+        <ul class="multiplication-types">
+          <li class="mt-item">
+            <div class="mt-type">Form 01</div>
+            <div class="mt-name">Teaching &amp; Facilitation</div>
+            <div class="mt-desc">You are ready to take what you have learned and lead others through a version of the process  -  teaching the framework, facilitating the conversation, or creating a structured environment for women in your community to do this work.</div>
+          </li>
+          <li class="mt-item">
+            <div class="mt-type">Form 02</div>
+            <div class="mt-name">Practitioner Development</div>
+            <div class="mt-desc">You want to become a practitioner of the Assignment Room™ methodology  -  formally trained to use the diagnostic, the documents, and the process with the women you serve in your own ministry, organization, or practice.</div>
+          </li>
+          <li class="mt-item">
+            <div class="mt-type">Form 03</div>
+            <div class="mt-name">Assignment Extension</div>
+            <div class="mt-desc">The assignment you have been building has a natural multiplication layer  -  a community, a cohort, a program, a movement  -  and you need the structure and accountability to extend it responsibly rather than prematurely.</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FELLOWSHIP PATHWAY ARC -->
+<section style="background:#fff;">
+  <div class="inner">
+    <span class="section-label teal">The Fellowship™ Arc</span>
+    <h2 class="sec-header">Three phases. One responsible pathway forward.</h2>
+    <p class="sec-sub">Fellowship™ is structured across three phases  -  each building on the prior rooms and moving toward a specific form of multiplication. Full program details are shared after your application is reviewed.</p>
+
+    <div class="pathway-arc">
+      <div class="pa-item">
+        <div class="pa-num">01</div>
+        <div class="pa-phase">Phase One</div>
+        <div class="pa-title">Stewardship Assessment</div>
+        <div class="pa-desc">A structured review of what has been built  -  the assignment, the body of work, the prior documents  -  and a discernment process to confirm readiness for multiplication. Not an evaluation of worthiness. A confirmation of foundation.</div>
+        <div class="pa-note">You do not move to Phase Two until you and Jackie have confirmed that the foundation is stable enough to multiply from.</div>
+      </div>
+      <div class="pa-item">
+        <div class="pa-num">02</div>
+        <div class="pa-phase">Phase Two</div>
+        <div class="pa-title">Multiplication Framework</div>
+        <div class="pa-desc">The structure for how the assignment will be extended  -  the form it will take, the people it will reach, the boundaries that will protect its integrity, and the accountability framework that governs the multiplication process.</div>
+        <div class="pa-note">Every form of multiplication is different. Phase Two is built around yours specifically  -  not a generic framework applied to every Fellow.</div>
+      </div>
+      <div class="pa-item">
+        <div class="pa-num">03</div>
+        <div class="pa-phase">Phase Three</div>
+        <div class="pa-title">Practitioner Commissioning</div>
+        <div class="pa-desc">The closing phase of the Fellowship™ pathway  -  a formal commissioning that marks the transition from assignment-carrier to responsible steward. This is not a graduation. It is an accountability declaration before a witness.</div>
+        <div class="pa-note">What commissioning looks like is specific to the Fellow's context and form of multiplication  -  determined during the Fellowship™ process.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT FELLOWSHIP IS NOT -->
+<section>
+  <div class="inner">
+    <span class="section-label">What Fellowship™ Is Not</span>
+    <h2 class="sec-header">Clarity about what this room is not designed to do.</h2>
+    <p class="sec-sub">These distinctions matter  -  because applying for the wrong room at the wrong time is more costly than waiting for the right one.</p>
+
+    <div class="not-grid">
+      <div class="not-item">
+        <div class="not-item-x">×</div>
+        <div class="not-item-text"><strong style="font-weight:500;color:var(--charcoal);">Not a shortcut to scale.</strong> Fellowship™ is not for women who want to grow an audience, build a course, or launch a program without having done the foundational work. If the assignment has not yet been fully defined and sustained, scaling it produces more of what is already fragile.</div>
+      </div>
+      <div class="not-item">
+        <div class="not-item-x">×</div>
+        <div class="not-item-text"><strong style="font-weight:500;color:var(--charcoal);">Not a mastermind or peer community.</strong> Fellowship™ is a structured accountability pathway  -  not a space to gather with like-minded women, network, or receive peer encouragement. The accountability runs through Jackie and the structure of the program, not through cohort peers.</div>
+      </div>
+      <div class="not-item">
+        <div class="not-item-x">×</div>
+        <div class="not-item-text"><strong style="font-weight:500;color:var(--charcoal);">Not for women still in the execution stage.</strong> If you are still building the foundational rhythms, still inconsistent in your movement, or still working to sustain the assignment  -  the Activation Program™ is the right room. Fellowship™ begins where sustained execution already exists.</div>
+      </div>
+      <div class="not-item">
+        <div class="not-item-x">×</div>
+        <div class="not-item-text"><strong style="font-weight:500;color:var(--charcoal);">Not open to all applicants.</strong> Fellowship™ has limited availability and is not offered on a rolling basis. Applications are reviewed against specific readiness markers. Being declined is not a permanent door closure  -  it is guidance toward the right room for the current season.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO THIS IS FOR -->
+<section>
+  <div class="inner">
+    <span class="section-label teal">Who This Is For</span>
+    <h2 class="sec-header">Fellowship™ is for a very specific moment of readiness.</h2>
+    <p class="sec-sub">These are the markers that indicate this is the right room, in this season, for the work you are now responsible to carry.</p>
+
+    <div class="who-grid">
+      <div class="who-prose">
+        <p>Fellowship™ is for the woman who has done the prior work  -  not necessarily every room in the pathway, but the foundational work of naming the assignment, breaking agreement with what was delaying her, building the execution infrastructure, and sustaining movement over time. She is not still figuring out what she is building. She has built it.</p>
+        <p>Now she is being asked a different question. Not "what are you building?" but "who else is responsible to carry this?" The assignment is no longer only hers. It is bigger than her individual movement. And she wants to steward that reality well  -  not impulsively, not prematurely, but with the structure and accountability that the work deserves.</p>
+        <p>If that description feels more aspirational than present  -  if you are not yet in that place  -  one of the prior rooms is the right next step. Fellowship™ will still be here.</p>
+      </div>
+      <ul class="who-markers">
+        <li>You have built something real  -  a body of work, a ministry, a methodology, a community  -  and others are already asking to be part of it or to learn from it.</li>
+        <li>The assignment is documented, sustained, and stable. You are not still figuring out the basics  -  you are now responsible for what comes next.</li>
+        <li>You sense that the next call is not to do more, but to steward what has already been done in a way that carries it forward responsibly.</li>
+        <li>You want to teach, facilitate, train, or multiply  -  and you want to do so with a structure that protects the integrity of what it has cost you to build.</li>
+        <li>You are ready for the accountability that comes with being formally commissioned to carry the work beyond yourself  -  and you do not want to do that alone or without structure.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- APPLICATION PROCESS -->
+<section style="background:#fff;">
+  <div class="inner">
+    <span class="section-label">The Application Process</span>
+    <h2 class="sec-header">The application is part of the discernment.</h2>
+    <p class="sec-sub">Applying for Fellowship™ is not a test of worthiness or a bureaucratic gate. It is the beginning of a structured discernment process  -  and that process starts the moment you decide to apply.</p>
+
+    <div class="application-steps">
+      <div class="as-item">
+        <div class="as-num">01</div>
+        <div class="as-title">Submit the Application</div>
+        <div class="as-desc">A substantive set of questions about what you have built, where you are in the pathway, what form of multiplication you sense is being asked of you, and why this season.</div>
+      </div>
+      <div class="as-item">
+        <div class="as-num">02</div>
+        <div class="as-title">Application Review</div>
+        <div class="as-desc">Jackie reviews your application against the Fellowship™ readiness markers. This is not a quick scan  -  it is a careful read. You will receive a response within one week.</div>
+      </div>
+      <div class="as-item">
+        <div class="as-num">03</div>
+        <div class="as-title">Discernment Conversation</div>
+        <div class="as-desc">If your application indicates readiness, you will be invited to a discernment conversation before Fellowship™ is confirmed. This conversation is the final step before a decision is made by both parties.</div>
+      </div>
+      <div class="as-item">
+        <div class="as-num">04</div>
+        <div class="as-title">Pathway Confirmation</div>
+        <div class="as-desc">If Fellowship™ is confirmed as the right fit and season, full program details  -  format, investment, timeline, and first steps  -  are shared and the pathway begins.</div>
+      </div>
+    </div>
+
+    <div class="discernment-note">
+      <div class="dn-label">A Note on Being Declined</div>
+      <p>If your application is not accepted in this season, you will receive guidance on the right next room and what readiness for Fellowship™ would look like from where you are. A declined application is not a closed door. It is a redirect toward the room that will get you there.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section>
+  <div class="inner">
+    <span class="section-label">Before You Apply</span>
+    <h2 class="sec-header">Questions you may be carrying.</h2>
+    <div class="faq-list">
+
+      <div class="faq-item open">
+        <button class="faq-btn" aria-expanded="true">
+          <span class="faq-btn-text">Do I need to have completed every prior room before applying?</span>
+          <span class="faq-icon"><svg viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11" stroke="#1C1C1A" stroke-width="1.5" stroke-linecap="round"/><line x1="1" y1="6" x2="11" y2="6" stroke="#1C1C1A" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+        </button>
+        <div class="faq-body">
+          Not necessarily every room  -  but you need to have done the foundational work. At minimum, you should have your Assignment Brief™, a sustained body of work, and a documented or clear body of evidence that the assignment has moved beyond the definition and early activation stages. If you are not sure whether you are ready, your Readiness Diagnostic™ result or a direct conversation via hello@assignmentroom.com can help you determine that before you apply.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" aria-expanded="false">
+          <span class="faq-btn-text">What does "multiplication" mean in practical terms?</span>
+          <span class="faq-icon"><svg viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11" stroke="#1C1C1A" stroke-width="1.5" stroke-linecap="round"/><line x1="1" y1="6" x2="11" y2="6" stroke="#1C1C1A" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+        </button>
+        <div class="faq-body">
+          Multiplication takes different forms for different women  -  teaching the framework to others, becoming a practitioner of the Assignment Room™ methodology, building a structured extension of the assignment (a cohort, a program, a training), or formally commissioning others to carry the work in their own contexts. What it does not mean is simply growing an audience or producing more content. The application will help surface which form of multiplication you are actually being called to.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" aria-expanded="false">
+          <span class="faq-btn-text">What is the investment?</span>
+          <span class="faq-icon"><svg viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11" stroke="#1C1C1A" stroke-width="1.5" stroke-linecap="round"/><line x1="1" y1="6" x2="11" y2="6" stroke="#1C1C1A" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+        </button>
+        <div class="faq-body">
+          The investment for Fellowship™ is shared after your application is reviewed and a discernment conversation has taken place. Because each Fellowship™ pathway is specific to the woman, her assignment, and her form of multiplication, investment details are discussed in that context  -  not displayed publicly. If cost is a primary concern before you apply, you are welcome to raise that in the application.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" aria-expanded="false">
+          <span class="faq-btn-text">How long does Fellowship™ take?</span>
+          <span class="faq-icon"><svg viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11" stroke="#1C1C1A" stroke-width="1.5" stroke-linecap="round"/><line x1="1" y1="6" x2="11" y2="6" stroke="#1C1C1A" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+        </button>
+        <div class="faq-body">
+          Fellowship™ is not a fixed-length program. The pathway is structured across three phases, and the pace of each phase depends on the woman, the form of multiplication, and what the discernment process surfaces. Timeline details are shared during the discernment conversation, once it is clear what the pathway will look like for you specifically.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" aria-expanded="false">
+          <span class="faq-btn-text">What if I apply and am not ready?</span>
+          <span class="faq-icon"><svg viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11" stroke="#1C1C1A" stroke-width="1.5" stroke-linecap="round"/><line x1="1" y1="6" x2="11" y2="6" stroke="#1C1C1A" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+        </button>
+        <div class="faq-body">
+          You will receive an honest response  -  including guidance on what readiness for Fellowship™ would require from where you currently are, and which room in the pathway is the more appropriate next step. Applying before you are ready is not a failure. It is information  -  about where you are and what the assignment still needs before it is ready to be multiplied.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- APPLICATION CTA -->
+<div class="cta-section" id="apply">
+  <div class="cta-inner">
+    <div class="cl">
+      <span class="section-label">If This Is Your Season</span>
+      <h2>The work you have carried<br>is ready to be stewarded<br><em>beyond you.</em></h2>
+      <p>Fellowship™ is for the woman who has done the prior work and is now responsible to carry it forward  -  not alone, not prematurely, but with the structure and accountability that the assignment deserves.</p>
+      <p>If this is your season, apply. If you are not sure, the application process itself will help you find out.</p>
+
+      <div class="full-pathway" style="margin-top:2.5rem;">
+        <div class="fp-step">
+          <div class="fp-badge">01</div>
+          <div><div class="fp-name">Readiness Diagnostic™</div><div class="fp-detail">Free · Stage identification</div></div>
+        </div>
+        <div class="fp-step">
+          <div class="fp-badge">02</div>
+          <div><div class="fp-name">The Reveal™</div><div class="fp-detail">$197 · Decision naming</div></div>
+        </div>
+        <div class="fp-step">
+          <div class="fp-badge">03</div>
+          <div><div class="fp-name">Intensive or Discovery Lab™</div><div class="fp-detail">$1,497–$997 · Definition &amp; documentation</div></div>
+        </div>
+        <div class="fp-step">
+          <div class="fp-badge">04</div>
+          <div><div class="fp-name">Activation Program™</div><div class="fp-detail">$1,997 · Execution infrastructure</div></div>
+        </div>
+        <div class="fp-step">
+          <div class="fp-badge active">05</div>
+          <div><div class="fp-name active">Fellowship™ ← You are here</div><div class="fp-detail" style="color:#6a6a66;">Application only · Stewardship &amp; multiplication</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="cta-card">
+        <div class="cc-label">Apply for This Pathway</div>
+        <div class="cc-name">Fellowship™</div>
+        <div class="cc-rows">
+          <div class="cc-row">
+            <div class="cc-row-label">Access</div>
+            <div class="cc-row-val">Application only · Not open enrollment</div>
+          </div>
+          <div class="cc-row">
+            <div class="cc-row-label">Stage</div>
+            <div class="cc-row-val">Multiplication  -  assignment built and ready to steward beyond yourself</div>
+          </div>
+          <div class="cc-row">
+            <div class="cc-row-label">Process</div>
+            <div class="cc-row-val">Application → Review (1 week) → Discernment conversation → Pathway confirmation</div>
+          </div>
+          <div class="cc-row">
+            <div class="cc-row-label">Questions</div>
+            <div class="cc-row-val">hello@assignmentroom.com</div>
+          </div>
+        </div>
+        <div class="cc-investment">
+          <div class="cc-inv-label">Investment</div>
+          <div class="cc-inv-val">Disclosed after application review</div>
+        </div>
+        <a href="https://formspree.io/f/mlgoqwbw" target="_blank" class="btn-apply-cta">Apply for Fellowship™</a>
+        <div class="cc-reassurance">The application is part of the discernment  -  not a barrier to it.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">The Assignment Room™</div>
+    <p class="footer-tagline">Clarity, documentation, and movement for women carrying a God-given assignment.</p>
+  </div>
+  <div>
+    <div class="footer-col-title">Navigate</div>
+    <ul class="footer-links">
+      <li><a href="/diagnostic">Start with the Diagnostic</a></li>
+      <li><a href="/start-here">Work With Me</a></li>
+      <li><a href="/about">About Jackie</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+  </div>
+  <div>
+    <div class="footer-col-title">Policies</div>
+    <ul class="footer-links">
+      <li><a href="/privacy-policy.html">Privacy Policy</a></li>
+      <li><a href="/policies">Terms of Service</a></li>
+      <li><a href="/policies">Refund &amp; Cancellation</a></li>
+      <li><a href="/policies">Accessibility Statement</a></li>
+    </ul>
+    <div class="footer-col-title" style="margin-top:1.5rem;">Connect</div>
+    <ul class="footer-links">
+      <li><a href="https://www.instagram.com/iamjwp">Instagram</a></li>
+      <li><a href="https://www.tiktok.com/@iamjwp">TikTok</a></li>
+      <li><a href="https://www.linkedin.com/in/jackie-parker-atlanta">LinkedIn</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <span>© 2026 The Assignment Room™. All rights reserved.</span>
+  <span>hello@assignmentroom.com</span>
+</div>
+
+<script>
+  document.querySelectorAll('.faq-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+</script>
+</body>
+</html>
