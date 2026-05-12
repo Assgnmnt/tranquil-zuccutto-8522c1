@@ -1,14 +1,11 @@
-# The Assignment Room™ — Netlify Redirects
-# Maps clean/short URLs to actual HTML filenames
-
-/diagnostic          /assignment_room_diagnostic.html          200
-/start-here          /assignment_room_work_with_me.html        200
-/discovery-lab       /assignment_room_discovery_lab.html       200
-/activation-program  /assignment_room_activation_program.html  200
-/fellowship          /assignment_room_fellowship.html          200
-/the-reveal          /assignment_room_the_reveal.html          200
-/intensive           /assignment_room_intensive.html           200
-/about               /assignment_room_about.html               200
-/contact             /assignment_room_contact.html             200
-/policies            /assignment_room_policies.html            200
-/results             /assignment_room_result_pages.html        200
+/diagnostic /assignment_room_diagnostic.html 200
+/start-here /assignment_room_work_with_me.html 200
+/discovery-lab /assignment_room_discovery_lab.html 200
+/activation-program /assignment_room_activation_program.html 200
+/fellowship /assignment_room_fellowship.html 200
+/the-reveal /assignment_room_the_reveal.html 200
+/intensive /assignment_room_intensive.html 200
+/about /assignment_room_about.html 200
+/contact /assignment_room_contact.html 200
+/policies /assignment_room_policies.html 200
+/results /assignment_room_result_pages.html 200
