@@ -735,13 +735,41 @@
     <h2 class="sec-header">Take the Readiness Diagnostic™</h2>
     <p class="sec-sub">Answer honestly. There is no wrong result. The goal is not to evaluate you  -  it is to help you stop guessing where you are.</p>
 
-    <!-- DEVELOPER NOTE: Replace the div below with your Typeform, ScoreApp, Jotform, or custom embed code. The tool should route results to the correct stage result page automatically. -->
-    <div style="max-width: 640px;">
-      <a href="/assignment_room_diagnostic.html" class="btn-primary" style="display:inline-block;">Take the Readiness Diagnostic™ →</a>
-      <p style="margin-top:1.1rem;font-size:0.78rem;color:var(--mid);">
-        Free · Takes about 3 minutes · No account required
-      </p>
-    </div>
+    <form action="https://formspree.io/f/meepylgv" method="POST" style="max-width:560px;margin-top:1.5rem;">
+      <div style="margin-bottom:1.25rem;">
+        <label style="display:block;font-size:0.75rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid);margin-bottom:0.5rem;">Your Name</label>
+        <input type="text" name="name" required placeholder="First name" style="width:100%;padding:0.85rem 1rem;border:1px solid var(--border);background:var(--cream);font-family:var(--font-sans);font-size:0.9rem;color:var(--charcoal);outline:none;border-radius:0;" />
+      </div>
+      <div style="margin-bottom:1.25rem;">
+        <label style="display:block;font-size:0.75rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid);margin-bottom:0.5rem;">Email Address</label>
+        <input type="email" name="email" required placeholder="you@email.com" style="width:100%;padding:0.85rem 1rem;border:1px solid var(--border);background:var(--cream);font-family:var(--font-sans);font-size:0.9rem;color:var(--charcoal);outline:none;border-radius:0;" />
+      </div>
+      <div style="margin-bottom:1.25rem;">
+        <label style="display:block;font-size:0.75rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid);margin-bottom:0.5rem;">Where are you right now?</label>
+        <select name="stage" required style="width:100%;padding:0.85rem 1rem;border:1px solid var(--border);background:var(--cream);font-family:var(--font-sans);font-size:0.9rem;color:var(--charcoal);outline:none;border-radius:0;appearance:none;">
+          <option value="" disabled selected>Choose the statement that fits most</option>
+          <option value="stage-1">I sense a calling but have not named it clearly yet</option>
+          <option value="stage-2">I know what I am called to — I keep starting and stopping</option>
+          <option value="stage-3">I have named the assignment and taken early steps — I need structure to keep moving</option>
+          <option value="stage-4">I am actively building — I need accountability and a system to sustain it</option>
+        </select>
+      </div>
+      <div style="margin-bottom:1.25rem;">
+        <label style="display:block;font-size:0.75rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid);margin-bottom:0.5rem;">What is most in the way right now?</label>
+        <select name="barrier" required style="width:100%;padding:0.85rem 1rem;border:1px solid var(--border);background:var(--cream);font-family:var(--font-sans);font-size:0.9rem;color:var(--charcoal);outline:none;border-radius:0;appearance:none;">
+          <option value="" disabled selected>Choose the one that lands most</option>
+          <option value="clarity">Lack of clarity — I do not know what I am supposed to build</option>
+          <option value="fear">Fear — I know what it is and I keep protecting myself from it</option>
+          <option value="structure">No structure — I have clarity but nothing to hold the work</option>
+          <option value="accountability">No accountability — I keep losing momentum alone</option>
+        </select>
+      </div>
+      <input type="hidden" name="_subject" value="New Readiness Diagnostic™ Submission" />
+      <input type="hidden" name="_next" value="https://assignmentroom.com/assignment_room_result_pages.html" />
+      <input type="text" name="_gotcha" style="display:none" />
+      <button type="submit" style="width:100%;padding:1rem;background:var(--teal);color:#fff;font-family:var(--font-sans);font-size:0.8rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;border:none;cursor:pointer;border-radius:0;">Submit the Diagnostic →</button>
+      <p style="margin-top:0.85rem;font-size:0.75rem;color:var(--mid);text-align:center;">Free · No account required · You will receive your result and recommended next step by email</p>
+    </form>
 
     <div style="margin-top:2.5rem;max-width:560px;">
       <p style="font-family:var(--font-serif);font-style:italic;font-size:1rem;color:var(--mid);border-left:2px solid var(--teal);padding-left:1.25rem;line-height:1.7;">
