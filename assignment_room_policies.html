@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Policies  -  The Assignment Room™</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream:    #F8F4EE;
+    --cream-dk: #EDE8E0;
+    --teal:     #058E97;
+    --teal-lt:  #E8F5F6;
+    --gold:     #C9A84C;
+    --charcoal: #1C1C1A;
+    --mid:      #5A5A56;
+    --border:   #DDD8D0;
+    --font-serif: 'Cormorant Garamond', Georgia, serif;
+    --font-sans:  'DM Sans', sans-serif;
+    --max: 900px;
+    --pad: clamp(1.25rem, 5vw, 2.5rem);
+  }
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body {
+    background: var(--cream);
+    color: var(--charcoal);
+    font-family: var(--font-sans);
+    font-weight: 300;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem var(--pad); border-bottom: 1px solid var(--border);
+    background: var(--cream); position: sticky; top: 0; z-index: 100;
+  }
+  .nav-logo {
+    font-family: var(--font-serif); font-size: 1.05rem; font-weight: 500;
+    letter-spacing: 0.06em; text-transform: uppercase; color: var(--charcoal); text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.78rem; font-weight: 400; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--mid); text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--teal); }
+  @media (max-width: 640px) { .nav-links { display: none; } }
+
+  /* POLICY TAB BAR */
+  .policy-bar {
+    background: var(--charcoal);
+    padding: 0 var(--pad);
+    display: flex; align-items: center; gap: 0;
+    overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  }
+  .policy-bar::-webkit-scrollbar { display: none; }
+  .policy-tab {
+    font-family: var(--font-sans); font-size: 0.72rem; font-weight: 400;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: #6a6a66; background: none; border: none; cursor: pointer;
+    padding: 1rem 1.25rem; border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s; white-space: nowrap; flex-shrink: 0;
+  }
+  .policy-tab:hover { color: var(--cream); }
+  .policy-tab.active { color: var(--cream); border-bottom-color: var(--teal); }
+
+  /* LAYOUT */
+  .inner { max-width: var(--max); margin: 0 auto; padding-left: var(--pad); padding-right: var(--pad); }
+
+  /* POLICY PAGE */
+  .policy-page { display: none; }
+  .policy-page.active { display: block; }
+
+  /* POLICY HEADER */
+  .policy-header {
+    padding: 3.5rem var(--pad) 3rem; border-bottom: 1px solid var(--border);
+    max-width: var(--max); margin: 0 auto;
+  }
+  .policy-label {
+    font-size: 0.7rem; font-weight: 500; letter-spacing: 0.14em;
+    text-transform: uppercase; color: #047A82; margin-bottom: 1rem; display: block;
+  }
+  .policy-title {
+    font-family: var(--font-serif); font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 400; line-height: 1.15; color: var(--charcoal); margin-bottom: 1rem;
+  }
+  .policy-meta {
+    font-size: 0.78rem; color: var(--mid); line-height: 1.6;
+  }
+  .policy-meta strong { color: var(--charcoal); font-weight: 500; }
+
+  /* POLICY BODY */
+  .policy-body {
+    max-width: var(--max); margin: 0 auto;
+    padding: 3rem var(--pad) 5rem;
+  }
+
+  /* PROSE */
+  .policy-body p {
+    font-size: 0.92rem; color: var(--mid); line-height: 1.85; margin-bottom: 1.25rem;
+  }
+  .policy-body p:last-child { margin-bottom: 0; }
+
+  .policy-body h2 {
+    font-family: var(--font-serif); font-size: 1.4rem; font-weight: 500;
+    color: var(--charcoal); margin: 2.5rem 0 0.75rem; line-height: 1.25;
+    padding-top: 2.5rem; border-top: 1px solid var(--border);
+  }
+  .policy-body h2:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
+
+  .policy-body h3 {
+    font-family: var(--font-serif); font-size: 1.1rem; font-weight: 500;
+    color: var(--charcoal); margin: 1.75rem 0 0.5rem; line-height: 1.3;
+  }
+
+  .policy-body ul, .policy-body ol {
+    padding-left: 1.25rem; margin-bottom: 1.25rem;
+  }
+  .policy-body li {
+    font-size: 0.92rem; color: var(--mid); line-height: 1.8; margin-bottom: 0.4rem;
+  }
+  .policy-body li:last-child { margin-bottom: 0; }
+
+  .policy-body a { color: var(--teal); text-decoration: none; border-bottom: 1px solid var(--teal); }
+  .policy-body a:hover { opacity: 0.8; }
+
+  .policy-body strong { font-weight: 500; color: var(--charcoal); }
+
+  /* NOTICE BOX */
+  .policy-notice {
+    background: var(--teal-lt); border: 1px solid #b8dfe2; border-left: 3px solid var(--teal);
+    padding: 1.25rem 1.5rem; margin: 1.5rem 0;
+  }
+  .policy-notice p { font-size: 0.88rem; color: var(--charcoal); line-height: 1.7; margin: 0; }
+
+  /* REFUND TABLE */
+  .refund-table { width: 100%; border-collapse: collapse; margin: 1.25rem 0; }
+  .refund-table th {
+    font-size: 0.68rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--mid); padding: 0.75rem 1rem; text-align: left;
+    border-bottom: 2px solid var(--charcoal); background: var(--cream);
+  }
+  .refund-table td {
+    font-size: 0.85rem; color: var(--charcoal); padding: 0.9rem 1rem;
+    border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.6;
+  }
+  .refund-table tr:last-child td { border-bottom: none; }
+  .refund-table tr:hover td { background: var(--cream-dk); }
+  .refund-table .offer-name { font-family: var(--font-serif); font-weight: 500; }
+  .refund-table .policy-pill {
+    display: inline-block; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; padding: 0.15rem 0.5rem;
+    border-radius: 2px; white-space: nowrap;
+  }
+  .pill-green { background: #e8f5ee; color: #2d7a4a; }
+  .pill-yellow { background: #fef9e8; color: #8a6a00; }
+  .pill-red { background: #fdf0ed; color: #8a3520; }
+  @media (max-width: 600px) {
+    .refund-table { display: block; overflow-x: auto; }
+  }
+
+  /* CONTACT BOX */
+  .policy-contact {
+    margin-top: 3rem; padding: 1.75rem; background: #fff;
+    border: 1px solid var(--border); border-top: 3px solid var(--teal);
+  }
+  .pc-label { font-size: 0.67rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 0.6rem; }
+  .pc-title { font-family: var(--font-serif); font-size: 1.1rem; font-weight: 500; color: var(--charcoal); margin-bottom: 0.4rem; }
+  .pc-body { font-size: 0.85rem; color: var(--mid); line-height: 1.7; }
+  .pc-body a { color: var(--teal); text-decoration: none; border-bottom: 1px solid var(--teal); }
+
+  /* FOOTER */
+  footer { padding: 3rem var(--pad) 2.5rem; border-top: 1px solid var(--border); display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem; max-width: 1080px; margin: 0 auto; }
+  @media (max-width: 600px) { footer { grid-template-columns: 1fr; } }
+  .footer-logo { font-family: var(--font-serif); font-size: 1rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--charcoal); margin-bottom: 0.5rem; }
+  .footer-tagline { font-size: 0.8rem; color: var(--mid); line-height: 1.6; max-width: 220px; }
+  .footer-col-title { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); margin-bottom: 1rem; }
+  .footer-links { list-style: none; }
+  .footer-links li { margin-bottom: 0.5rem; }
+  .footer-links a { font-size: 0.82rem; color: var(--charcoal); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--teal); }
+  .footer-bottom { max-width: 1080px; margin: 0 auto; padding: 1.25rem var(--pad); border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--mid); flex-wrap: wrap; gap: 0.5rem; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="/">The Assignment Room™</a>
+  <ul class="nav-links">
+    <li><a href="#">Start with the Diagnostic</a></li>
+    <li><a href="#">Work With Me</a></li>
+    <li><a href="#">About Jackie</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- POLICY TAB BAR -->
+<div class="policy-bar">
+  <button class="policy-tab active" data-policy="privacy">Privacy Policy</button>
+  <button class="policy-tab" data-policy="terms">Terms of Service</button>
+  <button class="policy-tab" data-policy="refund">Refund &amp; Cancellation</button>
+  <button class="policy-tab" data-policy="accessibility">Accessibility</button>
+</div>
+
+
+<!-- ══════════════════════════════════════════ -->
+<!-- PRIVACY POLICY -->
+<!-- ══════════════════════════════════════════ -->
+<div class="policy-page active" id="page-privacy">
+  <div class="policy-header">
+    <span class="policy-label">Legal</span>
+    <h1 class="policy-title">Privacy Policy</h1>
+    <p class="policy-meta"><strong>Effective Date:</strong> January 1, 2026 &nbsp;·&nbsp; <strong>Last Updated:</strong> January 1, 2026 &nbsp;·&nbsp; <strong>Entity:</strong> The Assignment Room™</p>
+  </div>
+
+  <div class="policy-body">
+
+    <div class="policy-notice">
+      <p>This Privacy Policy describes how The Assignment Room™ ("we," "us," or "our") collects, uses, and protects your personal information when you visit our website or use our services. By using our site or services, you agree to the practices described in this policy.</p>
+    </div>
+
+    <h2>1. Information We Collect</h2>
+    <h3>Information You Provide Directly</h3>
+    <p>We collect information you voluntarily provide when you:</p>
+    <ul>
+      <li>Complete the Readiness Diagnostic™</li>
+      <li>Submit a contact form or send an email</li>
+      <li>Book or apply for a session, program, or pathway</li>
+      <li>Subscribe to email communications</li>
+      <li>Participate in a Discovery Lab™ cohort or Activation Program™</li>
+    </ul>
+    <p>This information may include your name, email address, phone number, payment information (processed by a third-party payment provider  -  we do not store payment card data directly), diagnostic responses, and any information you share voluntarily in session preparation forms or intake questionnaires.</p>
+
+    <h3>Information Collected Automatically</h3>
+    <p>When you visit our website, we may automatically collect certain technical information including your IP address, browser type, device type, referring URLs, and pages visited. This information is collected through standard web analytics tools and is used to improve the website and understand how visitors engage with our content.</p>
+
+    <h3>Cookies</h3>
+    <p>Our website may use cookies and similar tracking technologies to improve functionality and analyze site usage. You may adjust your browser settings to refuse cookies; however, some features of the site may not function properly without them. We do not use cookies to track you across third-party websites for advertising purposes.</p>
+
+    <h2>2. How We Use Your Information</h2>
+    <p>We use the information we collect for the following purposes:</p>
+    <ul>
+      <li>To deliver the services you have requested or enrolled in</li>
+      <li>To process payments and send booking confirmations</li>
+      <li>To send session preparation materials, follow-up resources, and program communications</li>
+      <li>To respond to your questions and messages</li>
+      <li>To send email communications you have opted into, including updates about The Assignment Room™</li>
+      <li>To improve our website, services, and offers based on aggregate usage data</li>
+      <li>To comply with legal obligations</li>
+    </ul>
+    <p>We do not use your personal information for automated decision-making or profiling that produces legal or similarly significant effects.</p>
+
+    <h2>3. How We Share Your Information</h2>
+    <p>We do not sell, rent, or trade your personal information to third parties. We may share your information only in the following limited circumstances:</p>
+    <ul>
+      <li><strong>Service providers:</strong> We work with third-party vendors who assist in operating the website and delivering services (e.g., payment processors, scheduling tools, email service providers, and video conferencing platforms). These vendors are contractually required to protect your information and may only use it to provide services on our behalf.</li>
+      <li><strong>Legal compliance:</strong> We may disclose your information if required by law, regulation, or legal process, or if we believe disclosure is necessary to protect the rights or safety of The Assignment Room™, our clients, or the public.</li>
+      <li><strong>Business transfers:</strong> In the event of a merger, acquisition, or sale of assets, your information may be transferred as part of that transaction. We will notify you if this occurs.</li>
+    </ul>
+
+    <h2>4. Data Retention</h2>
+    <p>We retain your personal information for as long as necessary to deliver the services you have requested, maintain our business records, comply with legal obligations, and resolve disputes. If you request deletion of your data, we will make reasonable efforts to comply within 30 days, subject to any legal retention requirements.</p>
+
+    <h2>5. Your Rights</h2>
+    <p>Depending on your location, you may have the right to:</p>
+    <ul>
+      <li>Access the personal information we hold about you</li>
+      <li>Request correction of inaccurate data</li>
+      <li>Request deletion of your personal information</li>
+      <li>Opt out of marketing communications at any time</li>
+      <li>Request a copy of your data in a portable format</li>
+    </ul>
+    <p>To exercise any of these rights, contact us at <a href="mailto:hello@assignmentroom.com">hello@assignmentroom.com</a>. We will respond within 30 days of receiving your request.</p>
+
+    <h2>6. Security</h2>
+    <p>We take reasonable technical and organizational measures to protect your personal information against unauthorized access, disclosure, alteration, or destruction. However, no method of transmission over the internet or electronic storage is completely secure. We cannot guarantee absolute security and encourage you to protect your own account credentials.</p>
+
+    <h2>7. Third-Party Links</h2>
+    <p>Our website may contain links to third-party websites. This Privacy Policy does not apply to those sites. We encourage you to review the privacy policies of any third-party sites you visit.</p>
+
+    <h2>8. Children's Privacy</h2>
+    <p>Our services are intended for adults. We do not knowingly collect personal information from children under the age of 13. If you believe we have inadvertently collected such information, please contact us and we will delete it promptly.</p>
+
+    <h2>9. Changes to This Policy</h2>
+    <p>We may update this Privacy Policy periodically. When we do, we will update the "Last Updated" date at the top of this page. We encourage you to review this policy regularly. Continued use of our website or services after an update constitutes acceptance of the revised policy.</p>
+
+    <div class="policy-contact">
+      <div class="pc-label">Questions About This Policy</div>
+      <div class="pc-title">Privacy Contact</div>
+      <p class="pc-body">For questions, requests, or concerns related to this Privacy Policy, contact us at <a href="mailto:hello@assignmentroom.com">hello@assignmentroom.com</a>. We will respond within 30 days.</p>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════ -->
+<!-- TERMS OF SERVICE -->
+<!-- ══════════════════════════════════════════ -->
+<div class="policy-page" id="page-terms">
+  <div class="policy-header">
+    <span class="policy-label">Legal</span>
+    <h1 class="policy-title">Terms of Service</h1>
+    <p class="policy-meta"><strong>Effective Date:</strong> January 1, 2026 &nbsp;·&nbsp; <strong>Last Updated:</strong> January 1, 2026 &nbsp;·&nbsp; <strong>Entity:</strong> The Assignment Room™</p>
+  </div>
+
+  <div class="policy-body">
+
+    <div class="policy-notice">
+      <p>Please read these Terms of Service carefully before using the website or services of The Assignment Room™. By accessing our website, completing the Readiness Diagnostic™, booking a session, or enrolling in a program, you agree to be bound by these terms. If you do not agree, please do not use our services.</p>
+    </div>
+
+    <h2>1. About The Assignment Room™</h2>
+    <p>The Assignment Room™ is a structured decision and activation process designed to help women move from private clarity about a God-given assignment to documented action. Our services include the Readiness Diagnostic™, The Reveal™, the Assignment Brief™ Intensive, Discovery Lab™, the Activation Program™, and Fellowship™.</p>
+    <p>The Assignment Room™ is not a licensed mental health practice, medical service, legal advisory, financial advisory, or professional counseling service. Nothing provided through our services constitutes therapy, counseling, diagnosis, or treatment of any kind.</p>
+
+    <h2>2. Eligibility</h2>
+    <p>Our services are available to individuals who are 18 years of age or older. By using our services, you represent that you meet this requirement and that all information you provide is accurate and complete.</p>
+
+    <h2>3. Services and Enrollment</h2>
+    <p>Descriptions of all offers  -  including format, investment, and deliverables  -  are provided on the relevant pages of this website. We reserve the right to modify, discontinue, or change the format of any service at any time. Where material changes affect an existing enrollment, we will notify affected clients with reasonable advance notice.</p>
+    <p>Enrollment in paid services is confirmed upon receipt of payment. For application-based programs (Activation Program™ and Fellowship™), enrollment is only confirmed after your application has been reviewed, a fit determination has been made, and payment has been received.</p>
+
+    <h2>4. Payment</h2>
+    <p>All prices are listed in United States Dollars (USD). Payment is due at the time of booking unless otherwise specified. We use third-party payment processors to handle transactions securely; we do not store your payment card information directly.</p>
+    <p>By providing payment information, you authorize us to charge the applicable fees. If a payment fails, we reserve the right to suspend or cancel your enrollment until the outstanding balance is resolved.</p>
+
+    <h2>5. Intellectual Property</h2>
+    <p>All content on this website and within our programs  -  including but not limited to the Readiness Diagnostic™, Assignment Brief™, Activation Map™, Transformation Scorecard™, Rule of Life for Assignment™, the Ladder Audit™, Breach of Agreement™, Protection Check™, Contradiction Move™, Decision Audit™, and all written, audio, and visual materials  -  is the exclusive intellectual property of The Assignment Room™ and is protected by applicable copyright and trademark law.</p>
+    <p>Your enrollment grants you a limited, personal, non-transferable license to use the materials for your own private use. You may not reproduce, distribute, sell, sublicense, publicly display, or create derivative works from any Assignment Room™ content without express written permission.</p>
+    <p>Personal documents produced during sessions  -  including your Assignment Brief™ and Activation Map™  -  belong to you. The frameworks and methodologies used to produce them remain the property of The Assignment Room™.</p>
+
+    <h2>6. Client Responsibilities</h2>
+    <p>You agree to engage honestly and in good faith with the process. You acknowledge that the outcomes of any session or program depend in significant part on your own honesty, effort, and willingness to engage with the process as designed. The Assignment Room™ does not guarantee specific results.</p>
+    <p>You agree not to record, share, or distribute session content without written consent from The Assignment Room™ and all other participants where applicable.</p>
+
+    <h2>7. No Guarantee of Results</h2>
+    <p>The Assignment Room™ provides a structured process, not a guarantee of outcome. Results vary based on individual effort, commitment, readiness, and circumstances. Testimonials or examples shared on this website represent individual experiences and are not guarantees of similar results for all clients.</p>
+
+    <h2>8. Confidentiality</h2>
+    <p>We treat all session content as confidential. In group settings (Discovery Lab™), participants are expected to maintain confidentiality regarding the personal disclosures of other participants. We will not share your personal session content with third parties except as required by law or with your express written consent.</p>
+
+    <h2>9. Limitation of Liability</h2>
+    <p>To the maximum extent permitted by applicable law, The Assignment Room™ and its founder shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of our services, including but not limited to loss of revenue, loss of data, emotional distress, or any other loss, even if advised of the possibility of such damages.</p>
+    <p>Our total liability to you for any claim arising from these terms or our services shall not exceed the total amount you paid us in the three months preceding the claim.</p>
+
+    <h2>10. Governing Law</h2>
+    <p>These Terms of Service are governed by the laws of the State of Georgia, United States, without regard to its conflict of law provisions. Any dispute arising under these terms shall be resolved in the state or federal courts located in Georgia, and you consent to the personal jurisdiction of those courts.</p>
+
+    <h2>11. Changes to These Terms</h2>
+    <p>We reserve the right to update these Terms of Service at any time. Changes will be posted to this page with an updated effective date. Continued use of our services after the posting of changes constitutes your acceptance of the revised terms.</p>
+
+    <div class="policy-contact">
+      <div class="pc-label">Questions About These Terms</div>
+      <div class="pc-title">Legal Contact</div>
+      <p class="pc-body">For questions about these Terms of Service, contact us at <a href="mailto:hello@assignmentroom.com">hello@assignmentroom.com</a>.</p>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════ -->
+<!-- REFUND & CANCELLATION -->
+<!-- ══════════════════════════════════════════ -->
+<div class="policy-page" id="page-refund">
+  <div class="policy-header">
+    <span class="policy-label">Legal</span>
+    <h1 class="policy-title">Refund &amp; Cancellation Policy</h1>
+    <p class="policy-meta"><strong>Effective Date:</strong> January 1, 2026 &nbsp;·&nbsp; <strong>Last Updated:</strong> January 1, 2026</p>
+  </div>
+
+  <div class="policy-body">
+
+    <div class="policy-notice">
+      <p>Please review this policy carefully before booking or enrolling in any offer. By completing a booking or enrollment, you acknowledge that you have read and agree to these terms. If you have questions before booking, contact us at <a href="mailto:hello@assignmentroom.com">hello@assignmentroom.com</a>.</p>
+    </div>
+
+    <h2>Policy by Offer</h2>
+    <p>Refund and cancellation terms vary by offer. The table below summarizes the policy for each room. Full details follow.</p>
+
+    <div style="overflow-x:auto; margin: 1.5rem 0;">
+      <table class="refund-table">
+        <thead>
+          <tr>
+            <th>Offer</th>
+            <th>Cancellation Window</th>
+            <th>Refund</th>
+            <th>Rescheduling</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="offer-name">Readiness Diagnostic™</td>
+            <td>N/A  -  Free</td>
+            <td><span class="policy-pill pill-green">N/A</span></td>
+            <td>N/A</td>
+          </tr>
+          <tr>
+            <td class="offer-name">The Reveal™</td>
+            <td>48 hours before session</td>
+            <td><span class="policy-pill pill-green">Full refund if 48h+ notice</span></td>
+            <td>Once, with 48h+ notice</td>
+          </tr>
+          <tr>
+            <td class="offer-name">Assignment Brief™ Intensive</td>
+            <td>72 hours before session</td>
+            <td><span class="policy-pill pill-green">Full refund if 72h+ notice</span></td>
+            <td>Once, with 72h+ notice</td>
+          </tr>
+          <tr>
+            <td class="offer-name">Discovery Lab™</td>
+            <td>7 days before cohort start</td>
+            <td><span class="policy-pill pill-yellow">Credit toward future cohort</span></td>
+            <td>Transfer to next cohort (once)</td>
+          </tr>
+          <tr>
+            <td class="offer-name">Activation Program™</td>
+            <td>7 days before program start</td>
+            <td><span class="policy-pill pill-yellow">50% refund if 7+ days notice</span></td>
+            <td>Not available after program begins</td>
+          </tr>
+          <tr>
+            <td class="offer-name">Fellowship™</td>
+            <td>Before pathway confirmation</td>
+            <td><span class="policy-pill pill-green">Full refund before confirmation</span></td>
+            <td>Pathway timing discussed individually</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Readiness Diagnostic™</h2>
+    <p>The Readiness Diagnostic™ is free of charge. No payment is collected and no refund policy applies.</p>
+
+    <h2>The Reveal™  -  $197</h2>
+    <h3>Cancellation</h3>
+    <p>If you need to cancel your session, you must notify us at least <strong>48 hours before your scheduled session time</strong> to receive a full refund. Cancellations made with less than 48 hours' notice are non-refundable.</p>
+    <h3>Rescheduling</h3>
+    <p>You may reschedule your Reveal™ session once at no charge, provided you give at least 48 hours' notice before the original session time. Rescheduling requests with less than 48 hours' notice will be treated as a cancellation and are subject to the cancellation terms above.</p>
+    <h3>No-Shows</h3>
+    <p>Sessions missed without prior notice are non-refundable and cannot be rescheduled.</p>
+
+    <h2>Assignment Brief™ Intensive  -  $797</h2>
+    <h3>Cancellation</h3>
+    <p>If you need to cancel your Intensive, you must notify us at least <strong>72 hours before your scheduled session</strong> to receive a full refund. Cancellations made with less than 72 hours' notice are non-refundable.</p>
+    <h3>Rescheduling</h3>
+    <p>You may reschedule your Intensive once at no charge with at least 72 hours' notice. Rescheduling requests submitted with less than 72 hours' notice will be treated as a cancellation.</p>
+    <h3>No-Shows</h3>
+    <p>Sessions missed without prior notice are non-refundable and cannot be rescheduled.</p>
+
+    <h2>Discovery Lab™  -  $997</h2>
+    <h3>Cancellation Before Cohort Start</h3>
+    <p>If you cancel at least <strong>7 calendar days before your cohort's first session</strong>, you will receive a credit equal to the full amount paid, applicable toward a future Discovery Lab™ cohort. Cash refunds are not available for Discovery Lab™ cancellations.</p>
+    <h3>Cancellation After Cohort Start</h3>
+    <p>Once a cohort has begun, no refunds or credits are available. If an emergency prevents your continued participation, please reach out and we will review your situation individually.</p>
+    <h3>Cohort Transfer</h3>
+    <p>You may transfer your enrollment to the next available Discovery Lab™ cohort once, provided you notify us at least 7 days before your original cohort's start date.</p>
+
+    <h2>Activation Program™  -  $1,997</h2>
+    <h3>Cancellation Before Program Start</h3>
+    <p>If you cancel at least <strong>7 calendar days before the program start date</strong>, you will receive a 50% refund of the amount paid. The remaining 50% is non-refundable to cover program preparation and reserved cohort placement.</p>
+    <h3>Cancellation After Program Start</h3>
+    <p>Once the Activation Program™ has begun, no refunds are available. If an extenuating circumstance requires you to withdraw, please contact us and we will review your situation individually.</p>
+
+    <h2>Fellowship™  -  Investment Disclosed Upon Review</h2>
+    <h3>Before Pathway Confirmation</h3>
+    <p>If a pathway confirmation call has not yet taken place and you decide not to proceed, any deposits collected will be refunded in full.</p>
+    <h3>After Pathway Confirmation</h3>
+    <p>Once Fellowship™ has been confirmed and formally begun, refund terms are specific to the structure of your pathway and will be disclosed in writing at the time of confirmation.</p>
+
+    <h2>How to Cancel or Reschedule</h2>
+    <p>All cancellation and rescheduling requests must be submitted in writing to <a href="mailto:hello@assignmentroom.com">hello@assignmentroom.com</a>. Please include your name, the offer you booked, and your scheduled date. Cancellation requests are acknowledged within one business day.</p>
+    <p>Refunds, where applicable, are processed within 5–10 business days to the original payment method.</p>
+
+    <h2>Exceptions</h2>
+    <p>We understand that unexpected circumstances arise. If you are facing a medical emergency, bereavement, or other serious situation that prevents you from attending or completing a session, please reach out to us directly. We will review these situations individually and with care.</p>
+
+    <div class="policy-contact">
+      <div class="pc-label">Cancellation Requests</div>
+      <div class="pc-title">Contact for Cancellations</div>
+      <p class="pc-body">Email <a href="mailto:hello@assignmentroom.com">hello@assignmentroom.com</a> with your name, the offer booked, and your scheduled date. We acknowledge all requests within one business day.</p>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════ -->
+<!-- ACCESSIBILITY STATEMENT -->
+<!-- ══════════════════════════════════════════ -->
+<div class="policy-page" id="page-accessibility">
+  <div class="policy-header">
+    <span class="policy-label">Legal</span>
+    <h1 class="policy-title">Accessibility Statement</h1>
+    <p class="policy-meta"><strong>Effective Date:</strong> January 1, 2026 &nbsp;·&nbsp; <strong>Last Updated:</strong> January 1, 2026</p>
+  </div>
+
+  <div class="policy-body">
+
+    <div class="policy-notice">
+      <p>The Assignment Room™ is committed to ensuring that our website and services are accessible to everyone, including people with disabilities. We are actively working to increase the accessibility and usability of our digital content.</p>
+    </div>
+
+    <h2>Our Commitment</h2>
+    <p>We believe that access to information and services should not be limited by ability. The Assignment Room™ strives to meet or exceed the accessibility standards established by the <strong>Web Content Accessibility Guidelines (WCAG) 2.1, Level AA</strong> as defined by the World Wide Web Consortium (W3C).</p>
+    <p>These guidelines help ensure that web content is perceivable, operable, understandable, and robust for users with a wide range of disabilities, including visual, auditory, motor, and cognitive impairments.</p>
+
+    <h2>Measures We Have Taken</h2>
+    <p>In building and maintaining this website, we have taken the following measures to support accessibility:</p>
+    <ul>
+      <li>Using semantic HTML to ensure proper structure and meaning for assistive technologies</li>
+      <li>Providing sufficient color contrast between text and background throughout the site</li>
+      <li>Ensuring that all interactive elements are keyboard-navigable</li>
+      <li>Including descriptive labels for form inputs and interactive controls</li>
+      <li>Designing for readability with legible font sizes, appropriate line spacing, and clear typographic hierarchy</li>
+      <li>Avoiding the use of content that flashes more than three times per second</li>
+      <li>Ensuring that text can be resized without loss of content or functionality</li>
+    </ul>
+
+    <h2>Known Limitations</h2>
+    <p>While we work toward full accessibility, some areas of the website may not yet fully meet WCAG 2.1 Level AA standards. Known limitations include:</p>
+    <ul>
+      <li>Third-party embed content (such as booking systems, diagnostic tools, or video platforms) may not fully comply with accessibility standards. We encourage third-party vendors to improve their accessibility practices and will migrate to more accessible alternatives where possible.</li>
+      <li>Some older PDF documents or downloadable resources may not be fully optimized for screen readers. We are working to update these assets over time.</li>
+    </ul>
+    <p>If you encounter a specific accessibility barrier not listed above, please let us know so we can address it.</p>
+
+    <h2>Alternative Access</h2>
+    <p>If you are unable to access any content or complete any process on this website due to a disability, please contact us and we will make reasonable efforts to provide the information or service you need in an alternative format. Options may include:</p>
+    <ul>
+      <li>Email correspondence in place of web form submission</li>
+      <li>Phone or video session in place of written enrollment</li>
+      <li>Alternative document formats upon request</li>
+    </ul>
+
+    <h2>Feedback and Reporting</h2>
+    <p>We welcome feedback on the accessibility of this website. If you encounter accessibility barriers or have suggestions for improvement, please contact us:</p>
+    <ul>
+      <li><strong>Email:</strong> <a href="mailto:hello@assignmentroom.com">hello@assignmentroom.com</a></li>
+      <li><strong>Subject line:</strong> Accessibility Feedback</li>
+    </ul>
+    <p>We aim to respond to accessibility feedback within 5 business days and to address substantive issues within 30 days where feasible.</p>
+
+    <h2>Ongoing Effort</h2>
+    <p>Accessibility is an ongoing effort, not a one-time project. We are committed to regularly reviewing and improving the accessibility of this website as standards evolve and as we receive feedback from users. We will continue to assess new features, content, and third-party integrations against accessibility standards before and after launch.</p>
+
+    <h2>External Resources</h2>
+    <p>For more information on web accessibility, the following resources may be helpful:</p>
+    <ul>
+      <li><a href="https://www.w3.org/WAI/standards-guidelines/wcag/" target="_blank" rel="noopener noreferrer">Web Content Accessibility Guidelines (WCAG)</a>  -  W3C Web Accessibility Initiative</li>
+      <li><a href="https://www.ada.gov/" target="_blank" rel="noopener noreferrer">ADA.gov</a>  -  Information on the Americans with Disabilities Act</li>
+    </ul>
+
+    <div class="policy-contact">
+      <div class="pc-label">Accessibility Contact</div>
+      <div class="pc-title">Report an Accessibility Issue</div>
+      <p class="pc-body">Email <a href="mailto:hello@assignmentroom.com">hello@assignmentroom.com</a> with the subject line "Accessibility Feedback." We respond within 5 business days and aim to address substantive issues within 30 days.</p>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">The Assignment Room™</div>
+    <p class="footer-tagline">Clarity, documentation, and movement for women carrying a God-given assignment.</p>
+  </div>
+  <div>
+    <div class="footer-col-title">Navigate</div>
+    <ul class="footer-links">
+      <li><a href="#">Start with the Diagnostic</a></li>
+      <li><a href="#">Work With Me</a></li>
+      <li><a href="#">About Jackie</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </div>
+  <div>
+    <div class="footer-col-title">Policies</div>
+    <ul class="footer-links">
+      <li><a href="#" onclick="switchPolicy('privacy');return false;">Privacy Policy</a></li>
+      <li><a href="#" onclick="switchPolicy('terms');return false;">Terms of Service</a></li>
+      <li><a href="#" onclick="switchPolicy('refund');return false;">Refund &amp; Cancellation</a></li>
+      <li><a href="#" onclick="switchPolicy('accessibility');return false;">Accessibility Statement</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <span>© 2026 The Assignment Room™. All rights reserved.</span>
+  <span>hello@assignmentroom.com</span>
+</div>
+
+<script>
+  function switchPolicy(name) {
+    document.querySelectorAll('.policy-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.policy-page').forEach(p => p.classList.remove('active'));
+    document.querySelector('[data-policy="' + name + '"]').classList.add('active');
+    document.getElementById('page-' + name).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  document.querySelectorAll('.policy-tab').forEach(tab => {
+    tab.addEventListener('click', () => switchPolicy(tab.dataset.policy));
+  });
+</script>
+</body>
+</html>

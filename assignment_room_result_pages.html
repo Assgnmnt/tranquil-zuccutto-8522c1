@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Diagnostic Results  -  The Assignment Room™</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream:    #F8F4EE;
+    --cream-dk: #EDE8E0;
+    --teal:     #058E97;
+    --teal-lt:  #E8F5F6;
+    --gold:     #C9A84C;
+    --charcoal: #1C1C1A;
+    --mid:      #5A5A56;
+    --border:   #DDD8D0;
+    --font-serif: 'Cormorant Garamond', Georgia, serif;
+    --font-sans:  'DM Sans', sans-serif;
+    --max: 1000px;
+    --pad: clamp(1.25rem, 5vw, 2.5rem);
+  }
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body {
+    background: var(--cream);
+    color: var(--charcoal);
+    font-family: var(--font-sans);
+    font-weight: 300;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem var(--pad);
+    border-bottom: 1px solid var(--border);
+    background: var(--cream);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-logo {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--charcoal);
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.78rem; font-weight: 400; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--mid); text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--teal); }
+  @media (max-width: 640px) { .nav-links { display: none; } }
+
+  /* STAGE SWITCHER BAR */
+  .stage-bar {
+    background: var(--charcoal);
+    padding: 0 var(--pad);
+    display: flex;
+    align-items: center;
+    gap: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .stage-bar::-webkit-scrollbar { display: none; }
+  .stage-bar-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #6a6a66;
+    white-space: nowrap;
+    padding-right: 1.5rem;
+    border-right: 1px solid #333;
+    margin-right: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    flex-shrink: 0;
+  }
+  .stage-tab {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #6a6a66;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 1rem 1.1rem;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .stage-tab:hover { color: var(--cream); }
+  .stage-tab.active { color: var(--cream); border-bottom-color: var(--teal); }
+
+  /* INNER */
+  .inner { max-width: var(--max); margin: 0 auto; padding-left: var(--pad); padding-right: var(--pad); }
+  .section-label {
+    display: inline-block;
+    font-size: 0.7rem; font-weight: 500; letter-spacing: 0.14em;
+    text-transform: uppercase; color: #047A82; margin-bottom: 1.25rem;
+  }
+
+  /* RESULT PAGE */
+  .result-page { display: none; }
+  .result-page.active { display: block; }
+
+  /* RESULT HERO */
+  .result-hero {
+    padding: 4rem var(--pad) 3.5rem;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 4rem;
+    align-items: start;
+    max-width: var(--max);
+    margin: 0 auto;
+  }
+  @media (max-width: 760px) {
+    .result-hero { grid-template-columns: 1fr; gap: 2.5rem; padding: 2.5rem var(--pad); }
+  }
+
+  .result-stage-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1.5rem;
+  }
+  .badge-dot {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--teal); flex-shrink: 0;
+  }
+  .badge-text {
+    font-size: 0.7rem; font-weight: 500; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--teal);
+  }
+  .badge-num {
+    font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--mid); padding-left: 0.6rem; border-left: 1px solid var(--border);
+  }
+
+  .result-name {
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 6vw, 3.8rem);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--charcoal);
+    margin-bottom: 1rem;
+  }
+  .result-name em { font-style: italic; color: var(--teal); }
+  .result-rule { width: 40px; height: 2px; background: var(--gold); margin: 1.5rem 0; }
+  .result-meaning {
+    font-size: 0.95rem;
+    color: var(--mid);
+    line-height: 1.8;
+    max-width: 480px;
+  }
+
+  /* RESULT CARD (right side) */
+  .result-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--teal);
+    padding: 1.75rem;
+    position: sticky;
+    top: 5.5rem;
+  }
+  .rc-eyebrow { font-size: 0.67rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 1rem; }
+  .rc-row { padding: 0.75rem 0; border-bottom: 1px solid var(--cream-dk); }
+  .rc-row:last-of-type { border-bottom: none; }
+  .rc-label { font-size: 0.67rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.25rem; }
+  .rc-val { font-family: var(--font-serif); font-size: 1rem; font-weight: 500; color: var(--charcoal); line-height: 1.4; }
+  .rc-val.italic { font-style: italic; font-weight: 400; }
+  .rc-cta {
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+  }
+  .btn-primary {
+    display: block;
+    text-align: center;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--teal);
+    text-decoration: none;
+    padding: 0.85rem 1.5rem;
+    transition: background 0.2s;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-primary:hover { background: #047a82; }
+  .btn-secondary {
+    display: block;
+    text-align: center;
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--teal);
+    text-decoration: none;
+    padding: 0.65rem 1.5rem;
+    border: 1px solid var(--teal);
+    margin-top: 0.6rem;
+    transition: background 0.2s, color 0.2s;
+  }
+  .btn-secondary:hover { background: var(--teal); color: #fff; }
+  .btn-apply {
+    display: block;
+    text-align: center;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--charcoal);
+    text-decoration: none;
+    padding: 0.85rem 1.5rem;
+    transition: background 0.2s;
+  }
+  .btn-apply:hover { background: #333; }
+  .rc-note {
+    margin-top: 0.85rem;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 0.82rem;
+    color: var(--mid);
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  /* CONTENT SECTIONS */
+  .result-sections { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
+  .result-section {
+    padding: 3rem 0;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+  @media (max-width: 640px) {
+    .result-section { grid-template-columns: 1fr; gap: 1rem; }
+  }
+  .rs-label {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--mid);
+    padding-top: 0.15rem;
+    line-height: 1.5;
+  }
+  .rs-content {}
+  .rs-content p {
+    font-size: 0.92rem;
+    color: var(--charcoal);
+    line-height: 1.8;
+    margin-bottom: 0.75rem;
+  }
+  .rs-content p:last-child { margin-bottom: 0; }
+  .pattern-list { list-style: none; }
+  .pattern-list li {
+    font-size: 0.88rem;
+    color: var(--charcoal);
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--cream-dk);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    line-height: 1.5;
+  }
+  .pattern-list li:last-child { border-bottom: none; }
+  .pattern-list li::before {
+    content: '';
+    display: inline-block;
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--teal);
+    margin-top: 0.5rem;
+    flex-shrink: 0;
+    opacity: 0.5;
+  }
+  .question-block {
+    border-left: 3px solid var(--teal);
+    padding: 1.25rem 1.5rem;
+    background: var(--teal-lt);
+  }
+  .question-block p {
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--charcoal);
+    line-height: 1.6;
+    margin: 0;
+  }
+  .avoid-list { list-style: none; }
+  .avoid-list li {
+    font-size: 0.88rem;
+    color: var(--mid);
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--cream-dk);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    line-height: 1.5;
+  }
+  .avoid-list li:last-child { border-bottom: none; }
+  .avoid-list li::before {
+    content: '×';
+    color: #b0806a;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    margin-top: 0.05rem;
+  }
+
+  /* NEXT STEP SECTION */
+  .next-step-section {
+    background: var(--charcoal);
+    padding: 4rem 0;
+  }
+  .next-step-inner {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 var(--pad);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+  @media (max-width: 680px) { .next-step-inner { grid-template-columns: 1fr; gap: 2rem; } }
+  .nsl { }
+  .nsl .section-label { color: #9acdcf; }
+  .nsl h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 400;
+    color: var(--cream);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  .nsl p { font-size: 0.88rem; color: #b0ada8; line-height: 1.8; }
+  .nsr { }
+  .offer-detail-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-left: 3px solid var(--teal);
+    padding: 1.75rem;
+  }
+  .odc-name {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--cream);
+    margin-bottom: 0.35rem;
+  }
+  .odc-price {
+    font-size: 0.78rem;
+    color: #9acdcf;
+    letter-spacing: 0.06em;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .odc-desc {
+    font-size: 0.85rem;
+    color: #b0ada8;
+    line-height: 1.75;
+    margin-bottom: 1.25rem;
+  }
+  .odc-btn {
+    display: block;
+    text-align: center;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--charcoal);
+    background: var(--cream);
+    text-decoration: none;
+    padding: 0.8rem 1.5rem;
+    transition: background 0.2s;
+  }
+  .odc-btn:hover { background: var(--cream-dk); }
+  .odc-btn-apply {
+    display: block;
+    text-align: center;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #fff;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.3);
+    text-decoration: none;
+    padding: 0.8rem 1.5rem;
+    transition: border-color 0.2s;
+  }
+  .odc-btn-apply:hover { border-color: var(--cream); }
+  .odc-alt {
+    margin-top: 0.85rem;
+    text-align: center;
+    font-size: 0.78rem;
+    color: #6a6a66;
+  }
+  .odc-alt a { color: #9acdcf; text-decoration: none; border-bottom: 1px solid #9acdcf; }
+
+  /* REASSURANCE */
+  .reassurance {
+    padding: 3rem 0;
+    border-top: 1px solid var(--border);
+    max-width: var(--max);
+    margin: 0 auto;
+    padding-left: var(--pad);
+    padding-right: var(--pad);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .reassurance p {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--mid);
+    line-height: 1.6;
+    max-width: 520px;
+  }
+  .retake-link {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--teal);
+    text-decoration: none;
+    border-bottom: 1px solid var(--teal);
+    white-space: nowrap;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 3rem var(--pad) 2.5rem;
+    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+    max-width: var(--max);
+    margin: 0 auto;
+  }
+  @media (max-width: 600px) { footer { grid-template-columns: 1fr; } }
+  .footer-logo { font-family: var(--font-serif); font-size: 1rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--charcoal); margin-bottom: 0.5rem; }
+  .footer-tagline { font-size: 0.8rem; color: var(--mid); line-height: 1.6; max-width: 220px; }
+  .footer-col-title { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); margin-bottom: 1rem; }
+  .footer-links { list-style: none; }
+  .footer-links li { margin-bottom: 0.5rem; }
+  .footer-links a { font-size: 0.82rem; color: var(--charcoal); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--teal); }
+  .footer-bottom { max-width: var(--max); margin: 0 auto; padding: 1.25rem var(--pad); border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--mid); flex-wrap: wrap; gap: 0.5rem; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="/">The Assignment Room™</a>
+  <ul class="nav-links">
+    <li><a href="#" class="active">Start with the Diagnostic</a></li>
+    <li><a href="#">Work With Me</a></li>
+    <li><a href="#">About Jackie</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- STAGE SWITCHER -->
+<div class="stage-bar">
+  <span class="stage-bar-label">Your Result</span>
+  <button class="stage-tab active" data-stage="awareness">Awareness</button>
+  <button class="stage-tab" data-stage="delay">Delay</button>
+  <button class="stage-tab" data-stage="definition">Definition</button>
+  <button class="stage-tab" data-stage="activation">Activation</button>
+  <button class="stage-tab" data-stage="sustainment">Sustainment</button>
+  <button class="stage-tab" data-stage="multiplication">Multiplication</button>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- STAGE 1: AWARENESS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="result-page active" id="page-awareness">
+
+  <div class="result-hero">
+    <div>
+      <div class="result-stage-badge">
+        <span class="badge-dot"></span>
+        <span class="badge-text">Your Result</span>
+        <span class="badge-num">Stage 1 of 6</span>
+      </div>
+      <h1 class="result-name"><em>Awareness</em></h1>
+      <div class="result-rule"></div>
+      <p class="result-meaning">
+        Something is stirring. You sense it  -  in your prayers, in the quiet, in the moments when you let yourself think past the urgent. You do not yet have full language for what it is, but you know something is asking for your attention. This is not confusion. This is the beginning of a call coming into focus.
+      </p>
+    </div>
+
+    <div class="result-card">
+      <div class="rc-eyebrow">Your Readiness Result</div>
+      <div class="rc-row">
+        <div class="rc-label">Stage</div>
+        <div class="rc-val">Awareness</div>
+      </div>
+      <div class="rc-row">
+        <div class="rc-label">Primary Pattern</div>
+        <div class="rc-val">Something is stirring  -  but the language is not there yet</div>
+      </div>
+      <div class="rc-row">
+        <div class="rc-label">One Question to Sit With</div>
+        <div class="rc-val italic">What keeps returning, even when you try to dismiss it?</div>
+      </div>
+      <div class="rc-row">
+        <div class="rc-label">Recommended Next Step</div>
+        <div class="rc-val">The Reveal™</div>
+      </div>
+      <div class="rc-cta">
+        <a href="#" class="btn-primary">Book The Reveal™</a>
+        <div class="rc-note">You are not committing to the full pathway  -  only the next right room.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="result-sections">
+    <div class="result-section">
+      <div class="rs-label">What This Means</div>
+      <div class="rs-content">
+        <p>You are in the earliest stage of the assignment process  -  not because you are behind, but because the call is still forming its language inside you. You know something is there. You have felt it return, even when you tried to set it aside. This is not indecision. This is the stirring that comes before clarity.</p>
+        <p>The work at this stage is not to force language onto something that is still forming. It is to stop dismissing what keeps returning and begin paying closer attention to what that pull is actually asking of you.</p>
+      </div>
+    </div>
+
+    <div class="result-section">
+      <div class="rs-label">What May Be Happening</div>
+      <div class="rs-content">
+        <ul class="pattern-list">
+          <li>You feel pulled toward something you cannot fully name yet  -  a platform, a ministry, a body of work, a business, a teaching  -  but the words feel too small or too big when you try to say it out loud.</li>
+          <li>You have had the thought more than once, but you have also talked yourself out of it  -  or you have told yourself it is not time yet.</li>
+          <li>You are collecting information, following people in adjacent spaces, and watching closely without knowing exactly why.</li>
+          <li>There is a quiet knowing underneath the noise of your current life that keeps asking for your attention, even when you try to ignore it.</li>
+          <li>You are not yet in active delay  -  you are in the stage before delay, where the call is still taking shape and asking you to pay attention.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="result-section">
+      <div class="rs-label">One Question to Sit With</div>
+      <div class="rs-content">
+        <div class="question-block">
+          <p>What keeps returning, even when you try to dismiss it?</p>
+        </div>
+        <p style="margin-top:1rem;font-size:0.85rem;color:var(--mid);">Do not try to answer this completely right now. Let it surface across the next few days. Notice what it reveals.</p>
+      </div>
+    </div>
+
+    <div class="result-section">
+      <div class="rs-label">What Not to Do Next</div>
+      <div class="rs-content">
+        <ul class="avoid-list">
+          <li>Do not consume more content, take another course, or join another community hoping the assignment will become clear through more information. It will not.</li>
+          <li>Do not wait until the pull feels stronger, more confirmed, or more convenient to name. The waiting is part of what keeps it private.</li>
+          <li>Do not dismiss this result as "not urgent enough." Awareness that goes unnamed becomes delay. And delay is more expensive than it appears.</li>
+          <li>Do not try to force clarity on your own through journaling, vision boards, or more private reflection. At this stage, you need a guided structure  -  not more space to circle.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="next-step-section">
+    <div class="next-step-inner">
+      <div class="nsl">
+        <span class="section-label">Your Recommended Next Step</span>
+        <h2>The Reveal™</h2>
+        <p>You do not need more information right now. You need a focused conversation that helps you name what is already stirring  -  and identify whether what you have been calling "not sure yet" is actually something deeper asking to be spoken.</p>
+      </div>
+      <div class="nsr">
+        <div class="offer-detail-card">
+          <div class="odc-name">The Reveal™</div>
+          <div class="odc-price">Investment: $197 · 60-minute private session</div>
+          <div class="odc-desc">A private session to interpret your diagnostic result, help you find language for what is stirring, and identify the decision underneath the pull  -  so you stop trying to name this alone.</div>
+          <a href="#" class="odc-btn">Book The Reveal™</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="reassurance">
+    <p>You are not committing to the full pathway by booking one session. You are simply taking the next right step  -  one room at a time.</p>
+    <a href="#" class="retake-link">Retake the Diagnostic</a>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- STAGE 2: DELAY -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="result-page" id="page-delay">
+
+  <div class="result-hero">
+    <div>
+      <div class="result-stage-badge">
+        <span class="badge-dot"></span>
+        <span class="badge-text">Your Result</span>
+        <span class="badge-num">Stage 2 of 6</span>
+      </div>
+      <h1 class="result-name"><em>Delay</em></h1>
+      <div class="result-rule"></div>
+      <p class="result-meaning">
+        You know enough to move. The assignment is not hidden from you  -  it has been making itself known for a while. But something keeps pulling you back. You call it timing, discernment, needing more clarity. But the real reason you have not moved is not a lack of information. It is a decision you keep circling without naming.
+      </p>
+    </div>
+
+    <div class="result-card">
+      <div class="rc-eyebrow">Your Readiness Result</div>
+      <div class="rc-row">
+        <div class="rc-label">Stage</div>
+        <div class="rc-val">Delay</div>
+      </div>
+      <div class="rc-row">
+        <div class="rc-label">Primary Pattern</div>
+        <div class="rc-val">You know. But something is protecting the pause.</div>
+      </div>
+      <div class="rc-row">
+        <div class="rc-label">One Question to Sit With</div>
+        <div class="rc-val italic">What is the cost of staying here another six months?</div>
+      </div>
+      <div class="rc-row">
+        <div class="rc-label">Recommended Next Step</div>
+        <div class="rc-val">The Reveal™  -  or the Assignment Brief™ Intensive</div>
+      </div>
+      <div class="rc-cta">
+        <a href="#" class="btn-primary">Book The Reveal™</a>
+        <a href="#" class="btn-secondary">Book the Intensive Instead</a>
+        <div class="rc-note">Start with The Reveal™ if you want to name the delay first. Book the Intensive if you are ready to move directly into definition and documentation.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="result-sections">
+    <div class="result-section">
+      <div class="rs-label">What This Means</div>
+      <div class="rs-content">
+        <p>Delay is the most common stage women bring into The Assignment Room™. It is not a failure of faith or a lack of clarity. It is the stage where the call is clear enough to feel the weight of it  -  but the cost of moving feels higher than the cost of waiting.</p>
+        <p>The diagnostic identified that you are in Delay. That means something has been protecting the pause  -  and until that protection is named, the assignment will stay in the private space it has been living in: your notes, your prayers, your conversations, your outlines.</p>
+      </div>
+    </div>
+
+    <div class="result-section">
+      <div class="rs-label">What May Be Happening</div>
+      <div class="rs-content">
+        <ul class="pattern-list">
+          <li>You keep saying you need more clarity  -  but deep down, you know the hesitation is not actually about clarity.</li>
+          <li>You have started and stopped. Multiple times. Each time, something interrupts  -  timing, responsibility, doubt, or the sense that it is not quite ready yet.</li>
+          <li>Moving forward would require you to risk something you have been protecting: a title, a reputation, a relationship, a sense of stability, or your current version of safety.</li>
+          <li>You have privately confirmed this assignment more times than you can count. But the confirmation has not translated into movement.</li>
+          <li>The delay is starting to feel expensive  -  spiritually, emotionally, or professionally. Something is shifting, and you know staying still is no longer neutral.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="result-section">
+      <div class="rs-label">One Question to Sit With</div>
+      <div class="rs-content">
+        <div class="question-block">
+          <p>What is the cost of staying here another six months?</p>
+        </div>
+        <p style="margin-top:1rem;font-size:0.85rem;color:var(--mid);">Not the cost of moving. The cost of staying. Let that question sit somewhere uncomfortable.</p>
+      </div>
+    </div>
+
+    <div class="result-section">
+      <div class="rs-label">What Not to Do Next</div>
+      <div class="rs-content">
+        <ul class="avoid-list">
+          <li>Do not reframe this as "still in the process of discerning." The diagnostic is showing you that you already know. The work now is naming what is protecting the pause  -  not gathering more confirmation.</li>
+          <li>Do not book a coaching session that gives you space to talk without structure. What you need is not permission to feel  -  it is a decision process that helps you name the agreement underneath the delay.</li>
+          <li>Do not wait until circumstances become more convenient. If you have been in delay for more than six months, convenience is not what is missing.</li>
+          <li>Do not move directly into execution without naming the delay first. Building on an unaddressed agreement rarely holds.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="next-step-section">
+    <div class="next-step-inner">
+      <div class="nsl">
+        <span class="section-label">Your Recommended Next Step</span>
+        <h2>Name the decision you have been circling.</h2>
+        <p>The Reveal™ helps you interpret your result, identify what has been protecting the delay, and leave with one clear move. If you are ready to move past the delay directly into documentation, the Assignment Brief™ Intensive takes you all the way through.</p>
+      </div>
+      <div class="nsr">
+        <div class="offer-detail-card">
+          <div class="odc-name">The Reveal™</div>
+          <div class="odc-price">Investment: $197 · 60-minute private session</div>
+          <div class="odc-desc">Interpret your result, name the decision you have been circling, and leave with one clear move that breaks the pattern. Best if you want to understand the delay before you build on top of it.</div>
+          <a href="#" class="odc-btn">Book The Reveal™</a>
+          <div class="odc-alt">Ready to move directly into definition? <a href="#">Book the Intensive ($797) →</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="reassurance">
+    <p>You are not committing to the full pathway. The Reveal™ is one room with one purpose  -  to help you name what is underneath the delay and identify one clear next move.</p>
+    <a href="#" class="retake-link">Retake the Diagnostic</a>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- STAGE 3: DEFINITION -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="result-page" id="page-definition">
+
+  <div class="result-hero">
+    <div>
+      <div class="result-stage-badge">
+        <span class="badge-dot"></span>
+        <span class="badge-text">Your Result</span>
+        <span class="badge-num">Stage 3 of 6</span>
+      </div>
+      <h1 class="result-name"><em>Definition</em></h1>
+      <div class="result-rule"></div>
+      <p class="result-meaning">
+        You know what you are called to do. The assignment is not hidden  -  it has been present for a while, and you have had enough confirmation to take it seriously. But you keep calling it unclear because naming it with precision would require you to move on it. The work at this stage is not more discernment. It is language. And documentation. And a first move.
+      </p>
+    </div>
+
+    <div class="result-card">
+      <div class="rc-eyebrow">Your Readiness Result</div>
+      <div class="rc-row">
+        <div class="rc-label">Stage</div>
+        <div class="rc-val">Definition</div>
+      </div>
+      <div class="rc-row">
+        <div class="rc-label">Primary Pattern</div>
+        <div class="rc-val">The assignment is known. The language is the missing piece.</div>
+      </div>
+      <div class="rc-row">
+        <div class="rc-label">One Question to Sit With</div>
+        <div class="rc-val italic">What are you still calling "unclear" because naming it would require movement?</div>
+      </div>
+      <div class="rc-row">
+        <div class="rc-label">Recommended Next Step</div>
+        <div class="rc-val">Assignment Brief™ Intensive</div>
+      </div>
+      <div class="rc-cta">
+        <a href="#" class="btn-primary">Book the Intensive</a>
+        <div class="rc-note">Private. Focused. You leave with your Assignment Brief™ and Activation Map™ in hand.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="result-sections">
+    <div class="result-section">
+      <div class="rs-label">What This Means</div>
+      <div class="rs-content">
+        <p>Definition is the stage where the assignment shifts from a felt sense to a named responsibility. You are past the point of wondering whether there is something. The work now is turning "I feel called to..." into a clear, specific, documentable mandate  -  something you can explain, pursue, and act on.</p>
+        <p>The reason this stage can feel stuck is subtle: naming the assignment with precision makes it real. And real assignments require decisions. What you have been calling "unclear" may actually be a protection from the accountability that comes with being specific.</p>
+      </div>
+    </div>
+
+    <div class="result-section">
+      <div class="rs-label">What May Be Happening</div>
+      <div class="rs-content">
+        <ul class="pattern-list">
+          <li>You know the general shape of the assignment  -  the topic, the population, the platform  -  but you cannot say it specifically enough to explain it to someone else without minimizing it or overcomplicating it.</li>
+          <li>You have broad calling language, but not a mandate. You know the territory; you do not yet have the specific responsibility within it.</li>
+          <li>When you try to write it down, the words feel either too small or too ambitious. Nothing lands as completely true.</li>
+          <li>You have been in "figuring it out" mode for months or years  -  researching, following, consuming  -  without producing the actual language for what you are building.</li>
+          <li>You sense that if you named it clearly, someone would hold you to it. And that accountability feels costly right now.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="result-section">
+      <div class="rs-label">One Question to Sit With</div>
+      <div class="rs-content">
+        <div class="question-block">
+          <p>What are you still calling "unclear" because naming it would require movement?</p>
+        </div>
+        <p style="margin-top:1rem;font-size:0.85rem;color:var(--mid);">This is the question that separates genuine uncertainty from protected delay. Let it sit honestly.</p>
+      </div>
+    </div>
+
+    <div class="result-section">
+      <div class="rs-label">What Not to Do Next</div>
+      <div class="rs-content">
+        <ul class="avoid-list">
+          <li>Do not take another course, join another mastermind, or read another book to find the language. The language is inside the work of definition  -  not inside more consumption.</li>
+          <li>Do not try to build the assignment publicly before you have documented it privately. Launching before language leads to inconsistency and fatigue.</li>
+          <li>Do not confuse busyness with movement. Filling your schedule with aligned activity is not the same as naming and documenting the assignment.</li>
+          <li>Do not wait until you feel "ready enough." Readiness in this stage comes through the process of definition  -  not before it.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="next-step-section">
+    <div class="next-step-inner">
+      <div class="nsl">
+        <span class="section-label">Your Recommended Next Step</span>
+        <h2>Define it. Document it. Leave with it in your hands.</h2>
+        <p>The Assignment Brief™ Intensive is a private, focused session designed specifically for this stage. You walk through the definition process with Jackie, name the assignment with precision, and leave with your Assignment Brief™ and Activation Map™ documented.</p>
+      </div>
+      <div class="nsr">
+        <div class="offer-detail-card">
+          <div class="odc-name">Assignment Brief™ Intensive</div>
+          <div class="odc-price">Investment: $797 · 2–3 hour private intensive</div>
+          <div class="odc-desc">A 1:1 deep-dive to define the assignment, identify the internal agreement delaying movement, and leave with your Assignment Brief™ PDF and Activation Map™. Private, accelerated, and built for women who want clarity without a group process.</div>
+          <a href="#" class="odc-btn">Book the Intensive</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="reassurance">
+    <p>You leave the Intensive with something concrete in your hands  -  not more reflection, not more ideas. Language, documentation, and a first move.</p>
+    <a href="#" class="retake-link">Retake the Diagnostic</a>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- STAGE 4: ACTIVATION -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="result-page" id="page-activation">
+
+  <div class="result-hero">
+    <div>
+      <div class="result-stage-badge">
+        <span class="badge-dot"></span>
+        <span class="badge-text">Your Result</span>
+        <span class="badge-num">Stage 4 of 6</span>
+      </div>
+      <h1 class="result-name"><em>Activation</em></h1>
+      <div class="result-rule"></div>
+      <p class="result-meaning">
+        You have language for the assignment. You know what you are building. But movement has been inconsistent  -  you start, you stop, you start again. You are not lacking clarity or motivation. You are lacking the structure that makes progress sustainable when the emotion of beginning fades and real life presses back.
+      </p>
+    </div>
+
+    <div class="result-card">
+      <div class="rc-eyebrow">Your Readiness Result</div>
+      <div class="rc-row">
+        <div class="rc-label">Stage</div>
+        <div class="rc-val">Activation</div>
+      </div>
+      <div class="rc-row">
+        <div class="rc-label">Primary Pattern</div>
+        <div class="rc-val">Language is there. Structure and rhythm are the missing pieces.</div>
+      </div>
+      <div class="rc-row">
+        <div class="rc-label">One Question to Sit With</div>
+        <div class="rc-val italic">What structure would help you stop starting over?</div>
+      </div>
+      <div class="rc-row">
+        <div class="rc-label">Recommended Next Step</div>
+        <div class="rc-val">Discovery Lab™ or Activation Program™</div>
+      </div>
+      <div class="rc-cta">
+        <a href="#" class="btn-primary">Join Discovery Lab™</a>
+        <a href="#" class="btn-secondary">Apply for Activation Program™</a>
+        <div class="rc-note">Discovery Lab™ if you need community and guided movement. Activation Program™ if you are ready for structured 8-week execution.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="result-sections">
+    <div class="result-section">
+      <div class="rs-label">What This Means</div>
+      <div class="rs-content">
+        <p>Activation is the stage where the assignment has been named and the work has started  -  but the movement has not held. You know what you are building, and you have made attempts to build it. The gap is not in your understanding of the assignment. It is in the scaffolding around it.</p>
+        <p>Without structure  -  milestones, rhythms, accountability, and a documented map  -  assignments tend to live in seasons of burst activity followed by silence. The goal of this stage is to build the infrastructure that holds the work through ordinary weeks, not just inspired ones.</p>
+      </div>
+    </div>
+
+    <div class="result-section">
+      <div class="rs-label">What May Be Happening</div>
+      <div class="rs-content">
+        <ul class="pattern-list">
+          <li>You have been moving  -  in seasons. There are periods of real progress, followed by gaps where the work goes quiet and you lose the thread.</li>
+          <li>You know the assignment, but you have not built the rhythms, milestones, or accountability structures that keep you moving when life gets full.</li>
+          <li>You often restart from the beginning rather than picking up from where you left off, which creates a cycle of re-energizing without accumulating real forward movement.</li>
+          <li>You are doing the work in isolation  -  carrying the assignment privately without the witness, accountability, or structure of others who are also in movement.</li>
+          <li>The assignment is real and you are not doubting it. But you are tired of starting over, and you need a structure that outlasts your best moments of motivation.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="result-section">
+      <div class="rs-label">One Question to Sit With</div>
+      <div class="rs-content">
+        <div class="question-block">
+          <p>What structure would help you stop starting over?</p>
+        </div>
+        <p style="margin-top:1rem;font-size:0.85rem;color:var(--mid);">This is not a question about motivation. It is a question about design. What does the assignment need around it to hold?</p>
+      </div>
+    </div>
+
+    <div class="result-section">
+      <div class="rs-label">What Not to Do Next</div>
+      <div class="rs-content">
+        <ul class="avoid-list">
+          <li>Do not re-clarify the assignment again. You have enough language. What you need now is a structure that holds the work  -  not another round of discernment or definition.</li>
+          <li>Do not continue in isolation. Accountability is not a weakness in this stage  -  it is the infrastructure the assignment needs to mature.</li>
+          <li>Do not wait for a season that feels clearer, lighter, or more spacious. Build the structure that works inside your actual life  -  not the ideal one.</li>
+          <li>Do not mistake activity bursts for activation. Sustained movement requires rhythm, milestones, and a map  -  not repeated fresh starts driven by inspiration.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="next-step-section">
+    <div class="next-step-inner">
+      <div class="nsl">
+        <span class="section-label">Your Recommended Next Step</span>
+        <h2>Build the structure that holds the work.</h2>
+        <p>You have two rooms to choose from based on how you work best. Discovery Lab™ gives you guided movement, teaching, and community over four weeks. The Activation Program™ is an 8-week structured implementation for women who are ready to build rhythm, visibility, and an execution plan.</p>
+      </div>
+      <div class="nsr">
+        <div class="offer-detail-card">
+          <div class="odc-name">Discovery Lab™</div>
+          <div class="odc-price">Investment: $997 · 4-week small-group room (5 women max)</div>
+          <div class="odc-desc">Guided teaching, peer accountability, and structured weekly movement  -  for women who need community and a witnessed process to hold the assignment forward.</div>
+          <a href="#" class="odc-btn">Join Discovery Lab™</a>
+          <div class="odc-alt">Ready for deeper execution structure? <a href="#">Apply for Activation Program™ ($1,997) →</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="reassurance">
+    <p>You do not have to figure out the whole structure today. The next room will help you build it. One step at a time, with the right infrastructure around the work.</p>
+    <a href="#" class="retake-link">Retake the Diagnostic</a>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- STAGE 5: SUSTAINMENT -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="result-page" id="page-sustainment">
+
+  <div class="result-hero">
+    <div>
+      <div class="result-stage-badge">
+        <span class="badge-dot"></span>
+        <span class="badge-text">Your Result</span>
+        <span class="badge-num">Stage 5 of 6</span>
+      </div>
+      <h1 class="result-name"><em>Sustainment</em></h1>
+      <div class="result-rule"></div>
+      <p class="result-meaning">
+        You are in the work. You have begun, and the assignment is real  -  not theoretical, not still forming. But the rhythms need protection. The pace has been uneven. Some seasons you move well; others, the assignment gets crowded out. The goal now is not more inspiration or more clarity. It is the infrastructure that keeps the work maturing when the ordinary demands of life press back.
+      </p>
+    </div>
+
+    <div class="result-card">
+      <div class="rc-eyebrow">Your Readiness Result</div>
+      <div class="rc-row">
+        <div class="rc-label">Stage</div>
+        <div class="rc-val">Sustainment</div>
+      </div>
+      <div class="rc-row">
+        <div class="rc-label">Primary Pattern</div>
+        <div class="rc-val">In motion  -  but the rhythms need structure to hold.</div>
+      </div>
+      <div class="rc-row">
+        <div class="rc-label">One Question to Sit With</div>
+        <div class="rc-val italic">What rhythm needs to be protected so the assignment can mature?</div>
+      </div>
+      <div class="rc-row">
+        <div class="rc-label">Recommended Next Step</div>
+        <div class="rc-val">Activation Program™</div>
+      </div>
+      <div class="rc-cta">
+        <a href="#" class="btn-primary">Apply for Activation Program™</a>
+        <div class="rc-note">8 weeks. Built for women who have named the assignment and need rhythm, structure, and sustained execution.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="result-sections">
+    <div class="result-section">
+      <div class="rs-label">What This Means</div>
+      <div class="rs-content">
+        <p>Sustainment is a significant stage  -  one that fewer women reach, and one that is often underestimated. You are no longer in delay. You are no longer in definition. You are in the work. But the work is not yet self-sustaining. The seasons of movement are real; the gaps between them are also real.</p>
+        <p>What this stage requires is not another beginning  -  it is the architecture of continuation. Rhythms, boundaries, execution maps, and proof milestones that turn the assignment from something that depends on your best seasons into something that holds through all of them.</p>
+      </div>
+    </div>
+
+    <div class="result-section">
+      <div class="rs-label">What May Be Happening</div>
+      <div class="rs-content">
+        <ul class="pattern-list">
+          <li>You have real evidence of the assignment at work  -  outcomes, conversations, moments of clarity  -  but the pace has been inconsistent across seasons.</li>
+          <li>When life gets full, the assignment is the first thing that gets crowded out, even though it is the thing you care most about protecting.</li>
+          <li>You have not yet built a Rule of Life around the assignment  -  rhythms, constraints, and protected time that make the work non-negotiable.</li>
+          <li>You are measuring progress by feelings and inspiration instead of concrete milestones, which makes it hard to see how far you have actually come.</li>
+          <li>You are close to the work becoming truly self-sustaining  -  but you need a structured season of focused execution to get it there.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="result-section">
+      <div class="rs-label">One Question to Sit With</div>
+      <div class="rs-content">
+        <div class="question-block">
+          <p>What rhythm needs to be protected so the assignment can mature?</p>
+        </div>
+        <p style="margin-top:1rem;font-size:0.85rem;color:var(--mid);">Not what needs to be added. What needs to be protected. There is a difference  -  and that difference is the work of this stage.</p>
+      </div>
+    </div>
+
+    <div class="result-section">
+      <div class="rs-label">What Not to Do Next</div>
+      <div class="rs-content">
+        <ul class="avoid-list">
+          <li>Do not restart from the beginning. You are not back at clarity or definition. Honor what has already been built and build the infrastructure that protects it forward.</li>
+          <li>Do not add more to the assignment before you have protected what already exists. Growth before protection leads to exhaustion and collapse.</li>
+          <li>Do not measure your movement by motivation. Build systems that function in ordinary weeks, not just inspired ones.</li>
+          <li>Do not continue carrying this work in isolation. The assignment at this stage needs structured accountability, not just private intention.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="next-step-section">
+    <div class="next-step-inner">
+      <div class="nsl">
+        <span class="section-label">Your Recommended Next Step</span>
+        <h2>Build rhythm, structure, and proof of progress.</h2>
+        <p>The Activation Program™ is designed specifically for this stage  -  for women who have named the assignment and begun the work, but need 8 focused weeks to build the execution infrastructure that holds the work beyond their best seasons.</p>
+      </div>
+      <div class="nsr">
+        <div class="offer-detail-card">
+          <div class="odc-name">Activation Program™</div>
+          <div class="odc-price">Investment: $1,997 · 8-week implementation program</div>
+          <div class="odc-desc">Build your Rule of Life for Assignment™, Advanced Activation Map™, Transformation Scorecard™, and 30–60 day Sustainment Plan. For women in the work who are ready to stop surviving their seasons and start building through them.</div>
+          <a href="#" class="odc-btn">Apply for Activation Program™</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="reassurance">
+    <p>You are not starting over. You are building the infrastructure that lets what you have already started keep growing  -  with structure, not just seasons.</p>
+    <a href="#" class="retake-link">Retake the Diagnostic</a>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- STAGE 6: MULTIPLICATION -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="result-page" id="page-multiplication">
+
+  <div class="result-hero">
+    <div>
+      <div class="result-stage-badge">
+        <span class="badge-dot"></span>
+        <span class="badge-text">Your Result</span>
+        <span class="badge-num">Stage 6 of 6</span>
+      </div>
+      <h1 class="result-name"><em>Multiplication</em></h1>
+      <div class="result-rule"></div>
+      <p class="result-meaning">
+        The assignment is not just yours to carry  -  it is yours to steward. You have built something real, and you are sensing that the next call is not to build more, but to bring others into what has already been built. Multiplication is not about scale for its own sake. It is about responsible stewardship  -  teaching, facilitating, or multiplying the work in a way that honors what it has cost you to build it.
+      </p>
+    </div>
+
+    <div class="result-card">
+      <div class="rc-eyebrow">Your Readiness Result</div>
+      <div class="rc-row">
+        <div class="rc-label">Stage</div>
+        <div class="rc-val">Multiplication</div>
+      </div>
+      <div class="rc-row">
+        <div class="rc-label">Primary Pattern</div>
+        <div class="rc-val">Built. Now responsible to steward beyond yourself.</div>
+      </div>
+      <div class="rc-row">
+        <div class="rc-label">One Question to Sit With</div>
+        <div class="rc-val italic">What are you now responsible to steward beyond yourself?</div>
+      </div>
+      <div class="rc-row">
+        <div class="rc-label">Recommended Next Step</div>
+        <div class="rc-val">Fellowship™</div>
+      </div>
+      <div class="rc-cta">
+        <a href="#" class="btn-apply">Apply for Fellowship™</a>
+        <div class="rc-note">Fellowship™ is an advanced, application-only pathway. The application process is part of the discernment.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="result-sections">
+    <div class="result-section">
+      <div class="rs-label">What This Means</div>
+      <div class="rs-content">
+        <p>Multiplication is an advanced stage  -  and a significant one. Reaching it means you have done the earlier work: named the assignment, broken agreement with what was delaying you, built the structure, and sustained movement over time. What you are carrying now is not just the assignment itself, but the responsibility to bring others into it wisely.</p>
+        <p>This is not expansion for the sake of growth. It is stewardship  -  the careful, structured work of facilitating, teaching, or multiplying the assignment in a way that protects the integrity of what it has taken to build.</p>
+      </div>
+    </div>
+
+    <div class="result-section">
+      <div class="rs-label">What May Be Happening</div>
+      <div class="rs-content">
+        <ul class="pattern-list">
+          <li>You have built something that others are asking to be a part of  -  and you are discerning whether you are ready to bring them in responsibly.</li>
+          <li>You are sensing a shift from individual builder to facilitator, teacher, or steward  -  but the structure for that shift has not yet been established.</li>
+          <li>You want to multiply the work, but you are cautious about doing it in a way that dilutes what it has cost you to develop.</li>
+          <li>You are carrying a practitioner question  -  not just "how do I build this?" but "how do I train others to do what I do, or facilitate what I have created?"</li>
+          <li>The assignment is no longer just personal. It is becoming something that has a responsibility to the people it will touch  -  and that weight is real.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="result-section">
+      <div class="rs-label">One Question to Sit With</div>
+      <div class="rs-content">
+        <div class="question-block">
+          <p>What are you now responsible to steward beyond yourself?</p>
+        </div>
+        <p style="margin-top:1rem;font-size:0.85rem;color:var(--mid);">This is not a question of ambition. It is a question of accountability. What has been entrusted to you that is larger than your individual movement?</p>
+      </div>
+    </div>
+
+    <div class="result-section">
+      <div class="rs-label">What Not to Do Next</div>
+      <div class="rs-content">
+        <ul class="avoid-list">
+          <li>Do not multiply prematurely. Stewardship requires that the assignment itself is stable and documented before it can be responsibly extended to others.</li>
+          <li>Do not scale for visibility before you have a structure that protects the integrity of what you are extending.</li>
+          <li>Do not assume that what has worked privately will translate to facilitation without intentional design. The move from builder to steward requires its own process.</li>
+          <li>Do not carry the discernment of multiplication alone. This stage benefits from a structured, accountable room to help you think through readiness, format, and responsibility.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="next-step-section">
+    <div class="next-step-inner">
+      <div class="nsl">
+        <span class="section-label">Your Recommended Next Step</span>
+        <h2>Fellowship™</h2>
+        <p>Fellowship™ is an advanced, application-only pathway for women who are ready to facilitate, steward, or multiply the work responsibly. The application process itself is part of the discernment. If you are in Multiplication, this is the room designed for where you are.</p>
+      </div>
+      <div class="nsr">
+        <div class="offer-detail-card">
+          <div class="odc-name">Fellowship™</div>
+          <div class="odc-price">Application Only · Advanced Pathway</div>
+          <div class="odc-desc">An advanced room for women who are ready to steward, facilitate, or multiply the work responsibly. Not a next step for everyone  -  only for those who have done the foundational work and are now ready to lead others through it.</div>
+          <a href="#" class="odc-btn-apply">Apply for Fellowship™</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="reassurance">
+    <p>The application is not a test of worthiness. It is a structured first step in discerning whether Fellowship™ is the right next room for where you are right now.</p>
+    <a href="#" class="retake-link">Retake the Diagnostic</a>
+  </div>
+</div>
+
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">The Assignment Room™</div>
+    <p class="footer-tagline">Clarity, documentation, and movement for women carrying a God-given assignment.</p>
+  </div>
+  <div>
+    <div class="footer-col-title">Navigate</div>
+    <ul class="footer-links">
+      <li><a href="#">Start with the Diagnostic</a></li>
+      <li><a href="#">Work With Me</a></li>
+      <li><a href="#">About Jackie</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </div>
+  <div>
+    <div class="footer-col-title">Policies</div>
+    <ul class="footer-links">
+      <li><a href="#">Privacy Policy</a></li>
+      <li><a href="#">Terms of Service</a></li>
+      <li><a href="#">Refund &amp; Cancellation</a></li>
+      <li><a href="#">Accessibility Statement</a></li>
+    </ul>
+    <div class="footer-col-title" style="margin-top:1.5rem;">Connect</div>
+    <ul class="footer-links">
+      <li><a href="#">Instagram</a></li>
+      <li><a href="#">TikTok</a></li>
+      <li><a href="#">LinkedIn</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <span>© 2026 The Assignment Room™. All rights reserved.</span>
+  <span>hello@assignmentroom.com</span>
+</div>
+
+<script>
+  const tabs = document.querySelectorAll('.stage-tab');
+  const pages = document.querySelectorAll('.result-page');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const stage = tab.dataset.stage;
+      tabs.forEach(t => t.classList.remove('active'));
+      pages.forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('page-' + stage).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>

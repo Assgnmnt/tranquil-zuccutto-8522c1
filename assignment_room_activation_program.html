@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Activation Program™  -  The Assignment Room™</title>
+<meta name="description" content="An 8-week structured implementation program for women who have named the assignment and need rhythm, visibility, and execution infrastructure to sustain movement. Investment: $1,997." />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream:    #F8F4EE;
+    --cream-dk: #EDE8E0;
+    --teal:     #058E97;
+    --teal-lt:  #E8F5F6;
+    --gold:     #C9A84C;
+    --charcoal: #1C1C1A;
+    --mid:      #5A5A56;
+    --border:   #DDD8D0;
+    --num-color: #7A7068;
+    --font-serif: 'Cormorant Garamond', Georgia, serif;
+    --font-sans:  'DM Sans', sans-serif;
+    --max: 1080px;
+    --pad: clamp(1.25rem, 5vw, 2.5rem);
+  }
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body {
+    background: var(--cream);
+    color: var(--charcoal);
+    font-family: var(--font-sans);
+    font-weight: 300;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem var(--pad); border-bottom: 1px solid var(--border);
+    background: var(--cream); position: sticky; top: 0; z-index: 100;
+  }
+  .nav-logo {
+    font-family: var(--font-serif); font-size: 1.05rem; font-weight: 500;
+    letter-spacing: 0.06em; text-transform: uppercase; color: var(--charcoal); text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.78rem; font-weight: 400; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--mid); text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--teal); }
+  @media (max-width: 640px) { .nav-links { display: none; } }
+
+  /* LAYOUT */
+  .inner { max-width: var(--max); margin: 0 auto; padding-left: var(--pad); padding-right: var(--pad); }
+  .section-label {
+    display: inline-block; font-size: 0.7rem; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase; color: #047A82; margin-bottom: 1.25rem;
+  }
+  section { padding: 4.5rem 0; }
+  section + section { border-top: 1px solid var(--border); }
+  .sec-header {
+    font-family: var(--font-serif); font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+    font-weight: 400; line-height: 1.25; color: var(--charcoal); margin-bottom: 0.75rem;
+  }
+  .sec-sub { font-size: 0.9rem; color: var(--mid); max-width: 560px; margin-bottom: 2.5rem; line-height: 1.75; }
+
+  /* HERO */
+  .hero {
+    padding: 5rem var(--pad) 4.5rem; border-bottom: 1px solid var(--border);
+    max-width: var(--max); margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 320px; gap: 5rem; align-items: start;
+  }
+  @media (max-width: 820px) { .hero { grid-template-columns: 1fr; gap: 3rem; padding: 3rem var(--pad); } }
+
+  .hero-eyebrow { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; }
+  .eyebrow-rule { width: 28px; height: 1px; background: var(--gold); }
+  .eyebrow-text { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mid); }
+  .hero h1 {
+    font-family: var(--font-serif); font-size: clamp(2.2rem, 5.5vw, 3.6rem);
+    font-weight: 400; line-height: 1.1; color: var(--charcoal); margin-bottom: 0.5rem;
+  }
+  .hero h1 em { font-style: italic; color: var(--teal); }
+  .hero-sub {
+    font-family: var(--font-serif); font-style: italic;
+    font-size: 1.1rem; color: var(--mid); margin-bottom: 2rem; line-height: 1.5; max-width: 480px;
+  }
+  .hero-rule { width: 40px; height: 2px; background: var(--gold); margin: 1.75rem 0; }
+  .hero-desc { font-size: 0.92rem; color: var(--mid); line-height: 1.8; max-width: 460px; margin-bottom: 2.25rem; }
+  .btn-apply {
+    display: inline-block; font-family: var(--font-sans);
+    font-size: 0.78rem; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: #fff; background: var(--teal);
+    text-decoration: none; padding: 0.95rem 2.5rem; transition: background 0.2s;
+  }
+  .btn-apply:hover { background: #047a82; }
+  .hero-meta { display: flex; gap: 2.5rem; margin-top: 1.75rem; flex-wrap: wrap; }
+  .hero-meta-item { display: flex; flex-direction: column; gap: 0.15rem; }
+  .hero-meta-val { font-family: var(--font-serif); font-size: 1.4rem; font-weight: 500; color: var(--charcoal); line-height: 1; }
+  .hero-meta-lbl { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); }
+
+  /* STAGE BADGE */
+  .stage-badge {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    background: var(--cream-dk); border: 1px solid var(--border);
+    padding: 0.6rem 1rem; margin-bottom: 1.5rem;
+  }
+  .stage-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+  .stage-badge span { font-size: 0.78rem; color: var(--charcoal); font-weight: 400; }
+
+  /* BOOKING CARD */
+  .booking-card {
+    background: #fff; border: 1px solid var(--border);
+    border-top: 3px solid var(--teal); padding: 2rem;
+    position: sticky; top: 5.5rem;
+  }
+  .bc-label { font-size: 0.67rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 1rem; }
+  .bc-name { font-family: var(--font-serif); font-size: 1.25rem; font-weight: 500; color: var(--charcoal); margin-bottom: 0.25rem; }
+  .bc-format { font-size: 0.8rem; color: var(--mid); margin-bottom: 1.5rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border); }
+  .bc-rows { margin-bottom: 1.5rem; }
+  .bc-row { padding: 0.6rem 0; border-bottom: 1px solid var(--cream-dk); }
+  .bc-row:last-child { border-bottom: none; }
+  .bc-row-label { font-size: 0.67rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.2rem; }
+  .bc-row-val { font-size: 0.85rem; color: var(--charcoal); line-height: 1.5; }
+  .bc-price-row {
+    background: var(--cream); padding: 1rem; margin-bottom: 1.25rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .bc-price-label { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); }
+  .bc-price-val { font-family: var(--font-serif); font-size: 1.6rem; font-weight: 500; color: var(--charcoal); }
+  .btn-apply-card {
+    display: block; text-align: center; font-family: var(--font-sans);
+    font-size: 0.78rem; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: #fff; background: var(--teal);
+    text-decoration: none; padding: 0.95rem; transition: background 0.2s;
+  }
+  .btn-apply-card:hover { background: #047a82; }
+  .bc-note { margin-top: 0.85rem; font-family: var(--font-serif); font-style: italic; font-size: 0.8rem; color: var(--mid); text-align: center; line-height: 1.5; }
+  .bc-prereq { margin-top: 1.1rem; padding-top: 1.1rem; border-top: 1px solid var(--border); font-size: 0.78rem; color: var(--mid); line-height: 1.6; }
+  .bc-prereq strong { color: var(--charcoal); font-weight: 500; }
+
+  /* FOR STAGE NOTICE */
+  .stage-notice {
+    background: var(--cream-dk); border-left: 3px solid var(--gold);
+    padding: 1.25rem 1.5rem; margin-bottom: 2rem; max-width: 640px;
+  }
+  .stage-notice-label { font-size: 0.67rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.4rem; }
+  .stage-notice p { font-size: 0.88rem; color: var(--charcoal); line-height: 1.7; }
+  .stage-notice a { color: var(--teal); text-decoration: none; border-bottom: 1px solid var(--teal); }
+
+  /* 8-WEEK ARC  -  paired phases */
+  .phases { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); }
+  .phase { background: var(--cream); display: grid; grid-template-columns: 220px 1fr; }
+  @media (max-width: 680px) { .phase { grid-template-columns: 1fr; } }
+  .phase-left {
+    padding: 2.5rem 2rem; border-right: 1px solid var(--border);
+    display: flex; flex-direction: column; justify-content: flex-start;
+  }
+  @media (max-width: 680px) { .phase-left { border-right: none; border-bottom: 1px solid var(--border); padding: 1.5rem 1.5rem 1rem; } }
+  .phase-weeks {
+    font-size: 0.67rem; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--teal); margin-bottom: 0.6rem;
+  }
+  .phase-name {
+    font-family: var(--font-serif); font-size: 1.3rem; font-weight: 500;
+    color: var(--charcoal); line-height: 1.25; margin-bottom: 0.5rem;
+  }
+  .phase-num {
+    font-family: var(--font-serif); font-size: 3.5rem; font-weight: 300;
+    color: #7A7068; line-height: 1; margin-top: auto; padding-top: 1.5rem;
+  }
+  @media (max-width: 680px) { .phase-num { display: none; } }
+  .phase-right { padding: 2.5rem 2rem; }
+  @media (max-width: 680px) { .phase-right { padding: 1.5rem; } }
+  .phase-focus {
+    font-size: 0.67rem; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: #7A5F20; margin-bottom: 1rem;
+  }
+  .phase-weeks-detail { display: flex; flex-direction: column; gap: 1.25rem; }
+  .week-detail { display: grid; grid-template-columns: 4rem 1fr; gap: 1rem; align-items: start; }
+  .wd-num {
+    font-size: 0.68rem; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--mid); padding-top: 0.15rem;
+    white-space: nowrap;
+  }
+  .wd-body {}
+  .wd-title { font-family: var(--font-serif); font-size: 1rem; font-weight: 500; color: var(--charcoal); margin-bottom: 0.3rem; line-height: 1.3; }
+  .wd-desc { font-size: 0.83rem; color: var(--mid); line-height: 1.7; }
+  .phase-output {
+    margin-top: 1.75rem; padding-top: 1.25rem; border-top: 1px solid var(--border);
+    display: flex; align-items: flex-start; gap: 0.75rem;
+  }
+  .phase-output-label {
+    font-size: 0.65rem; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--teal); white-space: nowrap; padding-top: 0.1rem; flex-shrink: 0;
+  }
+  .phase-output-val { font-size: 0.83rem; color: var(--charcoal); line-height: 1.5; }
+
+  /* DELIVERABLES */
+  .deliverables-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+  }
+  @media (max-width: 600px) { .deliverables-grid { grid-template-columns: 1fr; } }
+  .del-card {
+    background: #fff; border: 1px solid var(--border); padding: 2rem;
+    border-top: 3px solid var(--charcoal);
+  }
+  .del-card.gold-top { border-top-color: var(--gold); }
+  .del-card.teal-top { border-top-color: var(--teal); }
+  .del-num {
+    font-family: var(--font-serif); font-size: 1.8rem; font-weight: 300;
+    color: #7A7068; line-height: 1; margin-bottom: 1rem;
+  }
+  .del-name { font-family: var(--font-serif); font-size: 1.1rem; font-weight: 500; color: var(--charcoal); margin-bottom: 0.5rem; }
+  .del-proprietary {
+    display: inline-block; font-size: 0.62rem; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal);
+    border: 1px solid var(--teal); padding: 0.12rem 0.45rem; margin-bottom: 0.75rem; border-radius: 1px;
+  }
+  .del-desc { font-size: 0.85rem; color: var(--mid); line-height: 1.7; }
+
+  /* PREREQUISITE SECTION */
+  .prereq-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start;
+  }
+  @media (max-width: 680px) { .prereq-grid { grid-template-columns: 1fr; gap: 2rem; } }
+  .prereq-prose p { font-size: 0.92rem; color: var(--mid); line-height: 1.8; margin-bottom: 1rem; }
+  .prereq-prose p:last-child { margin-bottom: 0; }
+  .pathway-steps { list-style: none; }
+  .pathway-step {
+    display: grid; grid-template-columns: 2.5rem 1fr;
+    gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--border); align-items: start;
+  }
+  .pathway-step:last-child { border-bottom: none; }
+  .ps-badge {
+    width: 2rem; height: 2rem; border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.68rem; font-weight: 500; color: var(--mid);
+    letter-spacing: 0.06em; flex-shrink: 0;
+  }
+  .ps-badge.active { background: var(--teal); border-color: var(--teal); color: #fff; }
+  .ps-step-name { font-family: var(--font-serif); font-size: 0.98rem; font-weight: 500; color: var(--charcoal); margin-bottom: 0.2rem; }
+  .ps-step-desc { font-size: 0.8rem; color: var(--mid); line-height: 1.5; }
+  .ps-step-name.active-name { color: var(--teal); }
+
+  /* WHO */
+  .who-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  @media (max-width: 680px) { .who-grid { grid-template-columns: 1fr; gap: 2rem; } }
+  .who-prose p { font-size: 0.92rem; color: var(--mid); line-height: 1.8; margin-bottom: 1rem; }
+  .who-prose p:last-child { margin-bottom: 0; }
+  .who-markers { list-style: none; }
+  .who-markers li {
+    font-family: var(--font-sans); font-style: normal; font-size: 0.88rem;
+    color: var(--charcoal); padding: 0.85rem 0 0.85rem 1rem;
+    border-bottom: 1px solid var(--border); border-left: 2px solid var(--teal);
+    margin-bottom: 0.75rem; line-height: 1.5;
+  }
+  .who-markers li:last-child { margin-bottom: 0; }
+  .who-not { margin-top: 2rem; padding: 1.5rem; background: var(--cream-dk); border-left: 2px solid var(--border); }
+  .who-not-title { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.75rem; }
+  .who-not p { font-size: 0.85rem; color: var(--mid); line-height: 1.7; }
+  .who-not a { color: var(--teal); text-decoration: none; border-bottom: 1px solid var(--teal); }
+
+  /* FAQ */
+  .faq-list { max-width: 680px; }
+  .faq-item { border-bottom: 1px solid var(--border); }
+  .faq-item:first-child { border-top: 1px solid var(--border); }
+  .faq-btn {
+    width: 100%; background: none; border: none; cursor: pointer;
+    padding: 1.2rem 0; display: flex; align-items: center;
+    justify-content: space-between; gap: 1rem; text-align: left;
+  }
+  .faq-btn-text { font-family: var(--font-serif); font-size: 1.05rem; font-weight: 400; color: var(--charcoal); line-height: 1.4; }
+  .faq-icon { flex-shrink: 0; width: 20px; height: 20px; border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background 0.2s, border-color 0.2s; }
+  .faq-icon svg { width: 10px; height: 10px; transition: transform 0.2s; }
+  .faq-item.open .faq-icon { background: var(--teal); border-color: var(--teal); }
+  .faq-item.open .faq-icon svg { transform: rotate(45deg); }
+  .faq-item.open .faq-icon svg line { stroke: #fff; }
+  .faq-body { display: none; padding: 0 0 1.25rem; font-size: 0.9rem; color: var(--mid); line-height: 1.75; max-width: 580px; }
+  .faq-item.open .faq-body { display: block; }
+
+  /* APPLICATION SECTION */
+  .application-section { background: var(--charcoal); padding: 5rem 0; }
+  .application-inner { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); display: grid; grid-template-columns: 1fr 380px; gap: 5rem; align-items: center; }
+  @media (max-width: 820px) { .application-inner { grid-template-columns: 1fr; gap: 3rem; } }
+  .al .section-label { color: #9acdcf; }
+  .al h2 { font-family: var(--font-serif); font-size: clamp(1.75rem, 4vw, 2.75rem); font-weight: 400; color: var(--cream); line-height: 1.2; margin-bottom: 1.25rem; }
+  .al p { font-size: 0.9rem; color: #b0ada8; line-height: 1.8; margin-bottom: 0.75rem; }
+  .al-steps { margin-top: 1.75rem; display: flex; flex-direction: column; gap: 0; }
+  .al-step { display: grid; grid-template-columns: 1.5rem 1fr; gap: 1rem; padding: 0.85rem 0; border-bottom: 1px solid rgba(255,255,255,0.07); align-items: start; }
+  .al-step:last-child { border-bottom: none; }
+  .al-step-num { font-family: var(--font-serif); font-size: 0.85rem; color: var(--teal); font-weight: 500; line-height: 1.5; }
+  .al-step-text { font-size: 0.83rem; color: #b0ada8; line-height: 1.6; }
+
+  .application-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); border-top: 3px solid var(--gold); padding: 2rem; }
+  .apc-label { font-size: 0.67rem; letter-spacing: 0.12em; text-transform: uppercase; color: #9acdcf; margin-bottom: 1rem; }
+  .apc-name { font-family: var(--font-serif); font-size: 1.25rem; font-weight: 500; color: var(--cream); margin-bottom: 1.25rem; }
+  .apc-rows { margin-bottom: 1.5rem; }
+  .apc-row { padding: 0.6rem 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .apc-row:last-child { border-bottom: none; }
+  .apc-row-label { font-size: 0.67rem; letter-spacing: 0.1em; text-transform: uppercase; color: #6a6a66; margin-bottom: 0.2rem; }
+  .apc-row-val { font-size: 0.85rem; color: #b0ada8; line-height: 1.5; }
+  .apc-price { display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: rgba(255,255,255,0.06); margin-bottom: 1.25rem; }
+  .apc-price-label { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: #6a6a66; }
+  .apc-price-val { font-family: var(--font-serif); font-size: 1.6rem; font-weight: 500; color: var(--cream); }
+  .btn-apply-dark { display: block; text-align: center; font-family: var(--font-sans); font-size: 0.78rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--charcoal); background: var(--cream); text-decoration: none; padding: 0.95rem; transition: background 0.2s; }
+  .btn-apply-dark:hover { background: var(--cream-dk); }
+  .apc-note { margin-top: 0.85rem; font-family: var(--font-serif); font-style: italic; font-size: 0.8rem; color: #c8c4be; text-align: center; line-height: 1.5; }
+
+  /* FOOTER */
+  footer { padding: 3rem var(--pad) 2.5rem; border-top: 1px solid var(--border); display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem; max-width: var(--max); margin: 0 auto; }
+  @media (max-width: 600px) { footer { grid-template-columns: 1fr; } }
+  .footer-logo { font-family: var(--font-serif); font-size: 1rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--charcoal); margin-bottom: 0.5rem; }
+  .footer-tagline { font-size: 0.8rem; color: var(--mid); line-height: 1.6; max-width: 220px; }
+  .footer-col-title { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); margin-bottom: 1rem; }
+  .footer-links { list-style: none; }
+  .footer-links li { margin-bottom: 0.5rem; }
+  .footer-links a { font-size: 0.82rem; color: var(--charcoal); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--teal); }
+  .footer-bottom { max-width: var(--max); margin: 0 auto; padding: 1.25rem var(--pad); border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--mid); flex-wrap: wrap; gap: 0.5rem; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="/">The Assignment Room™</a>
+  <ul class="nav-links">
+    <li><a href="#">Start with the Diagnostic</a></li>
+    <li><a href="#">Work With Me</a></li>
+    <li><a href="#">About Jackie</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div>
+    <div class="hero-eyebrow">
+      <span class="eyebrow-rule"></span>
+      <span class="eyebrow-text">8-Week Implementation Program · $1,997</span>
+    </div>
+    <h1><em>Activation</em><br>Program™</h1>
+    <p class="hero-sub">An 8-week structured implementation program for women who have named the assignment and now need the infrastructure to sustain it.</p>
+    <div class="stage-badge">
+      <span class="stage-badge-dot"></span>
+      <span>For women in the Activation or Sustainment stage  -  you know the assignment. Now you need structure to execute it.</span>
+    </div>
+    <div class="hero-rule"></div>
+    <p class="hero-desc">You are not here to define the assignment. You defined it. This program exists for the stage after definition  -  where the real challenge is not clarity, but consistency. Eight weeks of structured implementation that builds the rhythm, the visibility, and the execution infrastructure that lets the assignment keep moving when the season gets hard.</p>
+    <a href="#apply" class="btn-apply">Apply for Activation Program™</a>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <span class="hero-meta-val">8</span>
+        <span class="hero-meta-lbl">Weeks · Structured</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-val">4</span>
+        <span class="hero-meta-lbl">Documents you leave with</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-val">$1,997</span>
+        <span class="hero-meta-lbl">Investment</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sticky booking card -->
+  <div class="booking-card">
+    <div class="bc-label">Apply for This Program</div>
+    <div class="bc-name">Activation Program™</div>
+    <div class="bc-format">8-week structured implementation · Led by Jackie</div>
+    <div class="bc-rows">
+      <div class="bc-row">
+        <div class="bc-row-label">Format</div>
+        <div class="bc-row-val">8 weeks · Structured sessions + implementation work</div>
+      </div>
+      <div class="bc-row">
+        <div class="bc-row-label">Stage</div>
+        <div class="bc-row-val">Activation or Sustainment  -  assignment already named</div>
+      </div>
+      <div class="bc-row">
+        <div class="bc-row-label">What You Leave With</div>
+        <div class="bc-row-val">Rule of Life™ · Advanced Activation Map™ · Transformation Scorecard™ · Sustainment Plan</div>
+      </div>
+    </div>
+    <div class="bc-price-row">
+      <span class="bc-price-label">Investment</span>
+      <span class="bc-price-val">$1,997</span>
+    </div>
+    <a href="#apply" class="btn-apply-card">Apply for Activation Program™</a>
+    <p class="bc-note">Built for women who are done starting over and ready to build through every season.</p>
+    <div class="bc-prereq">
+      <strong>Prerequisite:</strong> You should have completed the Assignment Brief™ Intensive or Discovery Lab™ before applying  -  or have an Assignment Brief™ already in hand.
+    </div>
+  </div>
+</div>
+
+<!-- STAGE NOTICE -->
+<section style="padding: 3rem 0; background: var(--cream-dk);">
+  <div class="inner">
+    <div class="stage-notice" style="margin-bottom:0; max-width:780px;">
+      <div class="stage-notice-label">Before You Apply</div>
+      <p>The Activation Program™ is designed for women who have already named and documented the assignment. If you have not yet completed the Assignment Brief™ Intensive or Discovery Lab™, start there first. This program builds on a foundation  -  it does not lay one. Not sure where you are? <a href="#">Take the free Readiness Diagnostic™ →</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- 8-WEEK ARC -->
+<section>
+  <div class="inner">
+    <span class="section-label">The 8-Week Arc</span>
+    <h2 class="sec-header">Four phases. Eight weeks. One sustained assignment.</h2>
+    <p class="sec-sub">Each phase of the program has a specific focus, a specific set of weekly sessions, and a specific output. The arc is cumulative  -  each phase builds on the one before it.</p>
+
+    <div class="phases">
+
+      <!-- Phase 1 -->
+      <div class="phase">
+        <div class="phase-left">
+          <div class="phase-weeks">Weeks 1–2</div>
+          <div class="phase-name">Foundation</div>
+          <div class="phase-num">01</div>
+        </div>
+        <div class="phase-right">
+          <div class="phase-focus">Rule of Life for Assignment™</div>
+          <div class="phase-weeks-detail">
+            <div class="week-detail">
+              <span class="wd-num">Week 1</span>
+              <div class="wd-body">
+                <div class="wd-title">Audit the current rhythms.</div>
+                <div class="wd-desc">Honest inventory of how time, energy, and attention are currently allocated  -  and what the assignment is actually competing with. You cannot build a sustainable rhythm on top of an unexamined one.</div>
+              </div>
+            </div>
+            <div class="week-detail">
+              <span class="wd-num">Week 2</span>
+              <div class="wd-body">
+                <div class="wd-title">Build the Rule of Life for Assignment™.</div>
+                <div class="wd-desc">You establish the non-negotiables  -  protected time, boundaries, and rhythms that hold the assignment forward through ordinary seasons, not just inspired ones. The Rule of Life for Assignment™ is produced and committed to by the end of this phase.</div>
+              </div>
+            </div>
+          </div>
+          <div class="phase-output">
+            <span class="phase-output-label">Phase Output</span>
+            <span class="phase-output-val">Rule of Life for Assignment™  -  your personal framework of rhythms, protections, and non-negotiables</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 2 -->
+      <div class="phase">
+        <div class="phase-left">
+          <div class="phase-weeks">Weeks 3–4</div>
+          <div class="phase-name">Visibility</div>
+          <div class="phase-num">02</div>
+        </div>
+        <div class="phase-right">
+          <div class="phase-focus">Showing Up With the Assignment</div>
+          <div class="phase-weeks-detail">
+            <div class="week-detail">
+              <span class="wd-num">Week 3</span>
+              <div class="wd-body">
+                <div class="wd-title">Define the right visibility posture.</div>
+                <div class="wd-desc">Visibility is not the same as exposure. You define what showing up with this assignment actually looks like in this season  -  what platform, what presence, what frequency  -  without building a performance that the assignment cannot sustain.</div>
+              </div>
+            </div>
+            <div class="week-detail">
+              <span class="wd-num">Week 4</span>
+              <div class="wd-body">
+                <div class="wd-title">Make the first public move.</div>
+                <div class="wd-desc">You take the first visible action with the assignment  -  not when you feel ready, but within the structure of this week. Accountability is built into the requirement. This week closes with a declared and completed visibility action.</div>
+              </div>
+            </div>
+          </div>
+          <div class="phase-output">
+            <span class="phase-output-label">Phase Output</span>
+            <span class="phase-output-val">Visibility Plan + first public move completed and documented</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 3 -->
+      <div class="phase">
+        <div class="phase-left">
+          <div class="phase-weeks">Weeks 5–6</div>
+          <div class="phase-name">Execution</div>
+          <div class="phase-num">03</div>
+        </div>
+        <div class="phase-right">
+          <div class="phase-focus">Advanced Activation Map™</div>
+          <div class="phase-weeks-detail">
+            <div class="week-detail">
+              <span class="wd-num">Week 5</span>
+              <div class="wd-body">
+                <div class="wd-title">Build the Advanced Activation Map™.</div>
+                <div class="wd-desc">An expanded version of the Activation Map™  -  with 60 and 90-day milestones, sequenced deliverables, and a documented decision framework for what to do when progress stalls. This is the execution blueprint for the next season of the assignment.</div>
+              </div>
+            </div>
+            <div class="week-detail">
+              <span class="wd-num">Week 6</span>
+              <div class="wd-body">
+                <div class="wd-title">Stress-test the map against your real life.</div>
+                <div class="wd-desc">The map is only as valuable as its ability to hold in ordinary weeks. Week 6 runs your Advanced Activation Map™ through a live scenario  -  full schedule, competing demands, unexpected interruptions  -  and adjusts the plan to survive contact with reality.</div>
+              </div>
+            </div>
+          </div>
+          <div class="phase-output">
+            <span class="phase-output-label">Phase Output</span>
+            <span class="phase-output-val">Advanced Activation Map™  -  60/90-day milestones, sequenced deliverables, and a stall protocol</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 4 -->
+      <div class="phase">
+        <div class="phase-left">
+          <div class="phase-weeks">Weeks 7–8</div>
+          <div class="phase-name">Sustainment</div>
+          <div class="phase-num">04</div>
+        </div>
+        <div class="phase-right">
+          <div class="phase-focus">Proof of Progress + 30–60 Day Plan</div>
+          <div class="phase-weeks-detail">
+            <div class="week-detail">
+              <span class="wd-num">Week 7</span>
+              <div class="wd-body">
+                <div class="wd-title">Measure what has actually moved.</div>
+                <div class="wd-desc">The Transformation Scorecard™ is built and completed  -  a documented record of what has shifted across the 8 weeks. Not a performance review. An honest accounting of what has been built, what has held, and what the assignment now requires to mature.</div>
+              </div>
+            </div>
+            <div class="week-detail">
+              <span class="wd-num">Week 8</span>
+              <div class="wd-body">
+                <div class="wd-title">Build the 30–60 Day Sustainment Plan.</div>
+                <div class="wd-desc">The program closes with a concrete plan for the next 30 to 60 days  -  built around the rhythms established in Phase 1, the visibility posture defined in Phase 2, and the milestones mapped in Phase 3. You leave knowing exactly what happens next.</div>
+              </div>
+            </div>
+          </div>
+          <div class="phase-output">
+            <span class="phase-output-label">Phase Output</span>
+            <span class="phase-output-val">Transformation Scorecard™ + 30–60 Day Sustainment Plan</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- DELIVERABLES -->
+<section style="background:#fff;">
+  <div class="inner">
+    <span class="section-label">What You Leave With</span>
+    <h2 class="sec-header">Four documents. Eight weeks. Nothing left in your head.</h2>
+    <p class="sec-sub">Every Activation Program™ cohort produces four concrete deliverables  -  built during the program and in your hands before the final session closes.</p>
+
+    <div class="deliverables-grid">
+      <div class="del-card teal-top">
+        <div class="del-num">01</div>
+        <div class="del-proprietary">Phase 1 Output</div>
+        <div class="del-name">Rule of Life for Assignment™</div>
+        <div class="del-desc">Your personal framework of rhythms, non-negotiables, and protected time  -  built around the actual demands of your season, not an ideal one. The structure that holds the assignment forward when life presses back.</div>
+      </div>
+      <div class="del-card teal-top">
+        <div class="del-num">02</div>
+        <div class="del-proprietary">Phase 3 Output</div>
+        <div class="del-name">Advanced Activation Map™</div>
+        <div class="del-desc">An expanded, stress-tested execution blueprint with 60 and 90-day milestones, sequenced deliverables, and a documented stall protocol. Built to survive ordinary weeks, not just inspired ones.</div>
+      </div>
+      <div class="del-card gold-top">
+        <div class="del-num">03</div>
+        <div class="del-proprietary">Phase 4 Output</div>
+        <div class="del-name">Transformation Scorecard™</div>
+        <div class="del-desc">A documented record of what has shifted across the 8 weeks  -  what has been built, what has held, and what the assignment now requires to mature into its next season. Not a performance review. An honest accounting.</div>
+      </div>
+      <div class="del-card gold-top">
+        <div class="del-num">04</div>
+        <div class="del-proprietary">Phase 4 Output</div>
+        <div class="del-name">30–60 Day Sustainment Plan</div>
+        <div class="del-desc">A concrete, actionable plan for the next 30 to 60 days  -  sequenced, realistic, and built on the infrastructure established across the program. You leave knowing exactly what happens the day after the program ends.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PREREQUISITE / PATHWAY -->
+<section>
+  <div class="inner">
+    <span class="section-label">Where This Fits in the Pathway</span>
+    <h2 class="sec-header">This is not the first room. It is the right next one.</h2>
+    <p class="sec-sub">The Activation Program™ is built on a foundation  -  not designed to lay one. Here is where it sits in the full pathway and what readiness looks like before you apply.</p>
+
+    <div class="prereq-grid">
+      <div class="prereq-prose">
+        <p>The Activation Program™ assumes you have already done the foundational work  -  you have named the assignment, broken agreement with the belief that was delaying you, and left a prior room with your Assignment Brief™ and Activation Map™ already in hand.</p>
+        <p>If you have not completed the Assignment Brief™ Intensive or Discovery Lab™ yet, those are the right next rooms. The Activation Program™ is designed for what comes after  -  the season when the assignment is named but the execution is still inconsistent, and the rhythms are still fragile.</p>
+        <p>If you are not sure whether you are ready, take the Readiness Diagnostic™. Your result will identify your current stage and point you to the right room.</p>
+      </div>
+      <ul class="pathway-steps">
+        <li class="pathway-step">
+          <div class="ps-badge">01</div>
+          <div>
+            <div class="ps-step-name">Readiness Diagnostic™</div>
+            <div class="ps-step-desc">Free · 3 minutes · Identifies stage and barrier</div>
+          </div>
+        </li>
+        <li class="pathway-step">
+          <div class="ps-badge">02</div>
+          <div>
+            <div class="ps-step-name">The Reveal™</div>
+            <div class="ps-step-desc">$197 · 60 min · Names the decision underneath the delay</div>
+          </div>
+        </li>
+        <li class="pathway-step">
+          <div class="ps-badge">03</div>
+          <div>
+            <div class="ps-step-name">Assignment Brief™ Intensive or Discovery Lab™</div>
+            <div class="ps-step-desc">$797–$997 · Defines and documents the assignment</div>
+          </div>
+        </li>
+        <li class="pathway-step">
+          <div class="ps-badge active">04</div>
+          <div>
+            <div class="ps-step-name active-name">Activation Program™ ← You are here</div>
+            <div class="ps-step-desc">$1,997 · 8 weeks · Builds execution infrastructure</div>
+          </div>
+        </li>
+        <li class="pathway-step">
+          <div class="ps-badge">05</div>
+          <div>
+            <div class="ps-step-name">Fellowship™</div>
+            <div class="ps-step-desc">Application only · Stewardship and multiplication</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- WHO THIS IS FOR -->
+<section>
+  <div class="inner">
+    <span class="section-label">Who This Is For</span>
+    <h2 class="sec-header">This program is for a specific season of readiness.</h2>
+    <p class="sec-sub">The Activation Program™ is not for women still in definition. It is for women who have defined the assignment and are done letting inconsistency be the ceiling.</p>
+
+    <div class="who-grid">
+      <div class="who-prose">
+        <p>The Activation Program™ is for the woman who has the Assignment Brief™ and the Activation Map™ already in hand  -  and who knows that the gap between what she has documented and what she has actually built is getting harder to justify. She is moving, but not consistently. She is building, but the rhythms are fragile. She is ready to stop surviving her seasons and start building through them.</p>
+        <p>She does not need more clarity. She does not need another round of definition. She needs a structured 8-week season where the execution infrastructure gets built  -  with accountability, with milestones, and with the kind of momentum that continues after the program ends.</p>
+        <div class="who-not">
+          <div class="who-not-title">This is not the right room if  - </div>
+          <p>You have not yet named and documented the assignment. If you are still in the Definition stage, <a href="#">the Assignment Brief™ Intensive</a> or <a href="#">Discovery Lab™</a> is the right next step. The Activation Program™ builds on what those rooms produce  -  it does not replace them.</p>
+        </div>
+      </div>
+      <ul class="who-markers">
+        <li>You have your Assignment Brief™ and Activation Map™  -  and you know the gap between what you documented and what you have actually built is no longer acceptable.</li>
+        <li>You are in the Activation or Sustainment stage  -  you are moving, but the movement has been inconsistent and the rhythms are fragile.</li>
+        <li>You have tried to sustain the assignment privately and it has not held. You need structure, accountability, and a season of focused execution  -  not more intention.</li>
+        <li>You are ready to build a Rule of Life around the assignment  -  protected rhythms that hold the work through ordinary weeks, not just the inspired ones.</li>
+        <li>You want to leave with something that continues working after the program ends  -  not just a good 8 weeks, but a documented infrastructure the assignment can mature through.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section>
+  <div class="inner">
+    <span class="section-label">Before You Apply</span>
+    <h2 class="sec-header">Questions you may be carrying.</h2>
+    <div class="faq-list">
+
+      <div class="faq-item open">
+        <button class="faq-btn" aria-expanded="true">
+          <span class="faq-btn-text">Do I need to have completed the Intensive or Discovery Lab™ first?</span>
+          <span class="faq-icon"><svg viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11" stroke="#1C1C1A" stroke-width="1.5" stroke-linecap="round"/><line x1="1" y1="6" x2="11" y2="6" stroke="#1C1C1A" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+        </button>
+        <div class="faq-body">
+          Yes  -  or you need to have an Assignment Brief™ already in hand from equivalent prior work. The Activation Program™ is not a definition process. It builds on the foundational documents produced in the prior rooms. If you do not yet have your Assignment Brief™ and initial Activation Map™, start with the Assignment Brief™ Intensive or Discovery Lab™ first.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" aria-expanded="false">
+          <span class="faq-btn-text">What does the program actually look like week to week?</span>
+          <span class="faq-icon"><svg viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11" stroke="#1C1C1A" stroke-width="1.5" stroke-linecap="round"/><line x1="1" y1="6" x2="11" y2="6" stroke="#1C1C1A" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+        </button>
+        <div class="faq-body">
+          Each week includes a structured session with Jackie, a specific implementation task tied to that week's focus, and accountability built into the following session. You are not watching content on your own schedule  -  you are in a live, structured program with sequential outputs. Full program details are shared after application is accepted.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" aria-expanded="false">
+          <span class="faq-btn-text">Is this a group program or private?</span>
+          <span class="faq-icon"><svg viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11" stroke="#1C1C1A" stroke-width="1.5" stroke-linecap="round"/><line x1="1" y1="6" x2="11" y2="6" stroke="#1C1C1A" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+        </button>
+        <div class="faq-body">
+          Program format details  -  including cohort size and structure  -  are shared after your application is reviewed. What is consistent across every cohort: live structured sessions, sequential deliverables, built-in accountability, and a clear implementation arc across the 8 weeks.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" aria-expanded="false">
+          <span class="faq-btn-text">What does the application process look like?</span>
+          <span class="faq-icon"><svg viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11" stroke="#1C1C1A" stroke-width="1.5" stroke-linecap="round"/><line x1="1" y1="6" x2="11" y2="6" stroke="#1C1C1A" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+        </button>
+        <div class="faq-body">
+          The application is a short set of questions about your current stage, what you have already built, and what you are trying to sustain. It is not a barrier  -  it is a fit assessment. You will receive a response within a few business days. If the timing or fit is not right, you will be pointed toward the appropriate next step.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" aria-expanded="false">
+          <span class="faq-btn-text">What if I am between the Sustainment and Multiplication stages?</span>
+          <span class="faq-icon"><svg viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11" stroke="#1C1C1A" stroke-width="1.5" stroke-linecap="round"/><line x1="1" y1="6" x2="11" y2="6" stroke="#1C1C1A" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+        </button>
+        <div class="faq-body">
+          Apply and indicate where you are in your application. The Activation Program™ serves both Sustainment and late-Activation stage women. If your stage is closer to Multiplication  -  you have built something stable and are ready to steward it beyond yourself  -  Fellowship™ may be a better fit. The application will help clarify which room is right for where you actually are.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" aria-expanded="false">
+          <span class="faq-btn-text">What is the refund and cancellation policy?</span>
+          <span class="faq-icon"><svg viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11" stroke="#1C1C1A" stroke-width="1.5" stroke-linecap="round"/><line x1="1" y1="6" x2="11" y2="6" stroke="#1C1C1A" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+        </button>
+        <div class="faq-body">
+          Please review the full <a href="#" style="color:var(--teal);text-decoration:none;border-bottom:1px solid var(--teal);">Refund &amp; Cancellation Policy</a> before applying. Questions before applying can be sent to hello@assignmentroom.com.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- APPLICATION SECTION -->
+<div class="application-section" id="apply">
+  <div class="application-inner">
+    <div class="al">
+      <span class="section-label">Ready to Build</span>
+      <h2>Stop surviving your seasons. Start building through them.</h2>
+      <p>The Activation Program™ is 8 weeks of structured implementation that builds the rhythm, visibility, and execution infrastructure your assignment needs to mature  -  not just in the inspired seasons, but in all of them.</p>
+      <p>Applications are reviewed on a rolling basis. If the timing is not right for the current cohort, you will be informed of the next available start.</p>
+      <div class="al-steps">
+        <div class="al-step">
+          <span class="al-step-num">01</span>
+          <span class="al-step-text">Submit your application  -  a short set of questions about your current stage and what you have already built.</span>
+        </div>
+        <div class="al-step">
+          <span class="al-step-num">02</span>
+          <span class="al-step-text">Receive a response within a few business days confirming fit, cohort timing, and next steps.</span>
+        </div>
+        <div class="al-step">
+          <span class="al-step-num">03</span>
+          <span class="al-step-text">Confirm your place and receive the full program details, schedule, and onboarding materials.</span>
+        </div>
+        <div class="al-step">
+          <span class="al-step-num">04</span>
+          <span class="al-step-text">Begin Week 1  -  the Rule of Life for Assignment™  -  and build from there.</span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="application-card">
+        <div class="apc-label">Apply for This Program</div>
+        <div class="apc-name">Activation Program™</div>
+        <div class="apc-rows">
+          <div class="apc-row">
+            <div class="apc-row-label">Duration</div>
+            <div class="apc-row-val">8 weeks · Structured implementation arc</div>
+          </div>
+          <div class="apc-row">
+            <div class="apc-row-label">Prerequisite</div>
+            <div class="apc-row-val">Assignment Brief™ + Activation Map™ in hand</div>
+          </div>
+          <div class="apc-row">
+            <div class="apc-row-label">Deliverables</div>
+            <div class="apc-row-val">Rule of Life™ · Advanced Activation Map™ · Transformation Scorecard™ · 30–60 Day Plan</div>
+          </div>
+          <div class="apc-row">
+            <div class="apc-row-label">Stage</div>
+            <div class="apc-row-val">Activation or Sustainment</div>
+          </div>
+        </div>
+        <div class="apc-price">
+          <span class="apc-price-label">Investment</span>
+          <span class="apc-price-val">$1,997</span>
+        </div>
+        <a href="#" class="btn-apply-dark">Apply for Activation Program™</a>
+        <p class="apc-note">Applications reviewed on a rolling basis. You will hear back within a few business days.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">The Assignment Room™</div>
+    <p class="footer-tagline">Clarity, documentation, and movement for women carrying a God-given assignment.</p>
+  </div>
+  <div>
+    <div class="footer-col-title">Navigate</div>
+    <ul class="footer-links">
+      <li><a href="#">Start with the Diagnostic</a></li>
+      <li><a href="#">Work With Me</a></li>
+      <li><a href="#">About Jackie</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </div>
+  <div>
+    <div class="footer-col-title">Policies</div>
+    <ul class="footer-links">
+      <li><a href="#">Privacy Policy</a></li>
+      <li><a href="#">Terms of Service</a></li>
+      <li><a href="#">Refund &amp; Cancellation</a></li>
+      <li><a href="#">Accessibility Statement</a></li>
+    </ul>
+    <div class="footer-col-title" style="margin-top:1.5rem;">Connect</div>
+    <ul class="footer-links">
+      <li><a href="#">Instagram</a></li>
+      <li><a href="#">TikTok</a></li>
+      <li><a href="#">LinkedIn</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <span>© 2026 The Assignment Room™. All rights reserved.</span>
+  <span>hello@assignmentroom.com</span>
+</div>
+
+<script>
+  document.querySelectorAll('.faq-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+</script>
+</body>
+</html>

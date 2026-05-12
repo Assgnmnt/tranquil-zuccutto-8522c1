@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Assignment Brief™ Intensive  -  The Assignment Room™</title>
+<meta name="description" content="A private 2–3 hour intensive to define your assignment, name the agreement delaying movement, and leave with your Assignment Brief™ and Activation Map™. Investment: $797." />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream:    #F8F4EE;
+    --cream-dk: #EDE8E0;
+    --teal:     #058E97;
+    --teal-lt:  #E8F5F6;
+    --gold:     #C9A84C;
+    --charcoal: #1C1C1A;
+    --mid:      #5A5A56;
+    --border:   #DDD8D0;
+    --font-serif: 'Cormorant Garamond', Georgia, serif;
+    --font-sans:  'DM Sans', sans-serif;
+    --max: 1080px;
+    --pad: clamp(1.25rem, 5vw, 2.5rem);
+  }
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body {
+    background: var(--cream);
+    color: var(--charcoal);
+    font-family: var(--font-sans);
+    font-weight: 300;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem var(--pad); border-bottom: 1px solid var(--border);
+    background: var(--cream); position: sticky; top: 0; z-index: 100;
+  }
+  .nav-logo {
+    font-family: var(--font-serif); font-size: 1.05rem; font-weight: 500;
+    letter-spacing: 0.06em; text-transform: uppercase; color: var(--charcoal); text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.78rem; font-weight: 400; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--mid); text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--teal); }
+  @media (max-width: 640px) { .nav-links { display: none; } }
+
+  /* LAYOUT */
+  .inner { max-width: var(--max); margin: 0 auto; padding-left: var(--pad); padding-right: var(--pad); }
+  .section-label {
+    display: inline-block; font-size: 0.7rem; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase; color: #047A82; margin-bottom: 1.25rem;
+  }
+  section { padding: 4.5rem 0; }
+  section + section { border-top: 1px solid var(--border); }
+  .sec-header {
+    font-family: var(--font-serif); font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+    font-weight: 400; line-height: 1.25; color: var(--charcoal); margin-bottom: 0.75rem;
+  }
+  .sec-sub { font-size: 0.9rem; color: var(--mid); max-width: 560px; margin-bottom: 2.5rem; line-height: 1.75; }
+
+  /* HERO */
+  .hero {
+    padding: 5rem var(--pad) 4.5rem; border-bottom: 1px solid var(--border);
+    max-width: var(--max); margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 320px; gap: 5rem; align-items: start;
+  }
+  @media (max-width: 820px) { .hero { grid-template-columns: 1fr; gap: 3rem; padding: 3rem var(--pad); } }
+
+  .hero-eyebrow { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; }
+  .eyebrow-rule { width: 28px; height: 1px; background: var(--gold); }
+  .eyebrow-text { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mid); }
+
+  .hero h1 {
+    font-family: var(--font-serif); font-size: clamp(2.2rem, 5.5vw, 3.6rem);
+    font-weight: 400; line-height: 1.1; color: var(--charcoal); margin-bottom: 0.5rem;
+  }
+  .hero h1 em { font-style: italic; color: var(--teal); }
+  .hero-sub {
+    font-family: var(--font-serif); font-style: italic;
+    font-size: 1.1rem; color: var(--mid); margin-bottom: 2rem; line-height: 1.5; max-width: 480px;
+  }
+  .hero-rule { width: 40px; height: 2px; background: var(--gold); margin: 1.75rem 0; }
+  .hero-desc { font-size: 0.92rem; color: var(--mid); line-height: 1.8; max-width: 460px; margin-bottom: 2.25rem; }
+
+  .btn-book {
+    display: inline-block; font-family: var(--font-sans);
+    font-size: 0.78rem; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: #fff; background: var(--teal);
+    text-decoration: none; padding: 0.95rem 2.5rem; transition: background 0.2s;
+  }
+  .btn-book:hover { background: #047a82; }
+
+  .hero-meta { display: flex; gap: 2.5rem; margin-top: 1.75rem; flex-wrap: wrap; }
+  .hero-meta-item { display: flex; flex-direction: column; gap: 0.15rem; }
+  .hero-meta-val { font-family: var(--font-serif); font-size: 1.4rem; font-weight: 500; color: var(--charcoal); line-height: 1; }
+  .hero-meta-lbl { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); }
+
+  /* BOOKING CARD */
+  .booking-card {
+    background: #fff; border: 1px solid var(--border);
+    border-top: 3px solid var(--teal); padding: 2rem;
+    position: sticky; top: 5.5rem;
+  }
+  .bc-label { font-size: 0.67rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 1rem; }
+  .bc-name { font-family: var(--font-serif); font-size: 1.3rem; font-weight: 500; color: var(--charcoal); margin-bottom: 0.25rem; }
+  .bc-format { font-size: 0.8rem; color: var(--mid); margin-bottom: 1.5rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border); }
+  .bc-rows { margin-bottom: 1.5rem; }
+  .bc-row { padding: 0.6rem 0; border-bottom: 1px solid var(--cream-dk); }
+  .bc-row:last-child { border-bottom: none; }
+  .bc-row-label { font-size: 0.67rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.2rem; }
+  .bc-row-val { font-size: 0.85rem; color: var(--charcoal); line-height: 1.5; }
+  .bc-price-row {
+    background: var(--cream); padding: 1rem; margin-bottom: 1.25rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .bc-price-label { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); }
+  .bc-price-val { font-family: var(--font-serif); font-size: 1.6rem; font-weight: 500; color: var(--charcoal); }
+  .btn-book-card {
+    display: block; text-align: center; font-family: var(--font-sans);
+    font-size: 0.78rem; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: #fff; background: var(--teal);
+    text-decoration: none; padding: 0.95rem; transition: background 0.2s;
+  }
+  .btn-book-card:hover { background: #047a82; }
+  .bc-note {
+    margin-top: 0.85rem; font-family: var(--font-serif); font-style: italic;
+    font-size: 0.8rem; color: var(--mid); text-align: center; line-height: 1.5;
+  }
+  .bc-alt {
+    margin-top: 1.1rem; padding-top: 1.1rem; border-top: 1px solid var(--border);
+    font-size: 0.78rem; color: var(--mid); text-align: center; line-height: 1.6;
+  }
+  .bc-alt a { color: var(--teal); text-decoration: none; border-bottom: 1px solid var(--teal); }
+
+  /* PROCESS STEPS */
+  .process-steps { display: flex; flex-direction: column; gap: 0; max-width: 700px; }
+  .process-step {
+    display: grid; grid-template-columns: 2rem 1fr;
+    gap: 1.5rem; padding: 2.25rem 0; border-bottom: 1px solid var(--border); align-items: start;
+  }
+  .process-step:first-child { padding-top: 0; }
+  .process-step:last-child { border-bottom: none; }
+  .ps-num { font-family: var(--font-serif); font-size: 1.1rem; color: var(--teal); font-weight: 500; line-height: 1; padding-top: 0.2rem; }
+  .ps-proprietary {
+    display: inline-block; font-size: 0.65rem; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal);
+    border: 1px solid var(--teal); padding: 0.15rem 0.5rem; margin-bottom: 0.6rem; border-radius: 1px;
+  }
+  .ps-name { font-family: var(--font-serif); font-size: 1.15rem; font-weight: 500; color: var(--charcoal); margin-bottom: 0.5rem; line-height: 1.3; }
+  .ps-desc { font-size: 0.88rem; color: var(--mid); line-height: 1.75; }
+  .ps-outcome { margin-top: 0.75rem; font-family: var(--font-sans); font-size: 0.82rem; color: var(--charcoal); line-height: 1.5; }
+
+  /* DELIVERABLES  -  document mockup style */
+  .deliverables-pair {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+  }
+  @media (max-width: 640px) { .deliverables-pair { grid-template-columns: 1fr; } }
+
+  .doc-mockup {
+    background: #fff; border: 1px solid var(--border);
+    border-top: 3px solid var(--charcoal); padding: 2rem;
+  }
+  .doc-mockup.teal-top { border-top-color: var(--teal); }
+  .doc-eyebrow {
+    font-size: 0.65rem; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--mid); margin-bottom: 1.25rem;
+    padding-bottom: 1rem; border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .doc-tag {
+    background: var(--teal); color: #fff;
+    font-size: 0.6rem; letter-spacing: 0.08em; padding: 0.15rem 0.5rem;
+  }
+  .doc-title { font-family: var(--font-serif); font-size: 1.2rem; font-weight: 500; color: var(--charcoal); margin-bottom: 1.25rem; }
+  .doc-field { margin-bottom: 1rem; }
+  .doc-field:last-child { margin-bottom: 0; }
+  .doc-field-label { font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.3rem; }
+  .doc-field-val { font-size: 0.85rem; color: var(--charcoal); line-height: 1.55; border-left: 2px solid var(--cream-dk); padding-left: 0.75rem; }
+  .doc-field-val.italic { font-family: var(--font-serif); font-style: italic; font-size: 0.9rem; }
+  .doc-desc { margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border); font-size: 0.82rem; color: var(--mid); line-height: 1.7; }
+
+  /* VS COMPARISON */
+  .vs-strip {
+    background: var(--teal-lt);
+    border: 1px solid #b8dfe2;
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 2rem;
+    align-items: center;
+  }
+  @media (max-width: 600px) { .vs-strip { grid-template-columns: 1fr; gap: 1.25rem; } }
+  .vs-side {}
+  .vs-tag { font-size: 0.67rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 0.5rem; }
+  .vs-name { font-family: var(--font-serif); font-size: 1.1rem; font-weight: 500; color: var(--charcoal); margin-bottom: 0.25rem; }
+  .vs-desc { font-size: 0.82rem; color: var(--mid); line-height: 1.6; }
+  .vs-divider { text-align: center; font-family: var(--font-sans); font-size: 0.85rem; color: var(--mid); letter-spacing: 0.06em; text-transform: uppercase; }
+  .vs-link { display: inline-block; margin-top: 0.75rem; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--teal); text-decoration: none; border-bottom: 1px solid var(--teal); }
+
+  /* WHO */
+  .who-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  @media (max-width: 680px) { .who-grid { grid-template-columns: 1fr; gap: 2rem; } }
+  .who-prose p { font-size: 0.92rem; color: var(--mid); line-height: 1.8; margin-bottom: 1rem; }
+  .who-prose p:last-child { margin-bottom: 0; }
+  .who-markers { list-style: none; }
+  .who-markers li {
+    font-family: var(--font-sans); font-style: normal; font-size: 0.88rem;
+    color: var(--charcoal); padding: 0.85rem 0 0.85rem 1rem;
+    border-bottom: 1px solid var(--border); border-left: 2px solid var(--teal);
+    margin-bottom: 0.75rem; line-height: 1.5;
+  }
+  .who-markers li:last-child { margin-bottom: 0; }
+
+  /* FAQ */
+  .faq-list { max-width: 680px; }
+  .faq-item { border-bottom: 1px solid var(--border); }
+  .faq-item:first-child { border-top: 1px solid var(--border); }
+  .faq-btn {
+    width: 100%; background: none; border: none; cursor: pointer;
+    padding: 1.2rem 0; display: flex; align-items: center;
+    justify-content: space-between; gap: 1rem; text-align: left;
+  }
+  .faq-btn-text { font-family: var(--font-serif); font-size: 1.05rem; font-weight: 400; color: var(--charcoal); line-height: 1.4; }
+  .faq-icon {
+    flex-shrink: 0; width: 20px; height: 20px; border: 1px solid var(--border);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .faq-icon svg { width: 10px; height: 10px; transition: transform 0.2s; }
+  .faq-item.open .faq-icon { background: var(--teal); border-color: var(--teal); }
+  .faq-item.open .faq-icon svg { transform: rotate(45deg); }
+  .faq-item.open .faq-icon svg line { stroke: #fff; }
+  .faq-body { display: none; padding: 0 0 1.25rem; font-size: 0.9rem; color: var(--mid); line-height: 1.75; max-width: 580px; }
+  .faq-item.open .faq-body { display: block; }
+
+  /* BOOKING SECTION */
+  .booking-section { background: var(--charcoal); padding: 5rem 0; }
+  .booking-inner {
+    max-width: var(--max); margin: 0 auto; padding: 0 var(--pad);
+    display: grid; grid-template-columns: 1fr 380px; gap: 5rem; align-items: center;
+  }
+  @media (max-width: 820px) { .booking-inner { grid-template-columns: 1fr; gap: 3rem; } }
+  .bl .section-label { color: #9acdcf; }
+  .bl h2 { font-family: var(--font-serif); font-size: clamp(1.75rem, 4vw, 2.75rem); font-weight: 400; color: var(--cream); line-height: 1.2; margin-bottom: 1.25rem; }
+  .bl p { font-size: 0.9rem; color: #b0ada8; line-height: 1.8; margin-bottom: 0.75rem; }
+
+  .booking-card-dark {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
+    border-top: 3px solid var(--teal); padding: 2rem;
+  }
+  .bcd-label { font-size: 0.67rem; letter-spacing: 0.12em; text-transform: uppercase; color: #9acdcf; margin-bottom: 1rem; }
+  .bcd-name { font-family: var(--font-serif); font-size: 1.25rem; font-weight: 500; color: var(--cream); margin-bottom: 1.25rem; }
+  .bcd-rows { margin-bottom: 1.5rem; }
+  .bcd-row { padding: 0.6rem 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .bcd-row:last-child { border-bottom: none; }
+  .bcd-row-label { font-size: 0.67rem; letter-spacing: 0.1em; text-transform: uppercase; color: #6a6a66; margin-bottom: 0.2rem; }
+  .bcd-row-val { font-size: 0.85rem; color: #b0ada8; line-height: 1.5; }
+  .bcd-price { display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: rgba(255,255,255,0.06); margin-bottom: 1.25rem; }
+  .bcd-price-label { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: #6a6a66; }
+  .bcd-price-val { font-family: var(--font-serif); font-size: 1.6rem; font-weight: 500; color: var(--cream); }
+  .btn-book-dark {
+    display: block; text-align: center; font-family: var(--font-sans);
+    font-size: 0.78rem; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--charcoal); background: var(--cream);
+    text-decoration: none; padding: 0.95rem; transition: background 0.2s;
+  }
+  .btn-book-dark:hover { background: var(--cream-dk); }
+  .bcd-reassurance { margin-top: 0.85rem; font-family: var(--font-serif); font-style: italic; font-size: 0.8rem; color: #c8c4be; text-align: center; line-height: 1.5; }
+  .bcd-alt { margin-top: 1.1rem; padding-top: 1.1rem; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.78rem; color: #6a6a66; text-align: center; line-height: 1.6; }
+  .bcd-alt a { color: #9acdcf; text-decoration: none; border-bottom: 1px solid #9acdcf; }
+
+  /* FOOTER */
+  footer { padding: 3rem var(--pad) 2.5rem; border-top: 1px solid var(--border); display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem; max-width: var(--max); margin: 0 auto; }
+  @media (max-width: 600px) { footer { grid-template-columns: 1fr; } }
+  .footer-logo { font-family: var(--font-serif); font-size: 1rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--charcoal); margin-bottom: 0.5rem; }
+  .footer-tagline { font-size: 0.8rem; color: var(--mid); line-height: 1.6; max-width: 220px; }
+  .footer-col-title { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); margin-bottom: 1rem; }
+  .footer-links { list-style: none; }
+  .footer-links li { margin-bottom: 0.5rem; }
+  .footer-links a { font-size: 0.82rem; color: var(--charcoal); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--teal); }
+  .footer-bottom { max-width: var(--max); margin: 0 auto; padding: 1.25rem var(--pad); border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--mid); flex-wrap: wrap; gap: 0.5rem; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="/">The Assignment Room™</a>
+  <ul class="nav-links">
+    <li><a href="#">Start with the Diagnostic</a></li>
+    <li><a href="#">Work With Me</a></li>
+    <li><a href="#">About Jackie</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div>
+    <div class="hero-eyebrow">
+      <span class="eyebrow-rule"></span>
+      <span class="eyebrow-text">Private Intensive · $797</span>
+    </div>
+    <h1><em>Assignment Brief™</em><br>Intensive</h1>
+    <p class="hero-sub">A private 2–3 hour intensive to define the assignment, name the agreement that has been delaying movement, and leave with a documented plan you can act on.</p>
+    <div class="hero-rule"></div>
+    <p class="hero-desc">This is not a reflection session. It is a structured, private deep-dive that moves you from a vague sense of calling to a specific, documented assignment  -  with the language, the decision, and the first moves already in writing before you leave.</p>
+    <a href="#book" class="btn-book">Book the Intensive</a>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <span class="hero-meta-val">2–3</span>
+        <span class="hero-meta-lbl">Hours · Private · 1:1</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-val">$797</span>
+        <span class="hero-meta-lbl">Investment</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-val">2</span>
+        <span class="hero-meta-lbl">Documents you leave with</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sticky booking card -->
+  <div class="booking-card">
+    <div class="bc-label">Book This Intensive</div>
+    <div class="bc-name">Assignment Brief™ Intensive</div>
+    <div class="bc-format">2–3 hour private intensive with Jackie</div>
+    <div class="bc-rows">
+      <div class="bc-row">
+        <div class="bc-row-label">Format</div>
+        <div class="bc-row-val">Private · 1:1 · Video or phone</div>
+      </div>
+      <div class="bc-row">
+        <div class="bc-row-label">What You Leave With</div>
+        <div class="bc-row-val">Assignment Brief™ PDF · Activation Map™</div>
+      </div>
+      <div class="bc-row">
+        <div class="bc-row-label">Best For</div>
+        <div class="bc-row-val">Women who want private, accelerated clarity and a documented plan without a group setting</div>
+      </div>
+    </div>
+    <div class="bc-price-row">
+      <span class="bc-price-label">Investment</span>
+      <span class="bc-price-val">$797</span>
+    </div>
+    <a href="#book" class="btn-book-card">Book the Intensive</a>
+    <p class="bc-note">Private. Focused. You leave with something concrete in your hands.</p>
+    <div class="bc-alt">
+      Prefer a group process? <a href="#">See Discovery Lab™ ($997) →</a>
+    </div>
+  </div>
+</div>
+
+<!-- WHAT HAPPENS IN THE INTENSIVE -->
+<section>
+  <div class="inner">
+    <span class="section-label">What Happens in the Intensive</span>
+    <h2 class="sec-header">Five structured steps. One documented outcome.</h2>
+    <p class="sec-sub">The Assignment Brief™ Intensive follows the same intentional sequence every time  -  built to move you from a felt sense of calling to a specific, documented assignment before the session ends.</p>
+
+    <div class="process-steps">
+
+      <div class="process-step">
+        <span class="ps-num">01</span>
+        <div>
+          <div class="ps-proprietary">Ladder Audit™</div>
+          <div class="ps-name">You identify what you have been standing on  -  and why stepping off has felt risky.</div>
+          <div class="ps-desc">The Ladder Audit™ helps you see the ladder you have been climbing  -  whether that is competence, recognition, identity, security, or influence  -  and understand why leaving it has felt costly. This is not an exercise in regret. It is clarity about what the assignment has been competing with.</div>
+          <div class="ps-outcome">You stop wondering why moving forward has felt so hard. You see the specific thing that has made staying feel safer than going.</div>
+        </div>
+      </div>
+
+      <div class="process-step">
+        <span class="ps-num">02</span>
+        <div>
+          <div class="ps-proprietary">Breach of Agreement™</div>
+          <div class="ps-name">You formally break agreement with the belief that has been delaying you.</div>
+          <div class="ps-desc">Every delay is held in place by an agreement  -  a belief that has been operating beneath the surface, governing decisions without being named. The Breach of Agreement™ brings that belief into the open and gives you a clear turning point, not just another emotional moment that eventually fades.</div>
+          <div class="ps-outcome">You leave this step with a specific agreement identified and a formal decision made. The belief no longer has unnamed authority over your movement.</div>
+        </div>
+      </div>
+
+      <div class="process-step">
+        <span class="ps-num">03</span>
+        <div>
+          <div class="ps-proprietary">Mandate Statement</div>
+          <div class="ps-name">You define what you are responsible to build in this season.</div>
+          <div class="ps-desc">The Mandate Statement moves you from broad calling language  -  "I feel called to teach" or "I want to build something"  -  to a specific, season-bound responsibility. What you are building. For whom. Why now. Said in language precise enough to explain, pursue, and act on.</div>
+          <div class="ps-outcome">You have a statement for the assignment that is specific, clear, and yours. Not a vision board phrase. A mandate.</div>
+        </div>
+      </div>
+
+      <div class="process-step">
+        <span class="ps-num">04</span>
+        <div>
+          <div class="ps-proprietary">Activation Map™</div>
+          <div class="ps-name">You turn the assignment into movement.</div>
+          <div class="ps-desc">The Activation Map™ takes the mandate and turns it into milestones, sequenced actions, and a 14-day sprint so the work does not stay theoretical. The map is built around your actual life  -  not an ideal schedule  -  so it holds when real life presses back.</div>
+          <div class="ps-outcome">You leave with a map that shows you the first moves, the first milestone, and the first 14 days  -  all in writing.</div>
+        </div>
+      </div>
+
+      <div class="process-step">
+        <span class="ps-num">05</span>
+        <div>
+          <div class="ps-proprietary">Assignment Brief™ PDF</div>
+          <div class="ps-name">You leave with the assignment documented.</div>
+          <div class="ps-desc">Before the session closes, everything produced is compiled into your Assignment Brief™  -  a personal clarity document that holds your assignment, your barrier, your decision, your mandate, and your first moves in one place. This is the document you come back to. The one you share when you are ready. The one that proves this is no longer only living in your head.</div>
+          <div class="ps-outcome">You walk out of the intensive with a document in your hands. The assignment is no longer private. It is named, structured, and ready to move.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- WHAT YOU LEAVE WITH  -  document mockups -->
+<section style="background:#fff;">
+  <div class="inner">
+    <span class="section-label">What You Leave With</span>
+    <h2 class="sec-header">Two documents. One session. Nothing left in your head.</h2>
+    <p class="sec-sub">Every Assignment Brief™ Intensive produces two concrete deliverables  -  created during the session and in your hands before you leave.</p>
+
+    <div class="deliverables-pair">
+
+      <!-- Assignment Brief mockup -->
+      <div class="doc-mockup teal-top">
+        <div class="doc-eyebrow">
+          <span>Assignment Brief™</span>
+          <span class="doc-tag">Deliverable 01</span>
+        </div>
+        <div class="doc-title">Your Personal Clarity Document</div>
+        <div class="doc-field">
+          <div class="doc-field-label">The Assignment</div>
+          <div class="doc-field-val italic">To create a faith-rooted leadership platform that helps women move from private clarity to public obedience.</div>
+        </div>
+        <div class="doc-field">
+          <div class="doc-field-label">Primary Barrier</div>
+          <div class="doc-field-val">Recognition Agreement  -  waiting for validation from the room I have already outgrown.</div>
+        </div>
+        <div class="doc-field">
+          <div class="doc-field-label">Decision Required</div>
+          <div class="doc-field-val">Stop waiting for external confirmation. The assignment has already been confirmed.</div>
+        </div>
+        <div class="doc-field">
+          <div class="doc-field-label">First 14-Day Move</div>
+          <div class="doc-field-val">Publish the first teaching and invite 10 women into the conversation.</div>
+        </div>
+        <div class="doc-desc">Your Assignment Brief™ is a personal clarity document  -  not a business plan, not a vision board. It is the language, the decision, and the mandate in one place. Sample content shown above.</div>
+      </div>
+
+      <!-- Activation Map mockup -->
+      <div class="doc-mockup">
+        <div class="doc-eyebrow">
+          <span>Activation Map™</span>
+          <span class="doc-tag">Deliverable 02</span>
+        </div>
+        <div class="doc-title">Your First-Move Plan</div>
+        <div class="doc-field">
+          <div class="doc-field-label">Assignment</div>
+          <div class="doc-field-val italic">Launch the first public teaching room.</div>
+        </div>
+        <div class="doc-field">
+          <div class="doc-field-label">30-Day Outcome</div>
+          <div class="doc-field-val">Host one live session with 10 aligned women.</div>
+        </div>
+        <div class="doc-field">
+          <div class="doc-field-label">First 14-Day Sprint</div>
+          <div class="doc-field-val" style="display:grid;gap:0.35rem;">
+            <span style="font-size:0.8rem;display:flex;justify-content:space-between;"><span style="color:var(--mid);">Day 1–3</span><span>Finalize teaching topic</span></span>
+            <span style="font-size:0.8rem;display:flex;justify-content:space-between;"><span style="color:var(--mid);">Day 4–6</span><span>Draft invitation</span></span>
+            <span style="font-size:0.8rem;display:flex;justify-content:space-between;"><span style="color:var(--mid);">Day 7–10</span><span>Invite first 10 women</span></span>
+            <span style="font-size:0.8rem;display:flex;justify-content:space-between;"><span style="color:var(--mid);">Day 11–14</span><span>Prepare live session</span></span>
+          </div>
+        </div>
+        <div class="doc-desc">Your Activation Map™ turns the assignment into sequenced actions and a first 14-day sprint. Built around your real life  -  not an ideal one. Sample content shown above.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- VS DISCOVERY LAB -->
+<section>
+  <div class="inner">
+    <span class="section-label">Choosing the Right Room</span>
+    <h2 class="sec-header">Intensive or Discovery Lab™  -  here is the difference.</h2>
+    <p class="sec-sub">Both offers help you move. Both produce your Assignment Brief™ and Activation Map™. The difference is format, pace, and setting.</p>
+
+    <div class="vs-strip">
+      <div class="vs-side">
+        <div class="vs-tag">This Page · Private &amp; Direct</div>
+        <div class="vs-name">Assignment Brief™ Intensive  -  $797</div>
+        <div class="vs-desc">One private session, 2–3 hours, 1:1 with Jackie. Accelerated, focused, and built for women who want direct clarity and a documented plan without a group process. Best if you want to move fast and work privately.</div>
+      </div>
+      <div class="vs-divider">or</div>
+      <div class="vs-side">
+        <div class="vs-tag">Communal &amp; Guided</div>
+        <div class="vs-name">Discovery Lab™  -  $997</div>
+        <div class="vs-desc">Four weeks, small group of five women, live weekly sessions. Guided teaching, accountability, and witnessed movement over time. Best if you want community, rhythm, and a longer process with others.</div>
+        <a href="#" class="vs-link">See Discovery Lab™ →</a>
+      </div>
+    </div>
+
+    <p style="margin-top:1.5rem;font-size:0.82rem;color:var(--mid);font-family:var(--font-sans);">
+      Not sure which fits? Take the Readiness Diagnostic™  -  your result will point you toward the right room.
+    </p>
+  </div>
+</section>
+
+<!-- WHO THIS IS FOR -->
+<section>
+  <div class="inner">
+    <span class="section-label">Who This Is For</span>
+    <h2 class="sec-header">This intensive is for one specific type of readiness.</h2>
+    <p class="sec-sub">The Assignment Brief™ Intensive is not for everyone at every stage. Here is how to know if it is the right room for where you are.</p>
+
+    <div class="who-grid">
+      <div class="who-prose">
+        <p>The Assignment Brief™ Intensive is for the woman who is done circling the assignment privately and is ready to name it, define it, and leave with it documented. She does not need more time to think. She needs a structure that holds her to the clarity she already has and helps her produce something concrete from it.</p>
+        <p>She prefers private work. She wants accelerated results. She is not interested in a multi-week group process  -  she wants to go in, do the work, and walk out with something in her hands. The Intensive is built for exactly that.</p>
+        <p>She may or may not have taken The Reveal™ first. If she is in the Definition stage and she already has enough clarity to work directly, the Intensive is the right next room regardless.</p>
+      </div>
+      <ul class="who-markers">
+        <li>You are in the Definition stage  -  you know the assignment, but you cannot say it with enough precision to build on it.</li>
+        <li>You have been in delay long enough that you are done waiting for the "right time." You are ready to name the decision and move.</li>
+        <li>You prefer private, focused work over a group setting. You want 1:1 attention, not a shared room.</li>
+        <li>You want to leave with something concrete  -  not more ideas, not more reflection, not more inspiration. A document. A plan. A named assignment.</li>
+        <li>You are ready to put the assignment in writing  -  and to be held to what you produce.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section>
+  <div class="inner">
+    <span class="section-label">Before You Book</span>
+    <h2 class="sec-header">Questions you may be carrying.</h2>
+
+    <div class="faq-list">
+
+      <div class="faq-item open">
+        <button class="faq-btn" aria-expanded="true">
+          <span class="faq-btn-text">Do I need to take The Reveal™ before the Intensive?</span>
+          <span class="faq-icon"><svg viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11" stroke="#1C1C1A" stroke-width="1.5" stroke-linecap="round"/><line x1="1" y1="6" x2="11" y2="6" stroke="#1C1C1A" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+        </button>
+        <div class="faq-body">
+          Not necessarily. The Reveal™ is designed for women in the Awareness or Delay stage  -  it helps you interpret your diagnostic and name the decision underneath the delay. If you have already done that work  -  you know the decision, you are past the delay, and you are ready to define and document  -  you can book the Intensive directly. If you are unsure which fits, take the Readiness Diagnostic™ first and let your result guide you.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" aria-expanded="false">
+          <span class="faq-btn-text">What do I need to prepare before the session?</span>
+          <span class="faq-icon"><svg viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11" stroke="#1C1C1A" stroke-width="1.5" stroke-linecap="round"/><line x1="1" y1="6" x2="11" y2="6" stroke="#1C1C1A" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+        </button>
+        <div class="faq-body">
+          You do not need to arrive with a polished idea or a completed framework. You need to come prepared to tell the truth about where you are and what has been keeping you from moving. After booking, you will receive preparation details in your confirmation email  -  including any short pre-work that helps make the session more productive.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" aria-expanded="false">
+          <span class="faq-btn-text">Will I actually leave with the documents, or is that something I finish on my own?</span>
+          <span class="faq-icon"><svg viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11" stroke="#1C1C1A" stroke-width="1.5" stroke-linecap="round"/><line x1="1" y1="6" x2="11" y2="6" stroke="#1C1C1A" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+        </button>
+        <div class="faq-body">
+          You leave the session with your Assignment Brief™ and Activation Map™ completed. These are produced during the intensive  -  not as homework afterward. The documents are built through the process of the session itself, which is why the session runs 2–3 hours. You walk out with them.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" aria-expanded="false">
+          <span class="faq-btn-text">What if I am not sure I am ready for the Intensive yet?</span>
+          <span class="faq-icon"><svg viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11" stroke="#1C1C1A" stroke-width="1.5" stroke-linecap="round"/><line x1="1" y1="6" x2="11" y2="6" stroke="#1C1C1A" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+        </button>
+        <div class="faq-body">
+          Start with the free Readiness Diagnostic™. It will identify your current stage and point you toward the right next step. If you are in Definition  -  the stage this Intensive is designed for  -  your result will confirm it. If you are in an earlier stage, your result will recommend the right room for where you actually are.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" aria-expanded="false">
+          <span class="faq-btn-text">How is this different from a coaching session?</span>
+          <span class="faq-icon"><svg viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11" stroke="#1C1C1A" stroke-width="1.5" stroke-linecap="round"/><line x1="1" y1="6" x2="11" y2="6" stroke="#1C1C1A" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+        </button>
+        <div class="faq-body">
+          This is a structured process, not an open-ended conversation. Every step has a specific purpose and a specific output. You are not coming to explore broadly  -  you are moving through a defined sequence that ends with your assignment documented. The goal is not clarity for clarity's sake. It is clarity that produces something you leave with.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" aria-expanded="false">
+          <span class="faq-btn-text">What is the refund and cancellation policy?</span>
+          <span class="faq-icon"><svg viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11" stroke="#1C1C1A" stroke-width="1.5" stroke-linecap="round"/><line x1="1" y1="6" x2="11" y2="6" stroke="#1C1C1A" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+        </button>
+        <div class="faq-body">
+          Please review the full <a href="#" style="color:var(--teal);text-decoration:none;border-bottom:1px solid var(--teal);">Refund &amp; Cancellation Policy</a> before booking. Sessions may be rescheduled with adequate notice. Questions before booking can be sent to hello@assignmentroom.com.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING SECTION -->
+<div class="booking-section" id="book">
+  <div class="booking-inner">
+    <div class="bl">
+      <span class="section-label">Ready to Define It</span>
+      <h2>Stop carrying this in your head. Put it in writing.</h2>
+      <p>The Assignment Brief™ Intensive is 2–3 hours of private, structured work that ends with your assignment named, your barrier addressed, and your first moves documented. You leave with something you can act on  -  the same day.</p>
+      <p>This is the room for women who are done circling and ready to produce.</p>
+    </div>
+    <div>
+      <div class="booking-card-dark">
+        <div class="bcd-label">Book This Intensive</div>
+        <div class="bcd-name">Assignment Brief™ Intensive</div>
+        <div class="bcd-rows">
+          <div class="bcd-row">
+            <div class="bcd-row-label">Format</div>
+            <div class="bcd-row-val">2–3 hours · Private · 1:1 with Jackie</div>
+          </div>
+          <div class="bcd-row">
+            <div class="bcd-row-label">Deliverables</div>
+            <div class="bcd-row-val">Assignment Brief™ PDF + Activation Map™</div>
+          </div>
+          <div class="bcd-row">
+            <div class="bcd-row-label">Best For</div>
+            <div class="bcd-row-val">Definition stage · Private work preferred · Ready to document</div>
+          </div>
+        </div>
+        <div class="bcd-price">
+          <span class="bcd-price-label">Investment</span>
+          <span class="bcd-price-val">$797</span>
+        </div>
+        <a href="#" class="btn-book-dark">Book the Intensive</a>
+        <div class="bcd-reassurance">Private. Focused. You leave with it in your hands.</div>
+        <div class="bcd-alt">Prefer a group process over four weeks? <a href="#">See Discovery Lab™ →</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">The Assignment Room™</div>
+    <p class="footer-tagline">Clarity, documentation, and movement for women carrying a God-given assignment.</p>
+  </div>
+  <div>
+    <div class="footer-col-title">Navigate</div>
+    <ul class="footer-links">
+      <li><a href="#">Start with the Diagnostic</a></li>
+      <li><a href="#">Work With Me</a></li>
+      <li><a href="#">About Jackie</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </div>
+  <div>
+    <div class="footer-col-title">Policies</div>
+    <ul class="footer-links">
+      <li><a href="#">Privacy Policy</a></li>
+      <li><a href="#">Terms of Service</a></li>
+      <li><a href="#">Refund &amp; Cancellation</a></li>
+      <li><a href="#">Accessibility Statement</a></li>
+    </ul>
+    <div class="footer-col-title" style="margin-top:1.5rem;">Connect</div>
+    <ul class="footer-links">
+      <li><a href="#">Instagram</a></li>
+      <li><a href="#">TikTok</a></li>
+      <li><a href="#">LinkedIn</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <span>© 2026 The Assignment Room™. All rights reserved.</span>
+  <span>hello@assignmentroom.com</span>
+</div>
+
+<script>
+  document.querySelectorAll('.faq-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+</script>
+</body>
+</html>

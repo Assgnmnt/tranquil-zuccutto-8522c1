@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Readiness Diagnostic™  -  The Assignment Room™</title>
+<meta name="description" content="Take the Readiness Diagnostic™ to identify your stage, barrier, and next step. 3 minutes. Free." />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream:    #F8F4EE;
+    --cream-dk: #EDE8E0;
+    --teal:     #058E97;
+    --teal-lt:  #E8F5F6;
+    --gold:     #C9A84C;
+    --charcoal: #1C1C1A;
+    --mid:      #5A5A56;
+    --border:   #DDD8D0;
+
+    --font-serif: 'Cormorant Garamond', Georgia, serif;
+    --font-sans:  'DM Sans', sans-serif;
+    --max:        1080px;
+    --pad:        clamp(1.25rem, 5vw, 2.5rem);
+  }
+
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body {
+    background: var(--cream);
+    color: var(--charcoal);
+    font-family: var(--font-sans);
+    font-weight: 300;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ── */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem var(--pad);
+    border-bottom: 1px solid var(--border);
+    background: var(--cream);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-logo {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--charcoal);
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mid);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--teal); }
+  .nav-links a.active { color: var(--teal); }
+  @media (max-width: 640px) { .nav-links { display: none; } }
+
+  /* ── LAYOUT ── */
+  .inner {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding-left: var(--pad);
+    padding-right: var(--pad);
+  }
+  .section-label {
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #047A82;
+    margin-bottom: 1.25rem;
+  }
+  section { padding: 4.5rem 0; }
+  section + section { border-top: 1px solid var(--border); }
+  .sec-header {
+    font-family: var(--font-serif);
+    font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+    font-weight: 400;
+    line-height: 1.25;
+    color: var(--charcoal);
+    margin-bottom: 0.75rem;
+  }
+  .sec-sub {
+    font-size: 0.9rem;
+    color: var(--mid);
+    max-width: 560px;
+    margin-bottom: 2.5rem;
+    line-height: 1.75;
+  }
+
+  /* ── HERO ── */
+  .diag-hero {
+    padding: 5rem var(--pad) 4.5rem;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    max-width: var(--max);
+    margin: 0 auto;
+  }
+  @media (max-width: 720px) {
+    .diag-hero { grid-template-columns: 1fr; gap: 2.5rem; padding: 3rem var(--pad); }
+  }
+  .hero-left h1 {
+    font-family: var(--font-serif);
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--charcoal);
+    margin-bottom: 1.5rem;
+  }
+  .hero-left h1 em {
+    font-style: italic;
+    color: var(--teal);
+  }
+  .hero-rule {
+    width: 40px;
+    height: 2px;
+    background: var(--gold);
+    margin: 1.5rem 0;
+  }
+  .hero-left p {
+    font-size: 0.95rem;
+    color: var(--mid);
+    line-height: 1.8;
+    max-width: 420px;
+    margin-bottom: 2rem;
+  }
+  .btn-primary {
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--teal);
+    text-decoration: none;
+    padding: 0.9rem 2.25rem;
+    transition: background 0.2s;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-primary:hover { background: #047a82; }
+  .hero-meta {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .hero-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  .hero-meta-val {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--charcoal);
+    line-height: 1;
+  }
+  .hero-meta-lbl {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+
+  /* ── RESULT MOCKUP ── */
+  .result-mockup {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--teal);
+    padding: 2rem;
+    position: relative;
+  }
+  .mockup-eyebrow {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 1.25rem;
+  }
+  .mockup-stage-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .mockup-stage-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 0.3rem;
+  }
+  .mockup-stage-val {
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--charcoal);
+  }
+  .mockup-badge {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: var(--cream-dk);
+    color: var(--charcoal);
+    padding: 0.3rem 0.7rem;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+  .mockup-row {
+    margin-bottom: 1.25rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--cream-dk);
+  }
+  .mockup-row:last-of-type { border-bottom: none; margin-bottom: 0; }
+  .mockup-row-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 0.35rem;
+  }
+  .mockup-row-val {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    color: var(--charcoal);
+    line-height: 1.5;
+  }
+  .mockup-row-desc {
+    font-size: 0.82rem;
+    color: var(--mid);
+    line-height: 1.65;
+    margin-top: 0.3rem;
+  }
+  .mockup-cta-row {
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .mockup-cta-note {
+    font-size: 0.78rem;
+    color: var(--mid);
+    font-style: italic;
+    font-family: var(--font-serif);
+  }
+  .btn-sm {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--teal);
+    text-decoration: none;
+    padding: 0.5rem 1.1rem;
+    white-space: nowrap;
+  }
+  .mockup-sample-label {
+    position: absolute;
+    top: -10px;
+    right: 1.5rem;
+    background: var(--gold);
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.6rem;
+  }
+
+  /* ── WHAT IT DOES ── */
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 1px solid var(--border);
+  }
+  @media (max-width: 680px) { .benefits-grid { grid-template-columns: 1fr; } }
+  .benefit-item {
+    padding: 2rem;
+    border-right: 1px solid var(--border);
+  }
+  .benefit-item:last-child { border-right: none; }
+  @media (max-width: 680px) {
+    .benefit-item { border-right: none; border-bottom: 1px solid var(--border); }
+    .benefit-item:last-child { border-bottom: none; }
+  }
+  .benefit-num {
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    color: #7A7068;
+    line-height: 1;
+    margin-bottom: 1rem;
+    font-weight: 300;
+  }
+  .benefit-title {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--charcoal);
+    margin-bottom: 0.6rem;
+    line-height: 1.3;
+  }
+  .benefit-desc {
+    font-size: 0.85rem;
+    color: var(--mid);
+    line-height: 1.7;
+  }
+  .benefit-highlight {
+    display: inline-block;
+    margin-top: 0.9rem;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--teal);
+    border-top: 1px solid var(--teal);
+    padding-top: 0.5rem;
+  }
+
+  /* ── HOW IT WORKS ── */
+  .how-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    counter-reset: step;
+  }
+  @media (max-width: 680px) { .how-steps { grid-template-columns: 1fr 1fr; } }
+  .how-step {
+    padding: 1.75rem 1.5rem;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--teal);
+    position: relative;
+  }
+  .how-step-num {
+    font-family: var(--font-serif);
+    font-size: 2.2rem;
+    font-weight: 300;
+    color: #7A7068;
+    line-height: 1;
+    margin-bottom: 0.75rem;
+  }
+  .how-step-title {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--charcoal);
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+  .how-step-desc {
+    font-size: 0.82rem;
+    color: var(--mid);
+    line-height: 1.65;
+  }
+  .how-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--border);
+    font-size: 1.2rem;
+    padding-top: 2rem;
+  }
+  @media (max-width: 680px) { .how-arrow { display: none; } }
+
+  /* ── STAGE PREVIEW ── */
+  .stages-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+  @media (max-width: 640px) { .stages-grid { grid-template-columns: 1fr; } }
+  .stage-item {
+    background: var(--cream);
+    padding: 1.75rem;
+    transition: background 0.2s;
+  }
+  .stage-item:hover { background: var(--teal-lt); }
+  .stage-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--teal);
+    margin-bottom: 0.85rem;
+    opacity: 0.4;
+  }
+  .stage-item:hover .stage-dot { opacity: 1; }
+  .stage-name {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--charcoal);
+    margin-bottom: 0.4rem;
+  }
+  .stage-desc {
+    font-size: 0.82rem;
+    color: var(--mid);
+    line-height: 1.65;
+  }
+  .stage-q {
+    margin-top: 0.75rem;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 0.88rem;
+    color: var(--teal);
+    line-height: 1.5;
+  }
+
+  /* ── BOTTOM CTA ── */
+  .bottom-cta {
+    background: var(--charcoal);
+    padding: 5rem 0;
+    text-align: center;
+  }
+  .bottom-cta .section-label { color: #9acdcf; }
+  .bottom-cta h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    font-weight: 400;
+    color: var(--cream);
+    max-width: 540px;
+    margin: 0 auto 1.25rem;
+    line-height: 1.25;
+  }
+  .bottom-cta p {
+    font-size: 0.9rem;
+    color: #b0ada8;
+    max-width: 460px;
+    margin: 0 auto 2rem;
+    line-height: 1.8;
+  }
+  .btn-cta-light {
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--charcoal);
+    background: var(--cream);
+    text-decoration: none;
+    padding: 0.9rem 2.25rem;
+    transition: background 0.2s;
+  }
+  .btn-cta-light:hover { background: var(--cream-dk); }
+  .bottom-cta-note {
+    margin-top: 1.5rem;
+    font-size: 0.78rem;
+    color: #6a6a66;
+    font-style: italic;
+    font-family: var(--font-serif);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 3rem var(--pad) 2.5rem;
+    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+    max-width: var(--max);
+    margin: 0 auto;
+  }
+  @media (max-width: 600px) { footer { grid-template-columns: 1fr; } }
+  .footer-logo {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--charcoal);
+    margin-bottom: 0.5rem;
+  }
+  .footer-tagline { font-size: 0.8rem; color: var(--mid); line-height: 1.6; max-width: 220px; }
+  .footer-col-title {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 1rem;
+  }
+  .footer-links { list-style: none; }
+  .footer-links li { margin-bottom: 0.5rem; }
+  .footer-links a { font-size: 0.82rem; color: var(--charcoal); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--teal); }
+  .footer-bottom {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 1.25rem var(--pad);
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--mid);
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="/">The Assignment Room™</a>
+  <ul class="nav-links">
+    <li><a href="#" class="active">Start with the Diagnostic</a></li>
+    <li><a href="#">Work With Me</a></li>
+    <li><a href="#">About Jackie</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div style="background:var(--cream);">
+  <div class="diag-hero">
+
+    <!-- Left: headline + CTA -->
+    <div class="hero-left">
+      <span class="section-label">Readiness Diagnostic™</span>
+      <h1>Find out <em>where you are.</em></h1>
+      <div class="hero-rule"></div>
+      <p>Before you book a session, join a room, or apply for a program  -  take three minutes to identify your current assignment stage, your most likely barrier, and the next step that fits where you actually are.</p>
+      <a href="#diagnostic-form" class="btn-primary">Take the Readiness Diagnostic™</a>
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span class="hero-meta-val">3</span>
+          <span class="hero-meta-lbl">Minutes</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-val">Free</span>
+          <span class="hero-meta-lbl">No cost, no pressure</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-val">1</span>
+          <span class="hero-meta-lbl">Clear next step</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: result mockup -->
+    <div style="position:relative;">
+      <div class="result-mockup">
+        <span class="mockup-sample-label">Sample Result</span>
+        <div class="mockup-eyebrow">Your Readiness Result</div>
+
+        <div class="mockup-stage-row">
+          <div>
+            <div class="mockup-stage-label">Your Stage</div>
+            <div class="mockup-stage-val">Delay</div>
+          </div>
+          <span class="mockup-badge">Stage 2 of 6</span>
+        </div>
+
+        <div class="mockup-row">
+          <div class="mockup-row-label">Primary Barrier</div>
+          <div class="mockup-row-val">Security Agreement</div>
+          <div class="mockup-row-desc">You do not lack clarity. You are protecting stability, control, or a version of safety that has become too expensive to keep.</div>
+        </div>
+
+        <div class="mockup-row">
+          <div class="mockup-row-label">One Question to Sit With</div>
+          <div class="mockup-row-val" style="font-style:italic;">What is the cost of staying here another six months?</div>
+        </div>
+
+        <div class="mockup-row">
+          <div class="mockup-row-label">Recommended Next Step</div>
+          <div class="mockup-row-val">Book The Reveal™</div>
+          <div class="mockup-row-desc">A private 60-minute session to interpret this result and name the decision underneath the delay.</div>
+        </div>
+
+        <div class="mockup-cta-row">
+          <span class="mockup-cta-note">You are not committing to the full pathway  -  only the next right room.</span>
+          <a href="#" class="btn-sm">Book The Reveal™</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- WHAT IT DOES -->
+<section>
+  <div class="inner">
+    <span class="section-label">What the Diagnostic Does</span>
+    <h2 class="sec-header">Three things it identifies. One clear starting point.</h2>
+    <p class="sec-sub">The Readiness Diagnostic™ is not a personality quiz or a reflection prompt. It is a structured assessment that surfaces what is actually happening underneath the delay.</p>
+
+    <div class="benefits-grid">
+      <div class="benefit-item">
+        <div class="benefit-num">01</div>
+        <div class="benefit-title">Your Assignment Stage</div>
+        <div class="benefit-desc">Find out where you actually are  -  whether you are in awareness, delay, definition, activation, sustainment, or multiplication  -  so you stop guessing what kind of help you need next.</div>
+        <span class="benefit-highlight">Stop guessing your starting point</span>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-num">02</div>
+        <div class="benefit-title">Your Primary Barrier</div>
+        <div class="benefit-desc">See the real reason you have not moved. The diagnostic helps expose whether the delay is tied to fear, identity, security, recognition, capacity, or lack of structure  -  not just a vague sense of being stuck.</div>
+        <span class="benefit-highlight">Name what has been delaying movement</span>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-num">03</div>
+        <div class="benefit-title">Your Recommended Next Step</div>
+        <div class="benefit-desc">Instead of wondering whether you need coaching, clarity, structure, or accountability, you receive the specific next step that matches your current stage. One clear room. One clear move.</div>
+        <span class="benefit-highlight">Know exactly where to go next</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section>
+  <div class="inner">
+    <span class="section-label">How It Works</span>
+    <h2 class="sec-header">What happens after you click.</h2>
+    <p class="sec-sub">The process is short, clear, and built to give you something useful  -  not just reflection.</p>
+
+    <div class="how-steps">
+      <div class="how-step">
+        <div class="how-step-num">01</div>
+        <div class="how-step-title">Take the Diagnostic</div>
+        <div class="how-step-desc">Answer a short set of questions about where you are, what you sense, and what keeps delaying movement. No account needed. No lengthy form.</div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">02</div>
+        <div class="how-step-title">Receive Your Result</div>
+        <div class="how-step-desc">See your current assignment stage and the barrier most likely affecting your movement  -  named clearly, without vague or generic language.</div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">03</div>
+        <div class="how-step-title">Review Your Next Step</div>
+        <div class="how-step-desc">Your result page includes one recommended next step  -  whether that is The Reveal™, the Assignment Brief™ Intensive, Discovery Lab™, or another path.</div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">04</div>
+        <div class="how-step-title">Decide from Clarity</div>
+        <div class="how-step-desc">Choose the next room only if it fits where you are. The diagnostic simply helps you stop guessing  -  it is not a commitment to anything.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STAGES PREVIEW -->
+<section>
+  <div class="inner">
+    <span class="section-label">The Six Stages</span>
+    <h2 class="sec-header">Every result names a stage. Every stage has a path.</h2>
+    <p class="sec-sub">The diagnostic identifies which of six stages you are in. Each stage has recognizable patterns, a named barrier, and one clear recommended next step.</p>
+
+    <div class="stages-grid">
+      <div class="stage-item">
+        <div class="stage-dot"></div>
+        <div class="stage-name">Awareness</div>
+        <div class="stage-desc">Something is stirring, but you do not yet have clear language for it. The pull is real  -  the words are not there yet.</div>
+        <div class="stage-q">"I know something is calling to me, but I cannot explain it."</div>
+      </div>
+      <div class="stage-item">
+        <div class="stage-dot"></div>
+        <div class="stage-name">Delay</div>
+        <div class="stage-desc">You know enough to move, but something keeps pulling you back. The delay has a name  -  you just have not found it yet.</div>
+        <div class="stage-q">"I keep waiting, but deep down I know I am not waiting for more clarity."</div>
+      </div>
+      <div class="stage-item">
+        <div class="stage-dot"></div>
+        <div class="stage-name">Definition</div>
+        <div class="stage-desc">You sense the assignment, but you cannot say it with precision. The work is naming what you are responsible to build in this season.</div>
+        <div class="stage-q">"I know what it is  -  I just cannot find the right language yet."</div>
+      </div>
+      <div class="stage-item">
+        <div class="stage-dot"></div>
+        <div class="stage-name">Activation</div>
+        <div class="stage-desc">You have language, but movement has been inconsistent. The work is building the structure that makes progress sustainable.</div>
+        <div class="stage-q">"I have started. But I keep stopping and starting over."</div>
+      </div>
+      <div class="stage-item">
+        <div class="stage-dot"></div>
+        <div class="stage-name">Sustainment</div>
+        <div class="stage-desc">You are moving, but the rhythms need protection. The work is building consistency so the assignment can mature past the emotion of beginning.</div>
+        <div class="stage-q">"I am in it, but I need a structure that keeps me moving when life presses back."</div>
+      </div>
+      <div class="stage-item">
+        <div class="stage-dot"></div>
+        <div class="stage-name">Multiplication</div>
+        <div class="stage-desc">You are ready to steward this work beyond yourself  -  to facilitate, teach, or multiply what has been built responsibly.</div>
+        <div class="stage-q">"I am ready to bring others into this work, but I need a structure to do it well."</div>
+      </div>
+    </div>
+
+    <p style="margin-top:1.75rem;font-size:0.82rem;color:var(--mid);">
+      Your result will identify your stage, name the barrier most likely delaying movement, and point you toward the next right room.
+    </p>
+  </div>
+</section>
+
+<!-- DIAGNOSTIC FORM PLACEHOLDER -->
+<section id="diagnostic-form" style="background:#fff;">
+  <div class="inner">
+    <span class="section-label">Begin Here</span>
+    <h2 class="sec-header">Take the Readiness Diagnostic™</h2>
+    <p class="sec-sub">Answer honestly. There is no wrong result. The goal is not to evaluate you  -  it is to help you stop guessing where you are.</p>
+
+    <!-- DEVELOPER NOTE: Replace the div below with your Typeform, ScoreApp, Jotform, or custom embed code. The tool should route results to the correct stage result page automatically. -->
+    <div style="max-width: 640px;">
+      <a href="#" class="btn-primary" style="display:inline-block;">Take the Readiness Diagnostic™ →</a>
+      <p style="margin-top:1.1rem;font-size:0.78rem;color:var(--mid);">
+        Free · Takes about 3 minutes · No account required
+      </p>
+    </div>
+
+    <div style="margin-top:2.5rem;max-width:560px;">
+      <p style="font-family:var(--font-serif);font-style:italic;font-size:1rem;color:var(--mid);border-left:2px solid var(--teal);padding-left:1.25rem;line-height:1.7;">
+        You do not have to know the full assignment before you begin. You just need enough honesty to stop circling it alone.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- BOTTOM CTA -->
+<div class="bottom-cta">
+  <div class="inner">
+    <span class="section-label">No Pressure. No Guessing.</span>
+    <h2>Just a clearer place to begin.</h2>
+    <p>
+      After you complete the diagnostic, you will receive your result and a recommended next step. You are not committing to a paid room  -  you are simply finding out where you are.
+    </p>
+    <a href="#diagnostic-form" class="btn-cta-light">Take the Readiness Diagnostic™</a>
+    <div class="bottom-cta-note">
+      Know your stage. Name the barrier. Move with structure.
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">The Assignment Room™</div>
+    <p class="footer-tagline">Clarity, documentation, and movement for women carrying a God-given assignment.</p>
+  </div>
+  <div>
+    <div class="footer-col-title">Navigate</div>
+    <ul class="footer-links">
+      <li><a href="#">Start with the Diagnostic</a></li>
+      <li><a href="#">Work With Me</a></li>
+      <li><a href="#">About Jackie</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </div>
+  <div>
+    <div class="footer-col-title">Policies</div>
+    <ul class="footer-links">
+      <li><a href="#">Privacy Policy</a></li>
+      <li><a href="#">Terms of Service</a></li>
+      <li><a href="#">Refund &amp; Cancellation</a></li>
+      <li><a href="#">Accessibility Statement</a></li>
+    </ul>
+    <div class="footer-col-title" style="margin-top:1.5rem;">Connect</div>
+    <ul class="footer-links">
+      <li><a href="#">Instagram</a></li>
+      <li><a href="#">TikTok</a></li>
+      <li><a href="#">LinkedIn</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <span>© 2026 The Assignment Room™. All rights reserved.</span>
+  <span>hello@assignmentroom.com</span>
+</div>
+
+</body>
+</html>

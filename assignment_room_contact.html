@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Contact  -  The Assignment Room™</title>
+<meta name="description" content="Reach Jackie Parker and The Assignment Room™ team. For questions about the offers, the diagnostic, or the pathway  -  we are here." />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream:    #F8F4EE;
+    --cream-dk: #EDE8E0;
+    --teal:     #058E97;
+    --teal-lt:  #E8F5F6;
+    --gold:     #C9A84C;
+    --charcoal: #1C1C1A;
+    --mid:      #5A5A56;
+    --border:   #DDD8D0;
+    --font-serif: 'Cormorant Garamond', Georgia, serif;
+    --font-sans:  'DM Sans', sans-serif;
+    --max: 1080px;
+    --pad: clamp(1.25rem, 5vw, 2.5rem);
+  }
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body {
+    background: var(--cream);
+    color: var(--charcoal);
+    font-family: var(--font-sans);
+    font-weight: 300;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem var(--pad); border-bottom: 1px solid var(--border);
+    background: var(--cream); position: sticky; top: 0; z-index: 100;
+  }
+  .nav-logo {
+    font-family: var(--font-serif); font-size: 1.05rem; font-weight: 500;
+    letter-spacing: 0.06em; text-transform: uppercase; color: var(--charcoal); text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.78rem; font-weight: 400; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--mid); text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--teal); }
+  @media (max-width: 640px) { .nav-links { display: none; } }
+
+  /* LAYOUT */
+  .inner { max-width: var(--max); margin: 0 auto; padding-left: var(--pad); padding-right: var(--pad); }
+  .section-label {
+    display: inline-block; font-size: 0.7rem; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase; color: #047A82; margin-bottom: 1.25rem;
+  }
+
+  /* PAGE INTRO */
+  .page-intro {
+    padding: 4.5rem var(--pad) 4rem; border-bottom: 1px solid var(--border);
+    max-width: var(--max); margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: end;
+  }
+  @media (max-width: 720px) { .page-intro { grid-template-columns: 1fr; gap: 2rem; padding: 3rem var(--pad); } }
+
+  .pi-left {}
+  .pi-left h1 {
+    font-family: var(--font-serif); font-size: clamp(2.2rem, 5.5vw, 3.6rem);
+    font-weight: 400; line-height: 1.1; color: var(--charcoal); margin-bottom: 1.25rem;
+  }
+  .pi-left h1 em { font-style: italic; color: var(--teal); }
+  .pi-rule { width: 40px; height: 2px; background: var(--gold); margin-bottom: 1.5rem; }
+  .pi-left p { font-size: 0.92rem; color: var(--mid); line-height: 1.8; max-width: 420px; }
+
+  .pi-right {}
+  .contact-direct {
+    display: flex; flex-direction: column; gap: 0;
+    border: 1px solid var(--border); background: #fff;
+  }
+  .cd-item {
+    padding: 1.5rem; border-bottom: 1px solid var(--border);
+    display: grid; grid-template-columns: 1.5rem 1fr; gap: 1rem; align-items: start;
+  }
+  .cd-item:last-child { border-bottom: none; }
+  .cd-icon { padding-top: 0.1rem; }
+  .cd-icon svg { width: 16px; height: 16px; stroke: var(--teal); fill: none; stroke-width: 1.5; }
+  .cd-label { font-size: 0.67rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.3rem; }
+  .cd-value { font-size: 0.92rem; color: var(--charcoal); }
+  .cd-value a { color: var(--charcoal); text-decoration: none; border-bottom: 1px solid var(--border); transition: border-color 0.2s, color 0.2s; }
+  .cd-value a:hover { color: var(--teal); border-color: var(--teal); }
+  .cd-note { font-size: 0.78rem; color: var(--mid); margin-top: 0.25rem; line-height: 1.5; }
+  .social-links { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 0.5rem; }
+  .social-link {
+    font-size: 0.72rem; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--teal); text-decoration: none;
+    border: 1px solid var(--teal); padding: 0.3rem 0.75rem;
+    transition: background 0.2s, color 0.2s;
+  }
+  .social-link:hover { background: var(--teal); color: #fff; }
+
+  /* MAIN CONTENT GRID */
+  .main-grid {
+    max-width: var(--max); margin: 0 auto; padding: 4.5rem var(--pad);
+    display: grid; grid-template-columns: 1fr 380px; gap: 5rem; align-items: start;
+  }
+  @media (max-width: 820px) { .main-grid { grid-template-columns: 1fr; gap: 3rem; padding: 3rem var(--pad); } }
+
+  /* CONTACT FORM */
+  .form-wrap {}
+  .form-section-label {
+    font-size: 0.7rem; font-weight: 500; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--teal); margin-bottom: 0.75rem; display: block;
+  }
+  .form-heading {
+    font-family: var(--font-serif); font-size: clamp(1.4rem, 3vw, 1.9rem);
+    font-weight: 400; line-height: 1.25; color: var(--charcoal); margin-bottom: 0.75rem;
+  }
+  .form-sub { font-size: 0.88rem; color: var(--mid); line-height: 1.75; margin-bottom: 2rem; max-width: 480px; }
+
+  .contact-form { display: flex; flex-direction: column; gap: 1.25rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  @media (max-width: 500px) { .form-row { grid-template-columns: 1fr; } }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+  .form-label {
+    font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--mid);
+  }
+  .form-input, .form-select, .form-textarea {
+    background: #fff; border: 1px solid var(--border);
+    padding: 0.75rem 1rem; font-family: var(--font-sans); font-size: 0.88rem;
+    color: var(--charcoal); font-weight: 300; width: 100%;
+    transition: border-color 0.2s; appearance: none; -webkit-appearance: none;
+    outline: none; border-radius: 0;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    border-color: var(--teal);
+  }
+  .form-textarea { resize: vertical; min-height: 140px; line-height: 1.6; }
+  .form-select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235A5A56' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem; cursor: pointer; }
+
+  .form-note { font-size: 0.78rem; color: var(--mid); line-height: 1.6; }
+  .btn-send {
+    display: inline-block; font-family: var(--font-sans);
+    font-size: 0.78rem; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: #fff; background: var(--teal);
+    border: none; padding: 0.95rem 2.5rem; cursor: pointer; transition: background 0.2s;
+    align-self: flex-start;
+  }
+  .btn-send:hover { background: #047a82; }
+
+  /* SIDEBAR */
+  .sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
+
+  .sidebar-card {
+    background: #fff; border: 1px solid var(--border); padding: 1.75rem;
+  }
+  .sc-label { font-size: 0.67rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 0.75rem; }
+  .sc-title { font-family: var(--font-serif); font-size: 1.1rem; font-weight: 500; color: var(--charcoal); margin-bottom: 0.6rem; line-height: 1.3; }
+  .sc-desc { font-size: 0.85rem; color: var(--mid); line-height: 1.7; margin-bottom: 1.25rem; }
+  .btn-sc {
+    display: block; text-align: center; font-family: var(--font-sans);
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #fff; background: var(--teal);
+    text-decoration: none; padding: 0.8rem; transition: background 0.2s;
+  }
+  .btn-sc:hover { background: #047a82; }
+  .btn-sc-outline {
+    display: block; text-align: center; font-family: var(--font-sans);
+    font-size: 0.75rem; font-weight: 400; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--teal);
+    text-decoration: none; padding: 0.75rem;
+    border: 1px solid var(--teal); margin-top: 0.6rem; transition: background 0.2s, color 0.2s;
+  }
+  .btn-sc-outline:hover { background: var(--teal); color: #fff; }
+
+  .response-card {
+    background: var(--cream-dk); border: 1px solid var(--border);
+    border-left: 3px solid var(--gold); padding: 1.5rem;
+  }
+  .rc-label { font-size: 0.67rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #7A5F20; margin-bottom: 0.75rem; }
+  .rc-item { display: flex; justify-content: space-between; align-items: baseline; padding: 0.5rem 0; border-bottom: 1px solid var(--border); font-size: 0.83rem; }
+  .rc-item:last-child { border-bottom: none; }
+  .rc-type { color: var(--mid); }
+  .rc-time { color: var(--charcoal); font-weight: 500; }
+
+  /* BEFORE YOU REACH OUT */
+  .before-section {
+    border-top: 1px solid var(--border); padding: 4.5rem 0;
+    background: #fff;
+  }
+  .before-inner {
+    max-width: var(--max); margin: 0 auto; padding: 0 var(--pad);
+  }
+  .before-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+    background: var(--border); border: 1px solid var(--border); margin-top: 2.5rem;
+  }
+  @media (max-width: 640px) { .before-grid { grid-template-columns: 1fr; } }
+  .before-item { background: #fff; padding: 2rem; }
+  .bi-q {
+    font-family: var(--font-serif); font-size: 1rem; font-weight: 500;
+    color: var(--charcoal); margin-bottom: 0.75rem; line-height: 1.35;
+  }
+  .bi-a { font-size: 0.85rem; color: var(--mid); line-height: 1.7; }
+  .bi-a a { color: var(--teal); text-decoration: none; border-bottom: 1px solid var(--teal); }
+
+  /* FOOTER */
+  footer { padding: 3rem var(--pad) 2.5rem; border-top: 1px solid var(--border); display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem; max-width: var(--max); margin: 0 auto; }
+  @media (max-width: 600px) { footer { grid-template-columns: 1fr; } }
+  .footer-logo { font-family: var(--font-serif); font-size: 1rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--charcoal); margin-bottom: 0.5rem; }
+  .footer-tagline { font-size: 0.8rem; color: var(--mid); line-height: 1.6; max-width: 220px; }
+  .footer-col-title { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); margin-bottom: 1rem; }
+  .footer-links { list-style: none; }
+  .footer-links li { margin-bottom: 0.5rem; }
+  .footer-links a { font-size: 0.82rem; color: var(--charcoal); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--teal); }
+  .footer-bottom { max-width: var(--max); margin: 0 auto; padding: 1.25rem var(--pad); border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--mid); flex-wrap: wrap; gap: 0.5rem; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="/">The Assignment Room™</a>
+  <ul class="nav-links">
+    <li><a href="#">Start with the Diagnostic</a></li>
+    <li><a href="#">Work With Me</a></li>
+    <li><a href="#">About Jackie</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- PAGE INTRO -->
+<div class="page-intro">
+  <div class="pi-left">
+    <span class="section-label">Contact</span>
+    <h1>We are <em>here.</em></h1>
+    <div class="pi-rule"></div>
+    <p>Whether you have a question about the offers, need help identifying the right next room, or want to connect before you commit to anything  -  reach out. Every message is read.</p>
+  </div>
+
+  <div class="pi-right">
+    <div class="contact-direct">
+      <div class="cd-item">
+        <div class="cd-icon">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div>
+          <div class="cd-label">Email</div>
+          <div class="cd-value"><a href="mailto:hello@assignmentroom.com">hello@assignmentroom.com</a></div>
+          <div class="cd-note">For questions about offers, the diagnostic, and the pathway.</div>
+        </div>
+      </div>
+      <div class="cd-item">
+        <div class="cd-icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </div>
+        <div>
+          <div class="cd-label">Social</div>
+          <div class="social-links">
+            <a href="#" class="social-link">Instagram</a>
+            <a href="#" class="social-link">TikTok</a>
+            <a href="#" class="social-link">LinkedIn</a>
+          </div>
+          <div class="cd-note" style="margin-top:0.6rem;">DMs are open on Instagram for quick questions.</div>
+        </div>
+      </div>
+      <div class="cd-item">
+        <div class="cd-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div>
+          <div class="cd-label">Response Time</div>
+          <div class="cd-value">Within 2–3 business days</div>
+          <div class="cd-note">For Fellowship™ applications, allow up to one week.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN: FORM + SIDEBAR -->
+<div class="main-grid">
+
+  <!-- Contact Form -->
+  <div class="form-wrap">
+    <span class="form-section-label">Send a Message</span>
+    <h2 class="form-heading">Ask a question. Request a conversation. Just say where you are.</h2>
+    <p class="form-sub">You do not need to have everything figured out before you reach out. If you are somewhere in the pathway and something is not clear  -  send a message. Jackie reads every one.</p>
+
+    <form class="contact-form" action="#" method="POST">
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="first-name">First Name</label>
+          <input class="form-input" type="text" id="first-name" name="first_name" placeholder="Your first name" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="last-name">Last Name</label>
+          <input class="form-input" type="text" id="last-name" name="last_name" placeholder="Your last name" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="email">Email Address</label>
+        <input class="form-input" type="email" id="email" name="email" placeholder="your@email.com" required />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="subject">What is this about?</label>
+        <select class="form-select" id="subject" name="subject" required>
+          <option value="" disabled selected>Select the best fit</option>
+          <optgroup label="The Pathway">
+            <option value="diagnostic">Question about the Readiness Diagnostic™</option>
+            <option value="reveal">Question about The Reveal™</option>
+            <option value="intensive">Question about the Assignment Brief™ Intensive</option>
+            <option value="lab">Question about Discovery Lab™</option>
+            <option value="activation">Question about the Activation Program™</option>
+            <option value="fellowship">Fellowship™ inquiry</option>
+          </optgroup>
+          <optgroup label="Other">
+            <option value="notsure">Not sure where to start</option>
+            <option value="media">Media or speaking inquiry</option>
+            <option value="other">Something else</option>
+          </optgroup>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="stage">Where are you right now? <span style="text-transform:none;letter-spacing:0;font-weight:300;color:var(--mid);font-size:0.75rem;">(optional)</span></label>
+        <select class="form-select" id="stage" name="stage">
+          <option value="" disabled selected>Select your current stage</option>
+          <option value="awareness">Awareness  -  something is stirring, I don't have language yet</option>
+          <option value="delay">Delay  -  I know what it is, but I haven't moved</option>
+          <option value="definition">Definition  -  I need to name it clearly</option>
+          <option value="activation">Activation  -  I've started, but movement is inconsistent</option>
+          <option value="sustainment">Sustainment  -  I'm moving, I need rhythms to hold</option>
+          <option value="multiplication">Multiplication  -  I'm ready to steward this beyond myself</option>
+          <option value="unsure">Not sure  -  I haven't taken the diagnostic yet</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="message">Your Message</label>
+        <textarea class="form-textarea" id="message" name="message" placeholder="What would you like to ask or share? You don't need to over-prepare this  -  just say where you are and what you need." required></textarea>
+      </div>
+
+      <p class="form-note">By submitting this form, you agree to receive a response from The Assignment Room™ at the email address provided. Your information is never shared or sold.</p>
+
+      <button type="submit" class="btn-send">Send Message</button>
+
+    </form>
+  </div>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+
+    <div class="sidebar-card">
+      <div class="sc-label">Not Sure Where to Start?</div>
+      <div class="sc-title">Take the Readiness Diagnostic™ first.</div>
+      <div class="sc-desc">Before reaching out, take the free diagnostic. It will identify your current stage, your primary barrier, and the right next step  -  which makes any subsequent conversation significantly more useful.</div>
+      <a href="#" class="btn-sc">Take the Diagnostic  -  Free</a>
+      <a href="#" class="btn-sc-outline">View All Offers</a>
+    </div>
+
+    <div class="response-card">
+      <div class="rc-label">Response Times</div>
+      <div class="rc-item">
+        <span class="rc-type">General questions</span>
+        <span class="rc-time">2–3 business days</span>
+      </div>
+      <div class="rc-item">
+        <span class="rc-type">Booking inquiries</span>
+        <span class="rc-time">2–3 business days</span>
+      </div>
+      <div class="rc-item">
+        <span class="rc-type">Activation Program™ application</span>
+        <span class="rc-time">3–5 business days</span>
+      </div>
+      <div class="rc-item">
+        <span class="rc-type">Fellowship™ application</span>
+        <span class="rc-time">Up to 1 week</span>
+      </div>
+      <div class="rc-item">
+        <span class="rc-type">Media &amp; speaking</span>
+        <span class="rc-time">5–7 business days</span>
+      </div>
+    </div>
+
+    <div class="sidebar-card" style="border-top: 3px solid var(--gold);">
+      <div class="sc-label" style="color:var(--gold);">Fellowship™ Inquiry</div>
+      <div class="sc-title">Applying for Fellowship™?</div>
+      <div class="sc-desc">Fellowship™ is application-only. If you are sensing readiness for that pathway, select "Fellowship™ inquiry" in the form  -  or email hello@assignmentroom.com directly with a brief description of where you are and what you are sensing about the next season.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- BEFORE YOU REACH OUT -->
+<div class="before-section">
+  <div class="before-inner">
+    <span class="section-label">Before You Reach Out</span>
+    <h2 style="font-family:var(--font-serif);font-size:clamp(1.4rem,3vw,1.9rem);font-weight:400;line-height:1.25;color:var(--charcoal);">These questions answer themselves  -  before a message is needed.</h2>
+
+    <div class="before-grid">
+      <div class="before-item">
+        <div class="bi-q">I don't know which offer is right for me. Where do I start?</div>
+        <div class="bi-a">Start with the free <a href="#">Readiness Diagnostic™</a>. It takes about three minutes and identifies your current stage, your primary barrier, and the right next room. You will leave with a clear recommendation  -  no conversation required.</div>
+      </div>
+      <div class="before-item">
+        <div class="bi-q">I took the diagnostic but I'm not sure about my result.</div>
+        <div class="bi-a">Book <a href="#">The Reveal™</a> ($197). That session is specifically designed to interpret your diagnostic result and help you understand what it is actually showing  -  so you leave with clarity about the next move, not just a stage name.</div>
+      </div>
+      <div class="before-item">
+        <div class="bi-q">Is there a way to speak with Jackie before I book?</div>
+        <div class="bi-a">The best first step is the diagnostic  -  your result will tell you whether the right next room is a conversation like The Reveal™ or a direct booking like the Intensive. If you still have questions after that, reach out via the form above.</div>
+      </div>
+      <div class="before-item">
+        <div class="bi-q">I want to book but I have a question about the policy first.</div>
+        <div class="bi-a">Review the full <a href="#">Refund &amp; Cancellation Policy</a> page. If your question is not answered there, include it in the form above and select the offer you are considering.</div>
+      </div>
+      <div class="before-item">
+        <div class="bi-q">I'm interested in having Jackie speak or appear in media.</div>
+        <div class="bi-a">Use the contact form above and select "Media or speaking inquiry." Include the event name or outlet, the format, the date, and a brief description of the audience. Jackie's team will respond within 5–7 business days.</div>
+      </div>
+      <div class="before-item">
+        <div class="bi-q">I'm a woman of faith but I'm not sure this space is for me.</div>
+        <div class="bi-a">The Assignment Room™ is faith-rooted and built for the woman who believes her assignment is God-given  -  and who is ready to stop circling it privately and build toward it with structure and intention. The <a href="#">About Jackie</a> page has more on the faith foundation of the work.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">The Assignment Room™</div>
+    <p class="footer-tagline">Clarity, documentation, and movement for women carrying a God-given assignment.</p>
+  </div>
+  <div>
+    <div class="footer-col-title">Navigate</div>
+    <ul class="footer-links">
+      <li><a href="#">Start with the Diagnostic</a></li>
+      <li><a href="#">Work With Me</a></li>
+      <li><a href="#">About Jackie</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </div>
+  <div>
+    <div class="footer-col-title">Policies</div>
+    <ul class="footer-links">
+      <li><a href="#">Privacy Policy</a></li>
+      <li><a href="#">Terms of Service</a></li>
+      <li><a href="#">Refund &amp; Cancellation</a></li>
+      <li><a href="#">Accessibility Statement</a></li>
+    </ul>
+    <div class="footer-col-title" style="margin-top:1.5rem;">Connect</div>
+    <ul class="footer-links">
+      <li><a href="#">Instagram</a></li>
+      <li><a href="#">TikTok</a></li>
+      <li><a href="#">LinkedIn</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <span>© 2026 The Assignment Room™. All rights reserved.</span>
+  <span>hello@assignmentroom.com</span>
+</div>
+
+</body>
+</html>
