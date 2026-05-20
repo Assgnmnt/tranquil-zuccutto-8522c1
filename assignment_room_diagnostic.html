@@ -390,7 +390,7 @@ footer { padding: 3rem var(--pad) 2.5rem; border-top: 1px solid var(--border); d
     <li><a href="/diagnostic" class="active">Start with the Diagnostic</a></li>
     <li><a href="/start-here">Work With Me</a></li>
     <li><a href="/about">About Jackie</a></li>
-    <li><a href="/contact">Contact</a></li>
+    <li><a href="/speak">Speaking</a></li><li><a href="/contact">Contact</a></li>
   </ul>
 </nav>
 
@@ -626,7 +626,7 @@ footer { padding: 3rem var(--pad) 2.5rem; border-top: 1px solid var(--border); d
       <li><a href="/diagnostic">Start with the Diagnostic</a></li>
       <li><a href="/start-here">Work With Me</a></li>
       <li><a href="/about">About Jackie</a></li>
-      <li><a href="/contact">Contact</a></li>
+      <li><a href="/speak">Speaking</a></li><li><a href="/contact">Contact</a></li>
     </ul>
   </div>
   <div>
@@ -748,10 +748,26 @@ async function submitDiagnostic() {
     formData.append('q5_progress', q5);
     formData.append('_subject', 'New Readiness Diagnostic™ — ' + firstName + ' · Stage: ' + stage);
 
+    // Submit to Formspree
     await fetch('https://formspree.io/f/xgoddqgy', {
       method: 'POST',
       body: formData,
       headers: { 'Accept': 'application/json' }
+    });
+
+    // Submit to Zapier webhook (triggers Mailchimp tagging)
+    const zapierData = {
+      first_name: firstName,
+      email: email,
+      stage: stage,
+      primary_barrier: barrier,
+      recommended_next_step: nextStep,
+      readiness_intent: q6
+    };
+    await fetch('https://hooks.zapier.com/hooks/catch/27664390/4o1a5j5/', {
+      method: 'POST',
+      body: JSON.stringify(zapierData),
+      headers: { 'Content-Type': 'application/json' }
     });
   } catch(e) {
     // Still show confirmation even if network error
