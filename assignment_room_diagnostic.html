@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Readiness Diagnostic™ — The Assignment Room™</title>
+<meta name="description" content="Take the Readiness Diagnostic™ to identify your stage, barrier, and next step. 3 minutes. Free." />
+<meta name="author" content="Jackie Parker" />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://assignmentroom.com/diagnostic" />
+<meta property="og:title" content="Readiness Diagnostic™ — The Assignment Room™" />
+<meta property="og:description" content="Find out exactly where you are in your assignment journey. Free. 3 minutes." />
+<meta property="og:url" content="https://assignmentroom.com/diagnostic" />
+<meta property="og:image" content="https://assignmentroom.com/jackie-headshot.jpg" />
+<meta property="og:site_name" content="The Assignment Room™" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:creator" content="@iamjwp" />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --cream: #F8F4EE;
+  --cream-dk: #EDE8E0;
+  --teal: #058E97;
+  --teal-lt: #E8F5F6;
+  --gold: #C9A84C;
+  --charcoal: #1C1C1A;
+  --mid: #5A5A56;
+  --border: #DDD8D0;
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'DM Sans', sans-serif;
+  --max: 1080px;
+  --pad: clamp(1.25rem, 5vw, 2.5rem);
+}
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  background: var(--cream);
+  color: var(--charcoal);
+  font-family: var(--font-sans);
+  font-weight: 300;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* NAV */
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem var(--pad);
+  border-bottom: 1px solid var(--border);
+  background: var(--cream);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.nav-logo {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--charcoal);
+  text-decoration: none;
+}
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mid);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--teal); }
+@media (max-width: 640px) { .nav-links { display: none; } }
+
+/* LAYOUT */
+.inner { max-width: var(--max); margin: 0 auto; padding-left: var(--pad); padding-right: var(--pad); }
+.section-label {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #047A82;
+  margin-bottom: 1.25rem;
+}
+section { padding: 4.5rem 0; }
+section + section { border-top: 1px solid var(--border); }
+.sec-header {
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--charcoal);
+  margin-bottom: 0.75rem;
+}
+.sec-sub {
+  font-size: 0.9rem;
+  color: var(--mid);
+  max-width: 560px;
+  margin-bottom: 2.5rem;
+  line-height: 1.75;
+}
+
+/* HERO */
+.diag-hero {
+  padding: 5rem var(--pad) 4.5rem;
+  border-bottom: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  max-width: var(--max);
+  margin: 0 auto;
+}
+@media (max-width: 720px) {
+  .diag-hero { grid-template-columns: 1fr; gap: 2.5rem; padding: 3rem var(--pad); }
+}
+.hero-left h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--charcoal);
+  margin-bottom: 1.5rem;
+}
+.hero-left h1 em { font-style: italic; color: var(--teal); }
+.hero-rule { width: 40px; height: 2px; background: var(--gold); margin: 1.5rem 0; }
+.hero-left p { font-size: 0.95rem; color: var(--mid); line-height: 1.8; max-width: 420px; margin-bottom: 2rem; }
+.btn-primary {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--teal);
+  text-decoration: none;
+  padding: 0.9rem 2.25rem;
+  transition: background 0.2s;
+  border: none;
+  cursor: pointer;
+}
+.btn-primary:hover { background: #047a82; }
+.hero-meta { display: flex; gap: 2rem; margin-top: 1.5rem; flex-wrap: wrap; }
+.hero-meta-item { display: flex; flex-direction: column; gap: 0.2rem; }
+.hero-meta-val { font-family: var(--font-serif); font-size: 1.5rem; font-weight: 500; color: var(--charcoal); line-height: 1; }
+.hero-meta-lbl { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); }
+
+/* RESULT MOCKUP */
+.result-mockup {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--teal);
+  padding: 2rem;
+  position: relative;
+}
+.mockup-eyebrow { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 1.25rem; }
+.mockup-stage-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border); }
+.mockup-stage-label { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.3rem; }
+.mockup-stage-val { font-family: var(--font-serif); font-size: 1.4rem; font-weight: 500; color: var(--charcoal); }
+.mockup-badge { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; background: var(--cream-dk); color: var(--charcoal); padding: 0.3rem 0.7rem; border-radius: 2px; white-space: nowrap; }
+.mockup-row { margin-bottom: 1.25rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--cream-dk); }
+.mockup-row:last-of-type { border-bottom: none; margin-bottom: 0; }
+.mockup-row-label { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.35rem; }
+.mockup-row-val { font-family: var(--font-serif); font-size: 1rem; color: var(--charcoal); line-height: 1.5; }
+.mockup-row-desc { font-size: 0.82rem; color: var(--mid); line-height: 1.65; margin-top: 0.3rem; }
+.mockup-cta-row { margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.mockup-cta-note { font-size: 0.78rem; color: var(--mid); font-style: italic; font-family: var(--font-serif); }
+.btn-sm { font-family: var(--font-sans); font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #fff; background: var(--teal); text-decoration: none; padding: 0.5rem 1.1rem; white-space: nowrap; }
+.mockup-sample-label { position: absolute; top: -10px; right: 1.5rem; background: var(--gold); color: #fff; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.2rem 0.6rem; }
+
+/* DIAGNOSTIC FORM SECTION */
+.form-section { background: #fff; padding: 5rem 0; border-top: 1px solid var(--border); }
+.form-wrap { max-width: 640px; }
+
+/* PROGRESS BAR */
+.progress-bar-wrap {
+  margin-bottom: 2.5rem;
+}
+.progress-label {
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 0.6rem;
+  display: flex;
+  justify-content: space-between;
+}
+.progress-track {
+  height: 2px;
+  background: var(--cream-dk);
+  position: relative;
+}
+.progress-fill {
+  height: 2px;
+  background: var(--teal);
+  transition: width 0.4s ease;
+  width: 0%;
+}
+
+/* STEPS */
+.step { display: none; }
+.step.active { display: block; }
+
+/* CONTACT FIELDS */
+.field-group { margin-bottom: 1.5rem; }
+.field-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 0.5rem;
+}
+.field-input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border);
+  background: var(--cream);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: var(--charcoal);
+  outline: none;
+  border-radius: 0;
+  transition: border-color 0.2s;
+}
+.field-input:focus { border-color: var(--teal); }
+
+/* QUESTION STYLES */
+.question-block { margin-bottom: 2.5rem; }
+.question-number {
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 0.5rem;
+}
+.question-text {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--charcoal);
+  line-height: 1.4;
+  margin-bottom: 1.25rem;
+}
+.options-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+.option-item label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border);
+  background: var(--cream);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  font-size: 0.88rem;
+  color: var(--charcoal);
+  line-height: 1.5;
+}
+.option-item label:hover { border-color: var(--teal); background: var(--teal-lt); }
+.option-item input[type="radio"] { display: none; }
+.option-item input[type="radio"]:checked + label {
+  border-color: var(--teal);
+  background: var(--teal-lt);
+}
+.option-radio {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--border);
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 2px;
+  transition: border-color 0.15s, background 0.15s;
+  position: relative;
+}
+.option-item input[type="radio"]:checked + label .option-radio {
+  border-color: var(--teal);
+  background: var(--teal);
+}
+.option-item input[type="radio"]:checked + label .option-radio::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+/* BUTTONS */
+.btn-row { display: flex; gap: 1rem; align-items: center; margin-top: 2rem; flex-wrap: wrap; }
+.btn-next, .btn-submit {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--teal);
+  padding: 0.9rem 2.25rem;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-next:hover, .btn-submit:hover { background: #047a82; }
+.btn-back {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mid);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.form-note { font-size: 0.75rem; color: var(--mid); margin-top: 0.75rem; line-height: 1.6; }
+.error-msg { font-size: 0.8rem; color: #b94040; margin-top: 0.5rem; display: none; }
+
+/* CONFIRMATION */
+.confirmation { display: none; text-align: left; }
+.confirmation.active { display: block; }
+.confirm-eyebrow { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--teal); margin-bottom: 1rem; }
+.confirm-heading { font-family: var(--font-serif); font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 400; color: var(--charcoal); line-height: 1.2; margin-bottom: 1.25rem; }
+.confirm-body { font-size: 0.92rem; color: var(--mid); line-height: 1.85; max-width: 520px; }
+.confirm-body p + p { margin-top: 1rem; }
+.confirm-rule { width: 40px; height: 2px; background: var(--gold); margin: 1.75rem 0; }
+.confirm-next-label { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.5rem; }
+.confirm-next-step { font-family: var(--font-serif); font-size: 1.3rem; font-weight: 500; color: var(--charcoal); margin-bottom: 1.5rem; }
+.confirm-cta {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--teal);
+  text-decoration: none;
+  padding: 0.9rem 2.25rem;
+  transition: background 0.2s;
+  border: none;
+  cursor: pointer;
+}
+.confirm-cta:hover { background: #047a82; }
+.confirm-note { margin-top: 1rem; font-size: 0.78rem; color: var(--mid); font-style: italic; font-family: var(--font-serif); }
+
+/* BOTTOM CTA */
+.bottom-cta { background: var(--charcoal); padding: 5rem 0; text-align: center; }
+.bottom-cta .section-label { color: #9acdcf; }
+.bottom-cta h2 { font-family: var(--font-serif); font-size: clamp(1.75rem, 4vw, 2.75rem); font-weight: 400; color: var(--cream); max-width: 540px; margin: 0 auto 1.25rem; line-height: 1.25; }
+.bottom-cta p { font-size: 0.9rem; color: #b0ada8; max-width: 460px; margin: 0 auto 2rem; line-height: 1.8; }
+.btn-cta-light { display: inline-block; font-family: var(--font-sans); font-size: 0.78rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--charcoal); background: var(--cream); text-decoration: none; padding: 0.9rem 2.25rem; transition: background 0.2s; }
+.btn-cta-light:hover { background: var(--cream-dk); }
+.bottom-cta-note { margin-top: 1.5rem; font-size: 0.78rem; color: #6a6a66; font-style: italic; font-family: var(--font-serif); }
+
+/* FOOTER */
+footer { padding: 3rem var(--pad) 2.5rem; border-top: 1px solid var(--border); display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem; max-width: var(--max); margin: 0 auto; }
+@media (max-width: 600px) { footer { grid-template-columns: 1fr; } }
+.footer-logo { font-family: var(--font-serif); font-size: 1rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--charcoal); margin-bottom: 0.5rem; }
+.footer-tagline { font-size: 0.8rem; color: var(--mid); line-height: 1.6; max-width: 220px; }
+.footer-col-title { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); margin-bottom: 1rem; }
+.footer-links { list-style: none; }
+.footer-links li { margin-bottom: 0.5rem; }
+.footer-links a { font-size: 0.82rem; color: var(--charcoal); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: var(--teal); }
+.footer-bottom { max-width: var(--max); margin: 0 auto; padding: 1.25rem var(--pad); border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--mid); flex-wrap: wrap; gap: 0.5rem; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="/">The Assignment Room™</a>
+  <ul class="nav-links">
+    <li><a href="/diagnostic" class="active">Start with the Diagnostic</a></li>
+    <li><a href="/start-here">Work With Me</a></li>
+    <li><a href="/about">About Jackie</a></li>
+    <li><a href="/speak">Speaking</a></li><li><a href="/contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div style="background:var(--cream);">
+  <div class="diag-hero">
+    <div class="hero-left">
+      <span class="section-label">Readiness Diagnostic™</span>
+      <h1>Find out <em>where you are.</em></h1>
+      <div class="hero-rule"></div>
+      <p>Before you book a session, join a room, or apply for a program — take three minutes to identify your current assignment stage, your most likely barrier, and the next step that fits where you actually are.</p>
+      <a href="#diagnostic-form" class="btn-primary">Take the Readiness Diagnostic™</a>
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span class="hero-meta-val">3</span>
+          <span class="hero-meta-lbl">Minutes</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-val">Free</span>
+          <span class="hero-meta-lbl">No cost, no pressure</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-val">1</span>
+          <span class="hero-meta-lbl">Clear next step</span>
+        </div>
+      </div>
+    </div>
+    <div style="position:relative;">
+      <div class="result-mockup">
+        <span class="mockup-sample-label">Sample Result</span>
+        <div class="mockup-eyebrow">Your Readiness Result</div>
+        <div class="mockup-stage-row">
+          <div>
+            <div class="mockup-stage-label">Your Stage</div>
+            <div class="mockup-stage-val">Delay</div>
+          </div>
+          <span class="mockup-badge">Stage 2 of 6</span>
+        </div>
+        <div class="mockup-row">
+          <div class="mockup-row-label">Primary Barrier</div>
+          <div class="mockup-row-val">Security Agreement</div>
+          <div class="mockup-row-desc">You do not lack clarity. You are protecting stability, control, or a version of safety that has become too expensive to keep.</div>
+        </div>
+        <div class="mockup-row">
+          <div class="mockup-row-label">One Question to Sit With</div>
+          <div class="mockup-row-val" style="font-style:italic;">What is the cost of staying here another six months?</div>
+        </div>
+        <div class="mockup-row">
+          <div class="mockup-row-label">Recommended Next Step</div>
+          <div class="mockup-row-val">Book The Reveal™</div>
+          <div class="mockup-row-desc">A private 60-minute session to interpret this result and name the decision underneath the delay.</div>
+        </div>
+        <div class="mockup-cta-row">
+          <span class="mockup-cta-note">You are not committing to the full pathway — only the next right room.</span>
+          <a href="/the-reveal" class="btn-sm">Book The Reveal™</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DIAGNOSTIC FORM -->
+<div class="form-section" id="diagnostic-form">
+  <div class="inner">
+    <div class="form-wrap">
+      <span class="section-label">Begin Here</span>
+      <h2 class="sec-header">Take the Readiness Diagnostic™</h2>
+      <p class="sec-sub">Use this diagnostic to identify where you are in your assignment journey, what may be delaying your movement, and which next step fits your current season.<br><br>Time: About 3 minutes &nbsp;·&nbsp; Result: Your current stage + recommended next step</p>
+
+      <!-- PROGRESS -->
+      <div class="progress-bar-wrap" id="progress-wrap">
+        <div class="progress-label">
+          <span id="progress-text">Step 1 of 3</span>
+          <span id="progress-pct">0%</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+      </div>
+
+      <!-- STEP 1: CONTACT -->
+      <div class="step active" id="step-1">
+        <div class="field-group">
+          <label class="field-label" for="fname">First Name</label>
+          <input class="field-input" type="text" id="fname" name="first_name" placeholder="Your first name" required />
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="femail">Email Address</label>
+          <input class="field-input" type="email" id="femail" name="email" placeholder="you@email.com" required />
+        </div>
+        <div class="btn-row">
+          <button class="btn-next" onclick="goToStep(2)">Start the Diagnostic →</button>
+        </div>
+        <p class="form-note">Free · No account required · Your result will be sent to your email</p>
+        <p class="error-msg" id="err-1">Please fill in your name and email to continue.</p>
+      </div>
+
+      <!-- STEP 2: QUESTIONS 1–3 -->
+      <div class="step" id="step-2">
+
+        <div class="question-block">
+          <div class="question-number">Question 1 of 6</div>
+          <div class="question-text">When you think about the thing you feel called to build, lead, write, teach, create, or steward, what feels most true right now?</div>
+          <ul class="options-list">
+            <li class="option-item"><input type="radio" name="q1" id="q1a" value="Awareness" /><label for="q1a"><span class="option-radio"></span>I sense something is stirring, but I do not have clear language for it yet.</label></li>
+            <li class="option-item"><input type="radio" name="q1" id="q1b" value="Delay" /><label for="q1b"><span class="option-radio"></span>I know enough to move, but I keep delaying the decision.</label></li>
+            <li class="option-item"><input type="radio" name="q1" id="q1c" value="Definition" /><label for="q1c"><span class="option-radio"></span>I can describe the assignment, but I need to define it more clearly.</label></li>
+            <li class="option-item"><input type="radio" name="q1" id="q1d" value="Activation" /><label for="q1d"><span class="option-radio"></span>I know what I need to do, but I need rhythm, structure, and accountability.</label></li>
+            <li class="option-item"><input type="radio" name="q1" id="q1e" value="Sustainment" /><label for="q1e"><span class="option-radio"></span>I have started moving, but I need consistency and proof of progress.</label></li>
+            <li class="option-item"><input type="radio" name="q1" id="q1f" value="Multiplication" /><label for="q1f"><span class="option-radio"></span>I am already moving and feel ready to steward, teach, or multiply this work beyond me.</label></li>
+          </ul>
+        </div>
+
+        <div class="question-block">
+          <div class="question-number">Question 2 of 6</div>
+          <div class="question-text">What is most likely keeping you from moving?</div>
+          <ul class="options-list">
+            <li class="option-item"><input type="radio" name="q2" id="q2a" value="Fear" /><label for="q2a"><span class="option-radio"></span>I am afraid of being wrong, misunderstood, or exposed.</label></li>
+            <li class="option-item"><input type="radio" name="q2" id="q2b" value="Identity" /><label for="q2b"><span class="option-radio"></span>I am not sure who I will be if I fully step into this.</label></li>
+            <li class="option-item"><input type="radio" name="q2" id="q2c" value="Security" /><label for="q2c"><span class="option-radio"></span>I am concerned about stability, money, time, or losing what feels safe.</label></li>
+            <li class="option-item"><input type="radio" name="q2" id="q2d" value="Recognition" /><label for="q2d"><span class="option-radio"></span>I keep waiting for validation, permission, or recognition from the right people.</label></li>
+            <li class="option-item"><input type="radio" name="q2" id="q2e" value="Capacity" /><label for="q2e"><span class="option-radio"></span>I feel stretched, tired, or unsure whether I have the capacity.</label></li>
+            <li class="option-item"><input type="radio" name="q2" id="q2f" value="Structure" /><label for="q2f"><span class="option-radio"></span>I have ideas, but I do not have a structure to move them forward.</label></li>
+          </ul>
+        </div>
+
+        <div class="question-block">
+          <div class="question-number">Question 3 of 6</div>
+          <div class="question-text">Which sentence sounds most like your current pattern?</div>
+          <ul class="options-list">
+            <li class="option-item"><input type="radio" name="q3" id="q3a" value="Awareness" /><label for="q3a"><span class="option-radio"></span>I keep noticing the same pull, but I am still trying to understand what it means.</label></li>
+            <li class="option-item"><input type="radio" name="q3" id="q3b" value="Delay" /><label for="q3b"><span class="option-radio"></span>I keep calling it discernment, but I know I may be delaying.</label></li>
+            <li class="option-item"><input type="radio" name="q3" id="q3c" value="Definition" /><label for="q3c"><span class="option-radio"></span>I have language in pieces, but I need to bring it into one clear direction.</label></li>
+            <li class="option-item"><input type="radio" name="q3" id="q3d" value="Activation" /><label for="q3d"><span class="option-radio"></span>I keep starting and stopping because I do not have a system.</label></li>
+            <li class="option-item"><input type="radio" name="q3" id="q3e" value="Sustainment" /><label for="q3e"><span class="option-radio"></span>I have made progress, but I need to protect the rhythm.</label></li>
+            <li class="option-item"><input type="radio" name="q3" id="q3f" value="Multiplication" /><label for="q3f"><span class="option-radio"></span>I am sensing that what I have built may now need to serve others.</label></li>
+          </ul>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn-next" onclick="goToStep(3)">Continue →</button>
+          <button class="btn-back" onclick="goToStep(1)">← Back</button>
+        </div>
+        <p class="error-msg" id="err-2">Please answer all three questions to continue.</p>
+      </div>
+
+      <!-- STEP 3: QUESTIONS 4–6 -->
+      <div class="step" id="step-3">
+
+        <div class="question-block">
+          <div class="question-number">Question 4 of 6</div>
+          <div class="question-text">What do you need most right now?</div>
+          <ul class="options-list">
+            <li class="option-item"><input type="radio" name="q4" id="q4a" value="The Reveal™" /><label for="q4a"><span class="option-radio"></span>I need help understanding what this pull means.</label></li>
+            <li class="option-item"><input type="radio" name="q4" id="q4b" value="The Reveal™" /><label for="q4b"><span class="option-radio"></span>I need help naming the decision I keep circling.</label></li>
+            <li class="option-item"><input type="radio" name="q4" id="q4c" value="Assignment Brief™ Intensive" /><label for="q4c"><span class="option-radio"></span>I need private clarity and a documented plan.</label></li>
+            <li class="option-item"><input type="radio" name="q4" id="q4d" value="Discovery Lab™" /><label for="q4d"><span class="option-radio"></span>I need teaching, reflection, and accountability in a small room.</label></li>
+            <li class="option-item"><input type="radio" name="q4" id="q4e" value="Activation Program™" /><label for="q4e"><span class="option-radio"></span>I need execution structure, rhythm, and sustained movement.</label></li>
+            <li class="option-item"><input type="radio" name="q4" id="q4f" value="Fellowship™" /><label for="q4f"><span class="option-radio"></span>I need to explore stewardship, facilitation, or multiplication.</label></li>
+          </ul>
+        </div>
+
+        <div class="question-block">
+          <div class="question-number">Question 5 of 6</div>
+          <div class="question-text">What would feel like meaningful progress in the next 30 days?</div>
+          <ul class="options-list">
+            <li class="option-item"><input type="radio" name="q5" id="q5a" value="Awareness" /><label for="q5a"><span class="option-radio"></span>Finally having language for what I am sensing.</label></li>
+            <li class="option-item"><input type="radio" name="q5" id="q5b" value="Delay" /><label for="q5b"><span class="option-radio"></span>Making the decision I have been avoiding.</label></li>
+            <li class="option-item"><input type="radio" name="q5" id="q5c" value="Definition" /><label for="q5c"><span class="option-radio"></span>Documenting the assignment clearly.</label></li>
+            <li class="option-item"><input type="radio" name="q5" id="q5d" value="Activation" /><label for="q5d"><span class="option-radio"></span>Taking consistent action instead of starting over.</label></li>
+            <li class="option-item"><input type="radio" name="q5" id="q5e" value="Sustainment" /><label for="q5e"><span class="option-radio"></span>Building rhythm that I can sustain.</label></li>
+            <li class="option-item"><input type="radio" name="q5" id="q5f" value="Multiplication" /><label for="q5f"><span class="option-radio"></span>Knowing how to steward this work beyond myself.</label></li>
+          </ul>
+        </div>
+
+        <div class="question-block">
+          <div class="question-number">Question 6 of 6</div>
+          <div class="question-text">How ready are you to take action after receiving your result?</div>
+          <ul class="options-list">
+            <li class="option-item"><input type="radio" name="q6" id="q6a" value="I am curious and want to understand where I am." /><label for="q6a"><span class="option-radio"></span>I am curious and want to understand where I am.</label></li>
+            <li class="option-item"><input type="radio" name="q6" id="q6b" value="I am ready to explore a next step." /><label for="q6b"><span class="option-radio"></span>I am ready to explore a next step.</label></li>
+            <li class="option-item"><input type="radio" name="q6" id="q6c" value="I am ready to book something if the next step is clear." /><label for="q6c"><span class="option-radio"></span>I am ready to book something if the next step is clear.</label></li>
+            <li class="option-item"><input type="radio" name="q6" id="q6d" value="I want to be notified when the next room opens." /><label for="q6d"><span class="option-radio"></span>I want to be notified when the next room opens.</label></li>
+          </ul>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn-submit" id="submit-btn" onclick="submitDiagnostic()">Get My Result →</button>
+          <button class="btn-back" onclick="goToStep(2)">← Back</button>
+        </div>
+        <p class="error-msg" id="err-3">Please answer all three questions to submit.</p>
+        <p class="form-note" style="margin-top:1rem;">Your result will be sent to your email. Free. No commitment.</p>
+      </div>
+
+      <!-- CONFIRMATION -->
+      <div class="confirmation" id="confirmation">
+        <div class="confirm-eyebrow">Your Result</div>
+        <h2 class="confirm-heading">Thank you, <span id="conf-name"></span>.</h2>
+        <div class="confirm-rule"></div>
+        <div class="confirm-body">
+          <p>Your result is on its way to your inbox.</p>
+          <p>This is not about pressure. It is about clarity. You do not need the whole map today. You need to know where you are, what is blocking movement, and what next room makes sense.</p>
+        </div>
+        <div class="confirm-rule"></div>
+        <div class="confirm-next-label">Your Recommended Next Step</div>
+        <div class="confirm-next-step" id="conf-next-step"></div>
+        <a href="#" class="confirm-cta" id="conf-cta-link">Learn More →</a>
+        <p class="confirm-note">You are not committing to anything — only finding out where you are.</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- BOTTOM CTA -->
+<div class="bottom-cta">
+  <div class="inner">
+    <span class="section-label">No Pressure. No Guessing.</span>
+    <h2>Just a clearer place to begin.</h2>
+    <p>After you complete the diagnostic, you will receive your result and a recommended next step. You are not committing to a paid room — you are simply finding out where you are.</p>
+    <a href="#diagnostic-form" class="btn-cta-light">Take the Readiness Diagnostic™</a>
+    <div class="bottom-cta-note">Know your stage. Name the barrier. Move with structure.</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">The Assignment Room™</div>
+    <p class="footer-tagline">Clarity, documentation, and movement for women carrying a God-given assignment.</p>
+  </div>
+  <div>
+    <div class="footer-col-title">Navigate</div>
+    <ul class="footer-links">
+      <li><a href="/diagnostic">Start with the Diagnostic</a></li>
+      <li><a href="/start-here">Work With Me</a></li>
+      <li><a href="/about">About Jackie</a></li>
+      <li><a href="/speak">Speaking</a></li><li><a href="/contact">Contact</a></li>
+    </ul>
+  </div>
+  <div>
+    <div class="footer-col-title">Policies</div>
+    <ul class="footer-links">
+      <li><a href="/privacy-policy.html">Privacy Policy</a></li>
+      <li><a href="/policies">Terms of Service</a></li>
+      <li><a href="/policies">Refund &amp; Cancellation</a></li>
+      <li><a href="/policies">Accessibility Statement</a></li>
+    </ul>
+    <div class="footer-col-title" style="margin-top:1.5rem;">Connect</div>
+    <ul class="footer-links">
+      <li><a href="https://www.instagram.com/iamjwp">Instagram</a></li>
+      <li><a href="https://www.tiktok.com/@iamjwp">TikTok</a></li>
+      <li><a href="https://www.linkedin.com/in/jackie-parker-atlanta">LinkedIn</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <span>© 2026 The Assignment Room™. All rights reserved.</span>
+  <span>hello@assignmentroom.com</span>
+</div>
+
+<script>
+// Step navigation
+function goToStep(n) {
+  // Validate before moving forward
+  if (n === 2) {
+    const name = document.getElementById('fname').value.trim();
+    const email = document.getElementById('femail').value.trim();
+    if (!name || !email || !email.includes('@')) {
+      document.getElementById('err-1').style.display = 'block';
+      return;
+    }
+    document.getElementById('err-1').style.display = 'none';
+  }
+  if (n === 3) {
+    if (!document.querySelector('input[name="q1"]:checked') ||
+        !document.querySelector('input[name="q2"]:checked') ||
+        !document.querySelector('input[name="q3"]:checked')) {
+      document.getElementById('err-2').style.display = 'block';
+      return;
+    }
+    document.getElementById('err-2').style.display = 'none';
+  }
+
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step-' + n).classList.add('active');
+  updateProgress(n);
+  window.scrollTo({ top: document.getElementById('diagnostic-form').offsetTop - 80, behavior: 'smooth' });
+}
+
+function updateProgress(step) {
+  const pcts = { 1: 0, 2: 33, 3: 66 };
+  const labels = { 1: 'Step 1 of 3 — Contact Info', 2: 'Step 2 of 3 — Questions 1–3', 3: 'Step 3 of 3 — Questions 4–6' };
+  document.getElementById('progress-fill').style.width = pcts[step] + '%';
+  document.getElementById('progress-pct').textContent = pcts[step] + '%';
+  document.getElementById('progress-text').textContent = labels[step];
+}
+
+// Stage logic
+function calcStage(q1, q3, q5) {
+  const votes = {};
+  [q1, q3, q5].forEach(v => { votes[v] = (votes[v] || 0) + 1; });
+  const maxVotes = Math.max(...Object.values(votes));
+  const tied = Object.keys(votes).filter(k => votes[k] === maxVotes);
+  if (tied.length === 1) return tied[0];
+  // Tie-breaking priority
+  const priority = ['Delay','Definition','Activation','Sustainment','Multiplication','Awareness'];
+  for (const p of priority) { if (tied.includes(p)) return p; }
+  return tied[0];
+}
+
+// CTA links per next step
+const ctaLinks = {
+  'The Reveal™': { url: '/the-reveal', label: 'Book The Reveal™' },
+  'Assignment Brief™ Intensive': { url: '/intensive', label: 'Book the Intensive' },
+  'Discovery Lab™': { url: '/discovery-lab', label: 'Join Discovery Lab™' },
+  'Activation Program™': { url: '/activation-program', label: 'Apply for Activation Program™' },
+  'Fellowship™': { url: '/fellowship', label: 'Apply for Fellowship™' }
+};
+
+async function submitDiagnostic() {
+  if (!document.querySelector('input[name="q4"]:checked') ||
+      !document.querySelector('input[name="q5"]:checked') ||
+      !document.querySelector('input[name="q6"]:checked')) {
+    document.getElementById('err-3').style.display = 'block';
+    return;
+  }
+  document.getElementById('err-3').style.display = 'none';
+
+  const firstName = document.getElementById('fname').value.trim();
+  const email = document.getElementById('femail').value.trim();
+  const q1 = document.querySelector('input[name="q1"]:checked').value;
+  const q2 = document.querySelector('input[name="q2"]:checked').value;
+  const q3 = document.querySelector('input[name="q3"]:checked').value;
+  const q4 = document.querySelector('input[name="q4"]:checked').value;
+  const q5 = document.querySelector('input[name="q5"]:checked').value;
+  const q6 = document.querySelector('input[name="q6"]:checked').value;
+
+  const stage = calcStage(q1, q3, q5);
+  const barrier = q2;
+  const nextStep = q4;
+
+  const btn = document.getElementById('submit-btn');
+  btn.textContent = 'Sending…';
+  btn.disabled = true;
+
+  try {
+    const formData = new FormData();
+    formData.append('first_name', firstName);
+    formData.append('email', email);
+    formData.append('stage', stage);
+    formData.append('primary_barrier', barrier);
+    formData.append('recommended_next_step', nextStep);
+    formData.append('readiness_intent', q6);
+    formData.append('q1_calling', q1);
+    formData.append('q3_pattern', q3);
+    formData.append('q5_progress', q5);
+    formData.append('_subject', 'New Readiness Diagnostic™ — ' + firstName + ' · Stage: ' + stage);
+
+    // Submit to Formspree
+    await fetch('https://formspree.io/f/xgoddqgy', {
+      method: 'POST',
+      body: formData,
+      headers: { 'Accept': 'application/json' }
+    });
+
+    // Submit to Zapier webhook (triggers Mailchimp tagging)
+    const zapierData = {
+      first_name: firstName,
+      email: email,
+      stage: stage,
+      primary_barrier: barrier,
+      recommended_next_step: nextStep,
+      readiness_intent: q6
+    };
+    await fetch('https://hooks.zapier.com/hooks/catch/27664390/4o1a5j5/', {
+      method: 'POST',
+      body: JSON.stringify(zapierData),
+      headers: { 'Content-Type': 'application/json' }
+    });
+  } catch(e) {
+    // Still show confirmation even if network error
+  }
+
+  // Show confirmation
+  document.getElementById('progress-wrap').style.display = 'none';
+  document.getElementById('step-3').style.display = 'none';
+  document.getElementById('conf-name').textContent = firstName;
+  document.getElementById('conf-next-step').textContent = nextStep;
+  const cta = ctaLinks[nextStep] || { url: '/start-here', label: 'View Your Next Step' };
+  const ctaEl = document.getElementById('conf-cta-link');
+  ctaEl.href = cta.url;
+  ctaEl.textContent = cta.label + ' →';
+  document.getElementById('confirmation').classList.add('active');
+  window.scrollTo({ top: document.getElementById('diagnostic-form').offsetTop - 80, behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
