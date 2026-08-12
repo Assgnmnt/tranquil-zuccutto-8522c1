@@ -1282,16 +1282,33 @@
   const tabs = document.querySelectorAll('.stage-tab');
   const pages = document.querySelectorAll('.result-page');
 
+  function activateStage(stage, smooth) {
+    const tab = document.querySelector('.stage-tab[data-stage="' + stage + '"]');
+    const page = document.getElementById('page-' + stage);
+    if (!tab || !page) return false;
+    tabs.forEach(t => t.classList.remove('active'));
+    pages.forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    page.classList.add('active');
+    if (smooth) window.scrollTo({ top: 0, behavior: 'smooth' });
+    return true;
+  }
+
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
-      const stage = tab.dataset.stage;
-      tabs.forEach(t => t.classList.remove('active'));
-      pages.forEach(p => p.classList.remove('active'));
-      tab.classList.add('active');
-      document.getElementById('page-' + stage).classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      activateStage(tab.dataset.stage, true);
     });
   });
+
+  // Auto-select a stage from the diagnostic, e.g. /results?stage=activation.
+  // Invalid or missing stage params are ignored and the page falls back to
+  // whichever tab is marked active by default in the HTML (Awareness) — this
+  // page still renders fine on its own with no diagnostic data behind it.
+  (function() {
+    const params = new URLSearchParams(window.location.search);
+    const stage = params.get('stage');
+    if (stage) activateStage(stage, false);
+  })();
 </script>
 </body>
 </html>

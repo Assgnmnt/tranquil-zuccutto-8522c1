@@ -290,6 +290,30 @@ nav {
   border-color: var(--teal);
   color: var(--white);
 }
+.choice-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.choice-btn {
+  text-align: left;
+  padding: 0.95rem 1.1rem;
+  border: 1.5px solid rgba(0,0,0,0.22);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ink);
+  font-size: 16px;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: all 0.15s;
+  line-height: 1.45;
+}
+.choice-btn:hover { border-color: var(--teal); color: var(--teal); }
+.choice-btn.active {
+  background: var(--teal);
+  border-color: var(--teal);
+  color: var(--white);
+}
 
 /* NAV BUTTONS */
 .quiz-nav {
@@ -544,7 +568,7 @@ footer p { font-size: 13px; color: rgba(255,255,255,0.6); }
       </div>
       <div class="meta-item">
         <span class="meta-label">Questions</span>
-        <span class="meta-value">15 statements</span>
+        <span class="meta-value">16 statements</span>
       </div>
       <div class="meta-item">
         <span class="meta-label">What you get</span>
@@ -582,6 +606,19 @@ footer p { font-size: 13px; color: rgba(255,255,255,0.6); }
     </div>
   </div>
 
+  <!-- CONDITIONAL FOLLOW-UPS -->
+  <div id="view-conditional" style="display:none">
+    <div class="section-header">
+      <span class="section-tag">A couple more, specific to you</span>
+      <h2>Almost done</h2>
+      <p>These only apply based on what you've already shared. They help personalize your result, they won't change your core stage.</p>
+    </div>
+    <div id="conditional-body"></div>
+    <div class="quiz-nav">
+      <button class="btn-continue" id="btn-conditional-next" onclick="continueFromConditional()" disabled>Continue</button>
+    </div>
+  </div>
+
   <!-- EMAIL CAPTURE -->
   <div id="view-email" style="display:none">
     <div style="text-align:center;padding:1rem 0 2rem">
@@ -607,9 +644,6 @@ footer p { font-size: 13px; color: rgba(255,255,255,0.6); }
     <button onclick="submitEmail()" style="display:block;width:100%;padding:1.2rem;background:var(--teal);color:var(--white);border:none;border-radius:4px;font-size:17px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;letter-spacing:0.02em;transition:background 0.2s">See my results →</button>
     <p style="text-align:center;font-size:13px;color:var(--muted);margin-top:1rem;line-height:1.55">Your information is private and will never be shared.<br>You'll also receive encouragement and updates from Jackie Parker.</p>
   </div>
-
-  <!-- RESULTS -->
-  <div id="view-result" style="display:none"></div>
 
 </div>
 
@@ -637,7 +671,8 @@ const sections = [
     statements: [
       'I have intentionally sought clarity about what God is calling me to do.',
       'I can describe, at least in part, the direction I feel drawn toward.',
-      'I have seen confirmation patterns in my life pointing me toward a specific assignment.'
+      'I have seen confirmation patterns in my life pointing me toward a specific assignment.',
+      'I can state my current assignment in one clear sentence.'
     ]
   },
   {
@@ -672,51 +707,13 @@ const sections = [
   }
 ];
 
-const results = [
-  {
-    stage: 'Awakening Stage',
-    desc: 'You sense that God is calling you to something new. You haven\'t yet defined what it is. This is the beginning of the process, and it is a holy moment. The shift you feel is real. It is not confusion. It is conception.',
-    barrier: 'You need clarity and confirmation before you can commit. The call is there. The assignment isn\'t fully formed yet. The Discovery Lab will help you define it.',
-    next: 'Discovery Lab',
-    detail: 'Define your assignment: from identity through calling to specific, actionable direction.',
-    program: 'discovery-lab.html'
-  },
-  {
-    stage: 'Discernment Stage',
-    desc: 'You are gaining clarity on your assignment. You can feel it and even describe it. Something is still holding you back from full, committed movement. The gap between knowing and going is real.',
-    barrier: 'You\'re closer than you think. The barrier is no longer clarity. It\'s commitment. The next step is moving from recognition to decision.',
-    next: 'Discovery Lab',
-    detail: 'Align your identity to your calling and make the internal decision that produces external movement.',
-    program: 'discovery-lab.html'
-  },
-  {
-    stage: 'Agreement Barrier',
-    desc: 'Your primary obstacle right now is not confusion. It is a belief you have made an agreement with. The assignment is clearer than you admit. But an internal agreement formed from fear, comparison, or past experience is negotiating against your obedience.',
-    barrier: 'The delay isn\'t confusion. It\'s a belief you\'ve accepted as truth. Identify it. Name it. Break it. That is where movement begins.',
-    next: 'Discovery Lab',
-    detail: 'Break the internal agreement that has been delaying your obedience. Replace it with a decision.',
-    program: 'discovery-lab.html'
-  },
-  {
-    stage: 'Detachment Stage',
-    desc: 'You are in the process of releasing what you\'ve built in order to step into what God is building through you. This is one of the most difficult, and most necessary, transitions a woman on assignment will face.',
-    barrier: 'Security, identity, and fear of loss are the primary battleground. You don\'t need more clarity. You need the courage and structure to let go and build the next thing.',
-    next: 'Activation Program',
-    detail: 'Build the structure and discipline to execute your assignment, even while releasing what came before.',
-    program: 'activation-program.html'
-  },
-  {
-    stage: 'Activation Stage',
-    desc: 'You are moving. You have done the internal work and are executing, or very close to it. The greatest risk at your stage is not fear. It is inconsistency and isolation.',
-    barrier: 'Sustained execution and multiplication are your next frontier. You need structure, accountability, and a community of women who are also building.',
-    next: 'Activation Program',
-    detail: 'Build the systems, discipline, and momentum to sustain and scale what you have started.',
-    program: 'activation-program.html'
-  }
-];
-
 let current = 0;
 let answers = {};
+let conditionalQueue = [];
+let conditionalIndex = 0;
+let conditionalAnswers = {};
+
+const TOTAL_CORE_STATEMENTS = sections.reduce(function(sum, s) { return sum + s.statements.length; }, 0);
 
 function startQuiz() {
   document.getElementById('view-intro').style.display = 'none';
@@ -732,7 +729,7 @@ function renderSection() {
   document.getElementById('btn-prev').style.display = current > 0 ? 'block' : 'none';
 
   let rated = countRated();
-  document.getElementById('prog-count').textContent = rated + ' of 15 rated';
+  document.getElementById('prog-count').textContent = rated + ' of ' + TOTAL_CORE_STATEMENTS + ' rated';
 
   let html = '<div class="section-header">';
   html += '<span class="section-tag">' + s.tag + '</span>';
@@ -768,17 +765,19 @@ function rate(key, val) {
   var card = document.getElementById('card_' + key);
   if (card) card.classList.add('rated');
   let rated = countRated();
-  document.getElementById('prog-count').textContent = rated + ' of 15 rated';
+  const progCount = document.getElementById('prog-count');
+  if (progCount) progCount.textContent = rated + ' of ' + TOTAL_CORE_STATEMENTS + ' rated';
   checkNext();
+  checkConditionalNext();
 }
 
 function countRated() {
   let count = 0;
-  for (let s = 0; s < 5; s++) {
-    for (let i = 0; i < 3; i++) {
-      if (answers['s' + s + '_' + i]) count++;
-    }
-  }
+  sections.forEach(function(s, si) {
+    s.statements.forEach(function(_, i) {
+      if (answers['s' + si + '_' + i]) count++;
+    });
+  });
   return count;
 }
 
@@ -789,19 +788,225 @@ function checkNext() {
     if (!answers['s' + current + '_' + i]) allDone = false;
   });
   const btn = document.getElementById('btn-next');
+  if (!btn) return;
   btn.disabled = !allDone;
   btn.textContent = current === 4 ? 'See my results' : 'Continue';
 }
 
 function nextSection() {
   if (current < 4) { current++; renderSection(); window.scrollTo(0,0); }
-  else { showEmailCapture(); }
+  else { document.getElementById('view-quiz').style.display = 'none'; beginConditionalFlow(); }
+}
+
+function prevSection() {
+  if (current > 0) { current--; renderSection(); window.scrollTo(0,0); }
+}
+
+// ---- Section averages / composite scores, from the 16 core statements ----
+
+function sectionAvg(si) {
+  const s = sections[si];
+  let sum = 0;
+  s.statements.forEach(function(_, i) { sum += (answers['s' + si + '_' + i] || 0); });
+  return sum / s.statements.length;
+}
+
+function computeCoreScores() {
+  return {
+    awakening: sectionAvg(0),
+    clarity: sectionAvg(1),
+    preciseLanguage: answers['s1_3'] || 0,
+    agreementsProtection: sectionAvg(2),
+    financialStatement: answers['s2_0'] || 0,
+    releaseSecurity: sectionAvg(3),
+    activation: sectionAvg(4)
+  };
+}
+
+// Clears the Definition gate: Clarity >= 3.80 AND the precise-assignment-language
+// statement is not weak (weak = 3 or below, per approved threshold).
+function clearsClarityGate(core) {
+  return core.clarity >= 3.80 && core.preciseLanguage > 3;
+}
+
+// ---- Conditional follow-up questions ----
+// Delay-context and Sustainment/Multiplication are mutually exclusive: one needs
+// Activation < 3.00, the other needs Activation >= 4.00, and both require the
+// Clarity gate already cleared. Financial-reality is independent of both.
+
+function beginConditionalFlow() {
+  const core = computeCoreScores();
+  conditionalQueue = [];
+
+  if (clearsClarityGate(core) && core.activation < 3.00) {
+    conditionalQueue.push('movement_context');
+  }
+  if (clearsClarityGate(core) && core.activation >= 4.00) {
+    conditionalQueue.push('sustainment_multiplication');
+  }
+  if (core.financialStatement >= 4) {
+    conditionalQueue.push('financial_reality');
+  }
+
+  if (conditionalQueue.length === 0) {
+    showEmailCapture();
+    return;
+  }
+
+  conditionalIndex = 0;
+  document.getElementById('view-conditional').style.display = 'block';
+  renderConditionalStep();
+  window.scrollTo(0, 0);
+}
+
+function renderConditionalStep() {
+  const key = conditionalQueue[conditionalIndex];
+  let html = '';
+
+  if (key === 'movement_context') {
+    const opts = [
+      'I have not made the decision to move.',
+      'I have decided, but I am unsure how to begin.',
+      'A real constraint is affecting my timing or capacity.',
+      'Fear or uncertainty keeps me waiting.',
+      'More than one of these is true.',
+      "I'm not sure yet."
+    ];
+    html += '<div class="statement-card">';
+    html += '<div class="statement-text">"What best describes what is affecting your movement right now?"</div>';
+    html += '<div class="choice-list">';
+    opts.forEach(function(opt, i) {
+      html += '<button class="choice-btn" data-choice-key="movement_context" data-choice-val="' + i + '" onclick="answerChoice(\'movement_context\',' + i + ',\'' + opt.replace(/'/g, "\\'") + '\')">' + opt + '</button>';
+    });
+    html += '</div></div>';
+  }
+
+  if (key === 'sustainment_multiplication') {
+    const stmts = [
+      { field: 'sm_0', text: 'My assignment has protected rhythms that continue even when life becomes demanding.' },
+      { field: 'sm_1', text: 'I can carry this work consistently without depending on urgency or occasional bursts of energy.' },
+      { field: 'sm_2', text: 'What I have built is already producing clear and repeatable benefit for other people.' },
+      { field: 'sm_3', text: 'I am prepared to extend this work responsibly through teaching, systems, a team, or other people without losing its integrity.' }
+    ];
+    stmts.forEach(function(st) {
+      const val = answers[st.field] || 0;
+      html += '<div class="statement-card' + (val ? ' rated' : '') + '" id="card_' + st.field + '">';
+      html += '<div class="statement-text">"' + st.text + '"</div>';
+      html += '<div class="rating-scale">';
+      html += '<span class="scale-end">Not true<br>for me</span>';
+      html += '<div class="scale-btns">';
+      for (let r = 1; r <= 5; r++) {
+        html += '<button class="scale-btn' + (val === r ? ' active' : '') + '" onclick="rate(\'' + st.field + '\',' + r + ')" data-key="' + st.field + '" data-val="' + r + '">' + r + '</button>';
+      }
+      html += '</div>';
+      html += '<span class="scale-end right">Very true<br>for me</span>';
+      html += '</div></div>';
+    });
+  }
+
+  if (key === 'financial_reality') {
+    const opts = [
+      'A real present financial constraint',
+      'Concern about future security or uncertainty',
+      'Both',
+      "I'm not sure"
+    ];
+    html += '<div class="statement-card">';
+    html += '<div class="statement-text">"What best describes your financial concern right now?"</div>';
+    html += '<div class="choice-list">';
+    opts.forEach(function(opt, i) {
+      html += '<button class="choice-btn" data-choice-key="financial_reality" data-choice-val="' + i + '" onclick="answerChoice(\'financial_reality\',' + i + ',\'' + opt.replace(/'/g, "\\'") + '\')">' + opt + '</button>';
+    });
+    html += '</div></div>';
+  }
+
+  document.getElementById('conditional-body').innerHTML = html;
+  checkConditionalNext();
+}
+
+function answerChoice(groupKey, idx, label) {
+  conditionalAnswers[groupKey] = { index: idx, label: label };
+  document.querySelectorAll('[data-choice-key="' + groupKey + '"]').forEach(function(b) {
+    b.classList.toggle('active', parseInt(b.getAttribute('data-choice-val')) === idx);
+  });
+  checkConditionalNext();
+}
+
+function checkConditionalNext() {
+  const btn = document.getElementById('btn-conditional-next');
+  if (!btn || !conditionalQueue.length) return;
+  const key = conditionalQueue[conditionalIndex];
+  let done = false;
+  if (key === 'movement_context') done = !!conditionalAnswers.movement_context;
+  else if (key === 'financial_reality') done = !!conditionalAnswers.financial_reality;
+  else if (key === 'sustainment_multiplication') done = !!(answers.sm_0 && answers.sm_1 && answers.sm_2 && answers.sm_3);
+  btn.disabled = !done;
+}
+
+function continueFromConditional() {
+  if (conditionalIndex < conditionalQueue.length - 1) {
+    conditionalIndex++;
+    renderConditionalStep();
+    window.scrollTo(0, 0);
+  } else {
+    showEmailCapture();
+  }
 }
 
 function showEmailCapture() {
   document.getElementById('view-quiz').style.display = 'none';
+  document.getElementById('view-conditional').style.display = 'none';
   document.getElementById('view-email').style.display = 'block';
   window.scrollTo(0,0);
+}
+
+// ---- Final stage resolution: earliest unmet developmental gate wins ----
+
+function resolveStage() {
+  const core = computeCoreScores();
+  let stage = '';
+  const tags = [];
+  let barrierTag = null;
+
+  if (core.clarity < 2.80) {
+    stage = 'awareness';
+    if (core.awakening >= 4.00) tags.push('high_stirring_low_language');
+  } else if (core.clarity < 3.80) {
+    stage = 'definition';
+    if (core.activation >= 4.00) tags.push('misaligned_momentum');
+  } else if (core.preciseLanguage <= 3) {
+    stage = 'definition';
+    if (core.activation >= 4.00) tags.push('misaligned_momentum');
+  } else if (core.activation < 3.00) {
+    stage = 'delay';
+  } else if (core.activation < 4.00) {
+    stage = 'activation';
+  } else {
+    const sust = ((answers.sm_0 || 0) + (answers.sm_1 || 0)) / 2;
+    const mult = ((answers.sm_2 || 0) + (answers.sm_3 || 0)) / 2;
+    stage = (sust >= 4.00 && mult >= 3.80) ? 'multiplication' : 'sustainment';
+  }
+
+  const agreementsElevated = core.agreementsProtection >= 4.00;
+  const releaseElevated = core.releaseSecurity >= 4.00;
+  if (agreementsElevated && releaseElevated) {
+    tags.push('barrier_review');
+  } else if (agreementsElevated) {
+    barrierTag = 'agreements_protection';
+  } else if (releaseElevated) {
+    barrierTag = 'release_security';
+  }
+
+  return { stage: stage, tags: tags, barrierTag: barrierTag, core: core };
+}
+
+function getUTMParams() {
+  const params = new URLSearchParams(window.location.search);
+  const utm = {};
+  ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function(k) {
+    if (params.get(k)) utm[k] = params.get(k);
+  });
+  return utm;
 }
 
 function submitEmail() {
@@ -817,19 +1022,40 @@ function submitEmail() {
   }
   document.getElementById('email-error').style.display = 'none';
 
-  // Send to Formspree. Replace YOUR_FORM_ID with your actual Formspree form ID
-  const totals = sections.map(function(_, si) {
-    let sum = 0;
-    for (let i = 0; i < 3; i++) sum += (answers['s' + si + '_' + i] || 0);
-    return sum;
-  });
-  const maxIdx = totals.indexOf(Math.max.apply(null, totals));
-  const stageName = results[maxIdx].stage;
+  const resolved = resolveStage();
+  const utm = getUTMParams();
+  const attemptId = 'att_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9);
 
+  const payload = {
+    attempt_id: attemptId,
+    name: fullName,
+    email: email,
+    stage: resolved.stage,
+    tags: resolved.tags.join(','),
+    barrier_tag: resolved.barrierTag || '',
+    awakening_score: resolved.core.awakening.toFixed(2),
+    clarity_score: resolved.core.clarity.toFixed(2),
+    precise_language_item: resolved.core.preciseLanguage,
+    agreements_protection_score: resolved.core.agreementsProtection.toFixed(2),
+    release_security_score: resolved.core.releaseSecurity.toFixed(2),
+    activation_score: resolved.core.activation.toFixed(2),
+    movement_context: conditionalAnswers.movement_context ? conditionalAnswers.movement_context.label : '',
+    financial_reality: conditionalAnswers.financial_reality ? conditionalAnswers.financial_reality.label : '',
+    source: 'Readiness Diagnostic',
+    utm_source: utm.utm_source || '',
+    utm_medium: utm.utm_medium || '',
+    utm_campaign: utm.utm_campaign || '',
+    utm_content: utm.utm_content || '',
+    utm_term: utm.utm_term || '',
+    consent_status: 'submitted_diagnostic_form',
+    completed_at: new Date().toISOString()
+  };
+
+  // Send to Formspree
   fetch('https://formspree.io/f/meepylgv', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name: fullName, email: email, stage: stageName, source: 'Readiness Diagnostic' })
+    body: JSON.stringify(payload)
   }).catch(function() {});
 
   // Send to Zapier → triggers Mailchimp tagging
@@ -841,138 +1067,20 @@ function submitEmail() {
       first_name: name,
       last_name: lastName,
       email: email,
-      stage: stageName,
+      stage: resolved.stage,
+      tags: resolved.tags.join(','),
+      barrier_tag: resolved.barrierTag || '',
       source: 'Readiness Diagnostic',
-      awakening_score: totals[0],
-      discernment_score: totals[1],
-      agreements_score: totals[2],
-      detachment_score: totals[3],
-      activation_score: totals[4]
+      awakening_score: resolved.core.awakening.toFixed(2),
+      clarity_score: resolved.core.clarity.toFixed(2),
+      agreements_protection_score: resolved.core.agreementsProtection.toFixed(2),
+      release_security_score: resolved.core.releaseSecurity.toFixed(2),
+      activation_score: resolved.core.activation.toFixed(2)
     }).toString()
   }).catch(function() {});
 
   document.getElementById('view-email').style.display = 'none';
-  showResult(name);
-}
-
-function prevSection() {
-  if (current > 0) { current--; renderSection(); window.scrollTo(0,0); }
-}
-
-function getForensicProfile(totals) {
-  const awakening = totals[0];
-  const discernment = totals[1];
-  const agreements = totals[2];
-  const detachment = totals[3];
-  const activation = totals[4];
-
-  if (agreements >= 10 && activation < 10) {
-    return {
-      label: 'The Rationalization Loop',
-      badge: 'Profile A · Negotiation Detected',
-      headline: 'You aren\'t stuck because of a lack of clarity. You are in a Negotiation.',
-      body: 'Your data tells a clear story: you sense the call, you may even be able to describe it. But a belief formed from fear, timing, or security is acting as a hidden governor on your movement. You are using logic (responsibility, finances, or preparation) to rationalize your delay. This isn\'t confusion. This is a contract you made with fear. And contracts can be terminated.',
-      hook: 'Your full 15-page Forensic Report identifies the specific Internal Agreement sabotaging your activation. It gives you the exact tool to break it.'
-    };
-  } else if (awakening >= 10 && discernment < 8) {
-    return {
-      label: 'The Fog of Discovery',
-      badge: 'Profile B · Mandate Undefined',
-      headline: 'You feel the shift. But you can\'t yet name what you\'re being called to.',
-      body: 'Your Awakening score is high, which means God has been speaking. But your Discernment score reveals that the assignment hasn\'t yet moved from a feeling to a defined mandate. You are restless because you are sensing a Conception that hasn\'t been named. Without a clear mandate, movement is impossible. You can\'t execute what you can\'t articulate.',
-      hook: 'Your full 15-page Forensic Report maps the specific patterns in your life that point to your assignment. It begins the process of naming it with precision.'
-    };
-  } else if (activation >= 10 && agreements >= 10) {
-    return {
-      label: 'The Performance Trap',
-      badge: 'Profile C · Misaligned Momentum',
-      headline: 'You are moving. But you may be moving out of fear, not obedience.',
-      body: 'Your Activation score shows you are executing. But your Internal Agreements score reveals that the same beliefs driving your delay are now driving your movement. Which means you are at high risk for burnout, misalignment, and assignment drift. You are performing your purpose to avoid the discomfort of your internal agreements. Motion is not always obedience.',
-      hook: 'Your full 15-page Forensic Report diagnoses the specific agreements driving your current momentum. It shows you how to realign with the assignment before burnout sets in.'
-    };
-  } else {
-    return null;
-  }
-}
-
-function showResult(firstName) {
-  document.getElementById('view-quiz').style.display = 'none';
-
-  const totals = sections.map(function(_, si) {
-    let sum = 0;
-    for (let i = 0; i < 3; i++) sum += (answers['s' + si + '_' + i] || 0);
-    return sum;
-  });
-
-  const maxIdx = totals.indexOf(Math.max.apply(null, totals));
-  const info = results[maxIdx];
-  const forensic = getForensicProfile(totals);
-
-  let html = '<div class="result-header">';
-  html += '<div class="result-badge">Your diagnostic result</div>';
-  if (firstName) html += '<p style="font-size:15px;color:var(--muted);margin-bottom:0.5rem">Here are your results, ' + firstName + '</p>';
-  html += '<div class="result-stage">' + info.stage + '</div>';
-  html += '<p class="result-desc">' + info.desc + '</p>';
-  html += '</div>';
-
-  html += '<div class="scores-section">';
-  html += '<div class="scores-label">Your scores by area</div>';
-  const names = ['Awakening', 'Discernment', 'Agreements', 'Detachment', 'Activation'];
-  names.forEach(function(name, i) {
-    html += '<div class="score-row">';
-    html += '<div class="score-name">' + name + '</div>';
-    html += '<div class="score-track"><div class="score-fill" id="sf' + i + '"></div></div>';
-    html += '<div class="score-num">' + totals[i] + '</div>';
-    html += '</div>';
-  });
-  html += '</div>';
-
-  if (forensic) {
-    html += '<div style="background:#1C1C1A;border-radius:6px;padding:1.75rem;margin:1.5rem 0;">';
-    html += '<div style="font-size:13px;letter-spacing:0.15em;text-transform:uppercase;color:#C9A84C;margin-bottom:0.75rem;font-weight:600">' + forensic.badge + '</div>';
-    html += '<div style="font-family:\'Cormorant Garamond\',serif;font-size:1.5rem;color:#ffffff;line-height:1.3;margin-bottom:1rem;font-weight:500">' + forensic.headline + '</div>';
-    html += '<p style="font-size:16px;color:rgba(255,255,255,0.92);line-height:1.7;margin-bottom:1.25rem">' + forensic.body + '</p>';
-    html += '<div style="border-top:0.5px solid rgba(255,255,255,0.2);padding-top:1.25rem;margin-bottom:1.25rem">';
-    html += '<p style="font-size:15px;color:rgba(255,255,255,0.82);line-height:1.6;font-style:italic">' + forensic.hook + '</p>';
-    html += '</div>';
-    html += '<a href="https://payhip.com/b/40xXG" style="display:block;width:100%;padding:1.1rem;background:#058E97;color:#fff;border:none;border-radius:4px;font-size:16px;font-weight:500;font-family:\'DM Sans\',sans-serif;cursor:pointer;text-align:center;text-decoration:none;letter-spacing:0.02em;margin-bottom:0.75rem">Download My Full 15-Page Forensic Report · $97</a>';
-    html += '<p style="font-size:13px;color:rgba(255,255,255,0.65);text-align:center">Instant delivery · Includes the Breach of Agreement™ Worksheet</p>';
-    html += '</div>';
-  }
-
-  html += '<div class="result-block">';
-  html += '<div class="result-block-label">Your next step in The Assignment Room</div>';
-  html += '<p>' + info.barrier + '</p>';
-  html += '</div>';
-
-  html += '<div class="next-step-box">';
-  html += '<div class="label">Recommended program</div>';
-  html += '<div class="program">' + info.next + '</div>';
-  html += '<div class="detail">' + info.detail + '</div>';
-  html += '</div>';
-
-  html += '<a class="btn-enroll" href="' + info.program + '">Learn about the ' + info.next + ' →</a>';
-  html += '<button class="btn-retake" onclick="retake()">Retake the diagnostic</button>';
-
-  document.getElementById('view-result').innerHTML = html;
-  document.getElementById('view-result').style.display = 'block';
-  window.scrollTo(0, 0);
-
-  setTimeout(function() {
-    totals.forEach(function(t, i) {
-      const el = document.getElementById('sf' + i);
-      if (el) el.style.width = Math.round((t / 15) * 100) + '%';
-    });
-  }, 100);
-}
-
-function retake() {
-  answers = {};
-  current = 0;
-  document.getElementById('view-result').style.display = 'none';
-  document.getElementById('view-email').style.display = 'none';
-  document.getElementById('view-intro').style.display = 'block';
-  window.scrollTo(0, 0);
+  window.location.href = '/results?stage=' + resolved.stage;
 }
 </script>
 </body>
