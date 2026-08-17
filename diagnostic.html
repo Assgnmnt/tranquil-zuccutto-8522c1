@@ -1058,25 +1058,21 @@ function submitEmail() {
     body: JSON.stringify(payload)
   }).catch(function() {});
 
-  // Send to Zapier → triggers Mailchimp tagging
-  fetch('https://hooks.zapier.com/hooks/catch/27664390/4o1a5j5/', {
+  // Send directly to Mailchimp (via Netlify function) → creates/updates the
+  // contact and applies the stage/barrier tags that drive the Journeys.
+  // Replaces the old Zapier hop, which was silently failing once the
+  // Zapier account ran out of task quota.
+  fetch('/.netlify/functions/mailchimp-subscribe', {
     method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
       first_name: name,
       last_name: lastName,
       email: email,
       stage: resolved.stage,
       tags: resolved.tags.join(','),
-      barrier_tag: resolved.barrierTag || '',
-      source: 'Readiness Diagnostic',
-      awakening_score: resolved.core.awakening.toFixed(2),
-      clarity_score: resolved.core.clarity.toFixed(2),
-      agreements_protection_score: resolved.core.agreementsProtection.toFixed(2),
-      release_security_score: resolved.core.releaseSecurity.toFixed(2),
-      activation_score: resolved.core.activation.toFixed(2)
-    }).toString()
+      barrier_tag: resolved.barrierTag || ''
+    })
   }).catch(function() {});
 
   document.getElementById('view-email').style.display = 'none';
