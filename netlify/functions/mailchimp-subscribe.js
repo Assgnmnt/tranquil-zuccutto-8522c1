@@ -118,4 +118,4 @@ exports.handler = async function (event) {
     console.error('mailchimp-subscribe: request error', err);
     return { statusCode: 500, body: JSON.stringify({ error: 'Request to Mailchimp failed' }) };
   }
-};Add mailchimp function
+};
