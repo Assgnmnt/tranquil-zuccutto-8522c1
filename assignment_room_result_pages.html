@@ -26,6 +26,8 @@ a{color:inherit}
 nav{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 2.5rem;background:var(--soft-cream);border-bottom:1px solid rgba(196,147,66,0.35)}
 .nav-brand{font-family:'Playfair Display',serif;font-size:15px;letter-spacing:.16em;text-transform:uppercase;color:var(--charcoal);text-decoration:none}
 .nav-cta{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--teal);text-decoration:none;font-weight:600}
+.nav-links{display:flex;gap:2rem;list-style:none}.nav-links a{font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;color:var(--charcoal);opacity:.75;font-weight:500}.nav-links a:hover{opacity:1;color:var(--teal)}@media(max-width:640px){.nav-links{display:none}}
+
 
 .tabs-wrap{background:var(--charcoal);padding:1rem 1.5rem;position:sticky;top:0;z-index:20;overflow-x:auto;white-space:nowrap}
 .tabs-inner{display:flex;gap:.5rem;justify-content:center;min-width:max-content;margin:0 auto;max-width:900px}
@@ -114,7 +116,13 @@ footer p{font-size:12px;color:rgba(255,255,255,0.4)}
 
 <nav>
   <a class="nav-brand" href="/">The Assignment Room</a>
-  <a class="nav-cta" href="/diagnostic">Retake the Diagnostic</a>
+  <ul class="nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/diagnostic">Start with the Diagnostic</a></li>
+    <li><a href="/start-here">Work With Me</a></li>
+    <li><a href="/about">About Jackie</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
 </nav>
 
 <div class="tabs-wrap">
