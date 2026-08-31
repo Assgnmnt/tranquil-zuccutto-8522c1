@@ -1051,18 +1051,30 @@ function submitEmail() {
     completed_at: new Date().toISOString()
   };
 
-  // Send to Formspree
-  fetch('https://formspree.io/f/meepylgv', {
+  // Send to Formspree. This is the backup safety net: if Mailchimp is ever
+  // down or misconfigured, this call is what still puts the lead somewhere
+  // a human will see it.
+  const formspreeCall = fetch('https://formspree.io/f/meepylgv', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
-  }).catch(function() {});
+  }).catch(function (err) {
+    console.error('Diagnostic submit: Formspree request failed', err);
+  });
 
   // Send directly to Mailchimp (via Netlify function) → creates/updates the
   // contact and applies the stage/barrier tags that drive the Journeys.
   // Replaces the old Zapier hop, which was silently failing once the
   // Zapier account ran out of task quota.
-  fetch('/.netlify/functions/mailchimp-subscribe', {
+  //
+  // IMPORTANT: this call is awaited (with a timeout below) instead of fired
+  // and forgotten. The previous version called fetch() and immediately
+  // navigated away on the next line, which frequently aborted the request
+  // before the browser even sent it, and the empty .catch() meant a real
+  // failure (wrong list ID, bad API key, Mailchimp outage) would never
+  // surface anywhere. Every diagnostic completion was silently at risk of
+  // never reaching Mailchimp.
+  const mailchimpCall = fetch('/.netlify/functions/mailchimp-subscribe', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -1073,10 +1085,33 @@ function submitEmail() {
       tags: resolved.tags.join(','),
       barrier_tag: resolved.barrierTag || ''
     })
-  }).catch(function() {});
+  }).then(function (res) {
+    if (!res.ok) {
+      return res.text().then(function (body) {
+        console.error('Diagnostic submit: Mailchimp subscribe failed', res.status, body);
+      });
+    }
+  }).catch(function (err) {
+    console.error('Diagnostic submit: Mailchimp subscribe request failed', err);
+  });
 
-  document.getElementById('view-email').style.display = 'none';
-  window.location.href = '/results?stage=' + resolved.stage;
+  // Give both calls up to 4 seconds to actually leave the browser and get a
+  // response before moving on. This is the fix for the race with
+  // window.location.href below: previously nothing was awaited at all, so
+  // the navigation could (and did) cancel both requests mid-flight.
+  // Someone on a slow connection still isn't stuck forever, and someone on
+  // a normal connection now gets a request that actually completes.
+  function withTimeout(promise, ms) {
+    return Promise.race([
+      promise,
+      new Promise(function (resolve) { setTimeout(resolve, ms); })
+    ]);
+  }
+
+  withTimeout(Promise.allSettled([formspreeCall, mailchimpCall]), 4000).then(function () {
+    document.getElementById('view-email').style.display = 'none';
+    window.location.href = '/results?stage=' + resolved.stage;
+  });
 }
 </script>
 </body>
