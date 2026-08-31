@@ -49,13 +49,13 @@ nav{background:var(--charcoal);padding:1.25rem 2rem;display:flex;align-items:cen
 .form-footer{padding:1.5rem 2.5rem;background:var(--cream);border-top:0.5px solid rgba(0,0,0,0.07)}
 .submit-btn{display:block;width:100%;padding:1.1rem;background:var(--teal);color:var(--white);border:none;border-radius:4px;font-size:16px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;letter-spacing:0.02em;transition:background 0.2s,transform 0.15s;margin-bottom:1rem}
 .submit-btn:hover{background:var(--teal-dark);transform:translateY(-1px)}
+.submit-btn:disabled{opacity:0.6;cursor:default;transform:none}
 .submit-note{font-size:13px;color:var(--muted);text-align:center;line-height:1.6}
 .success-view{display:none;padding:3rem 2.5rem;text-align:center}
 .success-icon{width:56px;height:56px;border-radius:50%;background:var(--teal-light);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem}
 .success-icon-inner{width:22px;height:22px;border-radius:50%;background:var(--teal)}
 .success-view h2{font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--charcoal);margin-bottom:0.75rem}
 .success-view p{font-size:15px;color:var(--muted);line-height:1.8;max-width:420px;margin:0 auto 1rem}
-.success-sig{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--teal);font-style:italic;margin-top:1.5rem}
 footer{background:var(--charcoal);padding:2.5rem 2rem;text-align:center;border-top:0.5px solid rgba(201,168,76,0.15)}
 .footer-brand{font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold-light);margin-bottom:0.5rem}
 footer p{font-size:13px;color:rgba(255,255,255,0.3)}
@@ -77,7 +77,7 @@ footer p{font-size:13px;color:rgba(255,255,255,0.3)}
 <div class="form-wrap">
   <div class="form-notice">
     <div class="notice-dot"></div>
-    <p class="notice-text">Discovery Lab™ is a 4-week small-group cohort with live weekly sessions. Once you submit, Morgan Ellis, our Client Experience Coordinator, will follow up within 24 hours to confirm your cohort start date and payment details.</p>
+    <p class="notice-text">Discovery Lab™ is a 4-week small-group cohort with live weekly sessions, limited to 5 women per round. Fill out the form below, then complete your enrollment on the next screen. Your spot is confirmed the moment payment goes through.</p>
   </div>
 
   <div class="what-you-get">
@@ -88,7 +88,7 @@ footer p{font-size:13px;color:rgba(255,255,255,0.3)}
       <div class="wg-item"><div class="wg-dot"></div>4 weeks of live group sessions</div>
       <div class="wg-item"><div class="wg-dot"></div>Peer accountability + witnessed movement</div>
       <div class="wg-item"><div class="wg-dot"></div>Guided teaching each week</div>
-      <div class="wg-item"><div class="wg-dot"></div>Direct access to your coordinator</div>
+      <div class="wg-item"><div class="wg-dot"></div>Small cohort — 5 women max</div>
     </div>
   </div>
 
@@ -97,7 +97,7 @@ footer p{font-size:13px;color:rgba(255,255,255,0.3)}
       <div class="price-row">
         <div>
           <div class="price-label">Program investment</div>
-          <div class="price-note">One-time payment · Due upon cohort enrollment confirmation</div>
+          <div class="price-note">One-time payment · Due to confirm your seat</div>
         </div>
         <div class="price-amount">$997</div>
       </div>
@@ -137,7 +137,7 @@ footer p{font-size:13px;color:rgba(255,255,255,0.3)}
 
       <div class="field">
         <label>What made you decide to reserve your spot today?</label>
-        <div class="hint">Optional — but this helps Morgan prepare for your cohort.</div>
+        <div class="hint">Optional — but this helps us prepare for your cohort.</div>
         <textarea name="why_now" placeholder="What shifted? What are you ready to stop negotiating with?"></textarea>
       </div>
 
@@ -159,15 +159,15 @@ footer p{font-size:13px;color:rgba(255,255,255,0.3)}
     </form>
 
     <div class="form-footer">
-      <button class="submit-btn" onclick="submitForm(event)">Reserve My Spot — $997</button>
-      <p class="submit-note">No payment collected here. Morgan Ellis, our Client Experience Coordinator, will follow up within 24 hours with payment and cohort details.</p>
+      <button class="submit-btn" id="submit-btn" onclick="submitForm(event)">Continue to Secure Checkout — $997</button>
+      <p class="submit-note">You'll complete payment on the next screen. Your spot is confirmed instantly once payment goes through, no waiting on anyone.</p>
     </div>
   </div>
 
   <div class="success-view" id="success-view">
     <div class="success-icon"><div class="success-icon-inner"></div></div>
-    <h2>You're in.</h2>
-    <p>Thank you for reserving your spot. Morgan Ellis, our Client Experience Coordinator, will follow up within 24 hours to confirm your cohort start date and send everything you need to prepare.</p>
+    <h2>Taking you to checkout.</h2>
+    <p>We've got your information. You're being redirected to complete your $997 enrollment now.</p>
 
     <div style="background:var(--cream);border:0.5px solid rgba(0,0,0,0.08);border-radius:6px;padding:1.5rem;margin:1.5rem 0;text-align:left;">
       <p style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--teal);font-weight:500;margin-bottom:0.75rem;">After Discovery Lab™</p>
@@ -181,8 +181,7 @@ footer p{font-size:13px;color:rgba(255,255,255,0.3)}
       </div>
     </div>
 
-    <div class="success-sig">Morgan Ellis</div>
-    <p style="font-size:12px;color:var(--muted);margin-top:0.35rem">Client Experience Coordinator · The Assignment Room™</p>
+    <p style="font-size:12px;color:var(--muted)">If you are not redirected in a few seconds, <a href="https://buy.stripe.com/5kQ4gzcemfno8K0cTSdnW04" style="color:var(--teal);font-weight:500">click here to complete checkout</a>.</p>
   </div>
 </div>
 
@@ -192,33 +191,50 @@ footer p{font-size:13px;color:rgba(255,255,255,0.3)}
 </footer>
 
 <script>
+// Discovery Lab reservation → Stripe checkout.
+//
+// This used to be a two-step, human-dependent process: submit this form,
+// then wait on a follow-up email to actually pay and confirm the seat.
+// There is no team member watching that inbox on a schedule, so that
+// second step was unreliable. Now the lead is captured here (for your
+// records and nurture sequence) and the person is sent straight to a real
+// Stripe checkout for the $997 seat, confirmed the moment they pay.
 function submitForm(e) {
   e.preventDefault();
   const form = document.getElementById('discovery-form');
   const data = new FormData(form);
   const body = {};
-  data.forEach(function(val, key) { body[key] = val; });
+  data.forEach(function (val, key) { body[key] = val; });
 
-  fetch('https://formspree.io/f/xreonaqg', {
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.textContent = 'Redirecting…';
+
+  const leadCall = fetch('https://formspree.io/f/xreonaqg', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
     body: JSON.stringify(body)
-  }).then(function(res) {
-    showSuccess();
-  }).catch(function() {
-    const name = (document.querySelector('[name=first_name]').value + ' ' + document.querySelector('[name=last_name]').value).trim();
-    const email = document.querySelector('[name=email]').value;
-    const subject = encodeURIComponent('Discovery Lab Reservation — ' + name);
-    const bodyText = encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\nI am reserving my spot in the Discovery Lab.');
-    window.location.href = 'mailto:hello@assignmentroom.com?subject=' + subject + '&body=' + bodyText;
-    showSuccess();
+  }).catch(function (err) {
+    console.error('Discovery Lab reservation: lead capture failed', err);
   });
-}
 
-function showSuccess() {
+  function withTimeout(promise, ms) {
+    return Promise.race([
+      promise,
+      new Promise(function (resolve) { setTimeout(resolve, ms); })
+    ]);
+  }
+
+  // Show the redirect screen immediately, but still give the lead-capture
+  // call a couple of seconds to actually leave the browser before we
+  // navigate away to Stripe.
   document.getElementById('form-content').style.display = 'none';
   document.getElementById('success-view').style.display = 'block';
   window.scrollTo(0, 0);
+
+  withTimeout(leadCall, 2500).then(function () {
+    window.location.href = 'https://buy.stripe.com/5kQ4gzcemfno8K0cTSdnW04';
+  });
 }
 </script>
 </body>

@@ -48,13 +48,13 @@ nav{background:var(--charcoal);padding:1.25rem 2rem;display:flex;align-items:cen
 .form-footer{padding:2rem 2.5rem;background:var(--cream);border-top:0.5px solid rgba(0,0,0,0.07)}
 .submit-btn{display:block;width:100%;padding:1.1rem;background:var(--teal);color:var(--white);border:none;border-radius:4px;font-size:16px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;letter-spacing:0.02em;transition:background 0.2s,transform 0.15s;margin-bottom:1rem}
 .submit-btn:hover{background:var(--teal-dark);transform:translateY(-1px)}
+.submit-btn:disabled{opacity:0.6;cursor:default;transform:none}
 .submit-note{font-size:13px;color:var(--muted);text-align:center;line-height:1.6}
 .success-view{display:none;padding:3rem 2.5rem;text-align:center}
 .success-icon{width:56px;height:56px;border-radius:50%;background:var(--teal-light);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem}
 .success-icon-inner{width:22px;height:22px;border-radius:50%;background:var(--teal)}
 .success-view h2{font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--charcoal);margin-bottom:0.75rem}
 .success-view p{font-size:15px;color:var(--muted);line-height:1.8;max-width:440px;margin:0 auto 1.5rem}
-.success-sig{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--teal);font-style:italic}
 footer{background:var(--charcoal);padding:2.5rem 2rem;text-align:center;border-top:0.5px solid rgba(201,168,76,0.15)}
 .footer-brand{font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold-light);margin-bottom:0.5rem}
 footer p{font-size:13px;color:rgba(255,255,255,0.3)}
@@ -71,13 +71,13 @@ footer p{font-size:13px;color:rgba(255,255,255,0.3)}
 <div class="page-header">
   <p class="eyebrow">Program Three · Leadership Stage</p>
   <h1>Fellowship<br><em>Application</em></h1>
-  <p>This is not a course enrollment. It is an application. We review every submission carefully and only accept women who are genuinely ready for this stage.</p>
+  <p>This is not a course enrollment. It is an application. Every submission is reviewed carefully, and only women who are genuinely ready for this stage are accepted.</p>
 </div>
 
 <div class="form-wrap">
   <div class="form-notice">
     <div class="notice-dot"></div>
-    <p class="notice-text">The Fellowship is limited to 8 women per cohort. Applications are reviewed within 3 business days. Prior completion of at least one Assignment Room™ offer is required. If accepted, you will receive a personal response from our team.</p>
+    <p class="notice-text">The Fellowship is limited to 8 women per cohort. Applications are reviewed within 3 business days. Prior completion of at least one Assignment Room™ offer is required. You'll hear back either way.</p>
   </div>
 
   <div id="form-content">
@@ -172,7 +172,7 @@ footer p{font-size:13px;color:rgba(255,255,255,0.3)}
           <textarea name="room_vision" placeholder="I envision building..."></textarea>
         </div>
         <div class="field">
-          <label>Is there anything else our team should know about your application?</label>
+          <label>Is there anything else we should know about your application?</label>
           <textarea name="anything_else" placeholder="Optional — share anything additional..."></textarea>
         </div>
       </div>
@@ -183,19 +183,16 @@ footer p{font-size:13px;color:rgba(255,255,255,0.3)}
     </form>
 
     <div class="form-footer">
-      <button class="submit-btn" onclick="submitApplication(event)">Submit My Application</button>
-      <p class="submit-note">Applications are reviewed within 3 business days.<br>Morgan Ellis, our Client Experience Coordinator, will be in touch within 3 business days</p>
+      <button class="submit-btn" id="submit-btn" onclick="submitApplication(event)">Submit My Application</button>
+      <p class="submit-note">Applications are reviewed within 3 business days.<br>You'll hear back either way.</p>
     </div>
   </div>
 
   <div class="success-view" id="success-view">
     <div class="success-icon"><div class="success-icon-inner"></div></div>
     <h2>Application received.</h2>
-    <p>Thank you for applying to the Fellowship. Morgan Ellis, our Client Experience Coordinator, will review your application and be in touch within 3 business days.</p>
+    <p>Thank you for applying to the Fellowship. Your application is being reviewed carefully, and you'll hear back within 3 business days.</p>
     <p style="margin-top:1rem;font-size:14px;color:var(--muted)">In the meantime — keep building. The assignment doesn't wait for the Fellowship to begin.</p>
-    <div class="success-sig" style="margin-top:1.5rem">Morgan Ellis</div>
-    <p style="font-size:12px;color:var(--muted);margin-top:0.35rem">Client Experience Coordinator · The Assignment Room™</p>
-    <p style="font-size:12px;color:var(--muted);margin-top:0.35rem">The Assignment Room™</p>
   </div>
 </div>
 
@@ -212,7 +209,11 @@ function submitApplication(e) {
   const body = {};
   data.forEach(function(val, key) { body[key] = val; });
 
-  // Send to Formspree — replace YOUR_FORM_ID with your actual Formspree form ID
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.textContent = 'Submitting…';
+
+  // Send to Formspree
   fetch('https://formspree.io/f/mlgoqwbw', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
