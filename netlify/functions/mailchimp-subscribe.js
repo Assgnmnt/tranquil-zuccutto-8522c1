@@ -89,7 +89,7 @@ exports.handler = async function (event) {
     if (!upsertResp.ok) {
       const errBody = await upsertResp.text();
       console.error('mailchimp-subscribe: upsert failed', upsertResp.status, errBody);
-      return { statusCode: 502, body: JSON.stringify({ error: 'Mailchimp upsert failed' }) };
+      return { statusCode: 502, body: JSON.stringify({ error: 'Mailchimp upsert failed', debug_status: upsertResp.status, debug_body: errBody }) };
     }
 
     // Apply the tags that trigger the Journeys.
