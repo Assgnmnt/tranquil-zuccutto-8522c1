@@ -64,9 +64,24 @@ exports.handler = async function (event) {
   // Every one of these conditions already exists in diagnostic.html's
   // resolveStage() today. Nothing about scoring changes here, this only
   // decides which already-built email sequence a result routes to.
+  //
+  // Every one of the six stages now gets its own tag. Previously only
+  // Activation did: Awareness, Delay, Definition, Sustainment, and
+  // Multiplication all fell through to just AR-Welcome with no way to
+  // tell them apart in Mailchimp. Barrier tags below still layer on
+  // top of the stage tag when a barrier is present.
+  const STAGE_TAG_MAP = {
+    awareness: 'AR-Awareness',
+    delay: 'AR-Delay',
+    definition: 'AR-Definition',
+    activation: 'AR-Activation',
+    sustainment: 'AR-Sustainment',
+    multiplication: 'AR-Multiplication'
+  };
+
   const mcTags = ['AR-Welcome'];
 
-  if (stage === 'activation') mcTags.push('AR-Activation');
+  if (STAGE_TAG_MAP[stage]) mcTags.push(STAGE_TAG_MAP[stage]);
   if (tagsArr.indexOf('high_stirring_low_language') !== -1) mcTags.push('AR-Awakening');
   if (tagsArr.indexOf('misaligned_momentum') !== -1) mcTags.push('AR-Discernment');
   if (barrierTag === 'agreements_protection' || tagsArr.indexOf('barrier_review') !== -1) {
