@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Assignment Economy™ Assessment | The Assignment Room</title>
+<meta name="description" content="A private, evidence-based assessment: what does your assignment need next, and what does your life need while you carry it?">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --charcoal:#1C1C1A;
+    --gold:#C9A84C;
+    --teal:#058E97;
+    --cream:#F8F4EE;
+    --cream-2:#FBF7F1;
+    --grey-1:#9a9892;
+    --grey-2:#c9c7c1;
+    --grey-3:#6b6a65;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--charcoal);
+    font-family: Helvetica, Arial, sans-serif;
+    line-height:1.55;
+  }
+  .serif{ font-family: 'Cormorant Garamond', Georgia, serif; }
+
+  header.banner{
+    background:var(--charcoal);
+    color:#fff;
+    padding:34px 20px 28px;
+    text-align:center;
+  }
+  header.banner .word{
+    color:var(--gold);
+    letter-spacing:.14em;
+    font-size:13px;
+    text-transform:uppercase;
+    margin-bottom:10px;
+  }
+  header.banner h1{
+    font-family:'Cormorant Garamond', Georgia, serif;
+    font-weight:600;
+    font-size:34px;
+    margin:0 0 6px;
+  }
+  header.banner h1 em{
+    display:block;
+    color:var(--gold);
+    font-style:italic;
+    font-size:22px;
+    margin-top:2px;
+  }
+  .divider{
+    width:60px;height:1px;background:var(--gold);
+    margin:16px auto;
+  }
+  header.banner .eyebrow{
+    color:var(--teal);
+    letter-spacing:.16em;
+    font-size:12px;
+    text-transform:uppercase;
+  }
+  .teal-strip{ height:4px; background:var(--teal); width:100%; }
+
+  main{
+    max-width:680px;
+    margin:0 auto;
+    padding:36px 20px 80px;
+  }
+
+  .progress{
+    font-size:12px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--grey-3);
+    margin-bottom:22px;
+  }
+  .progress-bar{
+    height:3px;background:var(--grey-2);border-radius:2px;margin-top:8px;overflow:hidden;
+  }
+  .progress-bar > div{
+    height:100%;background:var(--teal);transition:width .25s ease;
+  }
+
+  .card{
+    background:#fff;
+    border:1px solid var(--grey-2);
+    border-radius:6px;
+    padding:30px 26px;
+  }
+
+  .step-title{
+    font-family:'Cormorant Garamond', Georgia, serif;
+    font-size:26px;
+    margin:0 0 6px;
+    color:var(--charcoal);
+  }
+  .step-sub{
+    color:var(--grey-3);
+    font-size:15px;
+    margin:0 0 22px;
+  }
+
+  .quote-box{
+    background:var(--cream-2);
+    border-left:3px solid var(--teal);
+    padding:14px 18px;
+    margin:18px 0;
+    font-size:14.5px;
+    color:#3c3b38;
+  }
+  .quote-box strong{ color:var(--charcoal); }
+
+  fieldset{ border:none; padding:0; margin:0 0 24px; }
+  legend{
+    font-weight:600;
+    margin-bottom:10px;
+    font-size:15.5px;
+  }
+
+  .option{
+    display:block;
+    border:1px solid var(--grey-2);
+    border-radius:5px;
+    padding:12px 14px;
+    margin-bottom:8px;
+    cursor:pointer;
+    transition:border-color .15s, background .15s;
+  }
+  .option:hover{ border-color:var(--teal); }
+  .option input{ margin-right:10px; }
+  .option.selected{
+    border-color:var(--teal);
+    background:#eef8f9;
+  }
+  .option .opt-label{ font-weight:600; }
+  .option .opt-text{ display:block; color:var(--grey-3); font-size:14px; margin-top:2px; }
+
+  .item-block{
+    border-bottom:1px solid var(--grey-2);
+    padding:16px 0;
+  }
+  .item-block:last-child{ border-bottom:none; }
+  .item-text{ font-size:15.5px; margin-bottom:10px; }
+  .scale-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+  }
+  .scale-btn{
+    border:1px solid var(--grey-2);
+    background:#fff;
+    border-radius:20px;
+    padding:7px 13px;
+    font-size:13px;
+    cursor:pointer;
+    color:var(--charcoal);
+  }
+  .scale-btn.selected{
+    background:var(--teal);
+    border-color:var(--teal);
+    color:#fff;
+  }
+
+  label.field-label{ display:block; font-weight:600; margin-bottom:6px; font-size:14.5px; }
+  input[type=number], input[type=text], textarea{
+    width:100%;
+    border:1px solid var(--grey-2);
+    border-radius:5px;
+    padding:10px 12px;
+    font-size:15px;
+    font-family:inherit;
+    margin-bottom:16px;
+  }
+  textarea{ min-height:90px; resize:vertical; }
+  .hint{ font-size:12.5px; color:var(--grey-3); margin:-10px 0 16px; }
+  .two-col{ display:flex; gap:14px; }
+  .two-col > div{ flex:1; }
+
+  .nav-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:26px;
+  }
+  button.btn{
+    font-family:inherit;
+    font-size:14.5px;
+    letter-spacing:.03em;
+    border-radius:4px;
+    padding:12px 22px;
+    cursor:pointer;
+    border:1px solid var(--charcoal);
+    background:var(--charcoal);
+    color:#fff;
+  }
+  button.btn.secondary{
+    background:transparent;
+    color:var(--charcoal);
+    border-color:var(--grey-2);
+  }
+  button.btn:disabled{
+    opacity:.4;
+    cursor:not-allowed;
+  }
+  button.btn.gold{
+    background:var(--gold);
+    border-color:var(--gold);
+    color:var(--charcoal);
+    font-weight:600;
+  }
+
+  .error-msg{
+    color:#a83232;
+    font-size:13.5px;
+    margin-top:-8px;
+    margin-bottom:14px;
+    display:none;
+  }
+
+  /* Results */
+  .result-eyebrow{
+    color:var(--teal);
+    text-transform:uppercase;
+    letter-spacing:.14em;
+    font-size:12px;
+    margin-bottom:6px;
+  }
+  .result-block{ margin-bottom:30px; }
+  .result-condition{
+    font-family:'Cormorant Garamond', Georgia, serif;
+    font-size:40px;
+    color:var(--charcoal);
+    margin:2px 0 12px;
+  }
+  .result-condition.gold-text{ color:var(--gold); font-style:italic; }
+  .result-meaning{ font-size:15.5px; margin-bottom:10px; }
+  .result-not{
+    font-size:13.5px;
+    color:var(--grey-3);
+    font-style:italic;
+  }
+  .takeaway-q{
+    font-family:'Cormorant Garamond', Georgia, serif;
+    font-style:italic;
+    font-size:22px;
+    color:var(--charcoal);
+    text-align:center;
+    padding:20px 10px;
+    border-top:1px solid var(--grey-2);
+    border-bottom:1px solid var(--grey-2);
+    margin:26px 0;
+  }
+  .disclaimer{
+    font-size:12.5px;
+    color:var(--grey-3);
+    margin-top:26px;
+    line-height:1.6;
+  }
+  footer.banner{
+    background:var(--charcoal);
+    border-top:3px solid var(--gold);
+    color:var(--grey-2);
+    text-align:center;
+    font-size:12.5px;
+    padding:26px 20px;
+  }
+  footer.banner a{ color:var(--gold); }
+
+  .facilitator-toggle{
+    margin-top:30px;
+    text-align:center;
+  }
+  .facilitator-toggle button{
+    background:none;border:none;color:var(--grey-3);font-size:12px;
+    text-decoration:underline;cursor:pointer;
+  }
+  .facilitator-panel{
+    display:none;
+    background:var(--cream-2);
+    border:1px dashed var(--grey-2);
+    border-radius:5px;
+    padding:16px;
+    margin-top:14px;
+    font-size:12.5px;
+    color:var(--grey-3);
+    text-align:left;
+  }
+  .facilitator-panel.open{ display:block; }
+  .facilitator-panel code{ color:var(--charcoal); }
+
+  @media print{
+    header.banner, footer.banner, .facilitator-toggle, .nav-row, .no-print { display:none !important; }
+    .card{ border:none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="banner">
+  <div class="word">The Assignment Room™</div>
+  <h1>The Assignment Economy™<em>Assessment</em></h1>
+  <div class="divider"></div>
+  <div class="eyebrow">Founding Workshop Edition</div>
+</header>
+<div class="teal-strip"></div>
+
+<main>
+  <div class="progress" id="progressLabel"></div>
+  <div class="progress-bar"><div id="progressFill" style="width:0%"></div></div>
+  <div class="card" id="stepCard"></div>
+</main>
+
+<footer class="banner">
+  &copy; <span id="year"></span> The Assignment Room™ &middot; This assessment is private to you and is not stored or sent anywhere.
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ============================================================
+   ENGINE — ported verbatim from engine.js, validated against the
+   12 cases in Section 31 of the spec before this page was built.
+   ============================================================ */
+function avg(items){
+  const nums = items.filter(v => v !== null && v !== undefined && v !== 'NA');
+  if(nums.length === 0) return null;
+  return nums.reduce((a,b)=>a+b,0)/nums.length;
+}
+function naCount(items){ return items.filter(v => v === 'NA').length; }
+function tier(a){
+  if(a === null) return 'UNKNOWN';
+  if(a < 1) return 'SIGNAL';
+  if(a < 2.5) return 'PATTERN';
+  return 'PROOF';
+}
+function isWeak(t){ return t === 'SIGNAL' || t === 'UNKNOWN'; }
+function isAtLeastPattern(t){ return t === 'PATTERN' || t === 'PROOF'; }
+
+function classify(inputs){
+  const fruitAvg = avg(inputs.fruit);
+  const demandAvg = avg(inputs.demand);
+  const transactionAvg = avg(inputs.transaction);
+  const modelAvg = avg(inputs.model);
+  const exposureAvg = avg(inputs.exposure);
+
+  const fruitTier = tier(fruitAvg);
+  const demandTier = tier(demandAvg);
+  const transactionTier = tier(transactionAvg);
+  const modelTier = tier(modelAvg);
+  const exposureTier = tier(exposureAvg);
+
+  const totalNA = naCount(inputs.fruit)+naCount(inputs.demand)+naCount(inputs.transaction)+naCount(inputs.model)+naCount(inputs.exposure);
+
+  const offersLast90 = typeof inputs.offersLast90 === 'number' ? inputs.offersLast90 : 0;
+  const exposureInsufficient = isWeak(exposureTier) || offersLast90 < 2 || inputs.reachKnown === false;
+  const tooManyNA = totalNA >= 4;
+
+  const flags = [];
+  let needsInterpretation = false;
+  let assignmentCondition = null;
+  let assignmentReason = '';
+
+  if(inputs.intention === 'SERVE'){
+    if(!isWeak(fruitTier)){
+      assignmentCondition = 'SERVE';
+      assignmentReason = "You intentionally chose not to ask this assignment to carry income right now, and there's real evidence it's doing what you built it to do.";
+    } else {
+      assignmentCondition = 'TEST';
+      assignmentReason = "You chose SERVE, but there isn't yet evidence of the Fruit that SERVE depends on. That's not a contradiction to panic over, it just means the next right step is gathering that evidence, not a financial one.";
+      needsInterpretation = true;
+      flags.push('SERVE_CLAIMED_WITHOUT_FRUIT_EVIDENCE');
+    }
+  } else {
+    if(exposureInsufficient || tooManyNA){
+      assignmentCondition = 'TEST';
+      assignmentReason = tooManyNA
+        ? "There's too much you genuinely don't know yet to responsibly classify this. That's a measurement gap, not a failure."
+        : "You haven't put this in front of enough of the right people yet, or asked clearly enough, to know what the market actually thinks.";
+    } else if(isWeak(fruitTier)){
+      if(isAtLeastPattern(transactionTier) || isAtLeastPattern(demandTier)){
+        assignmentCondition = 'REMODEL';
+        assignmentReason = "People are engaging or paying, but there isn't enough evidence yet that they're getting the result this is supposed to produce. Revenue can't stand in for outcomes.";
+        flags.push('HIGH_TRANSACTION_LOW_FRUIT');
+      } else {
+        assignmentCondition = 'TEST';
+        assignmentReason = "There isn't yet clear evidence this is producing the result it's meant to produce, and not enough commercial activity either to read a different pattern. This needs more real-world exposure before any bigger decision.";
+        needsInterpretation = true;
+        flags.push('WEAK_ACROSS_BOARD_WITH_SUFFICIENT_EXPOSURE');
+      }
+    } else if(isWeak(demandTier)){
+      assignmentCondition = 'REMODEL';
+      assignmentReason = "People who experience this value it, but there isn't enough evidence yet that the wider market is pulling for it. That's usually a positioning or access question, not a sign the assignment is wrong.";
+      flags.push('HIGH_FRUIT_LOW_DEMAND');
+    } else if(isWeak(transactionTier)){
+      assignmentCondition = 'REMODEL';
+      assignmentReason = "People are interested and taking real steps, but they aren't yet paying. That points to the offer, price, or model, not to whether people want this.";
+      flags.push('HIGH_DEMAND_LOW_TRANSACTION');
+    } else if(isWeak(modelTier)){
+      assignmentCondition = 'REMODEL';
+      assignmentReason = "People want it, people buy it, and it works. But the way it's currently built doesn't hold up economically or won't hold up if it grew. The assignment looks right. The structure needs work.";
+      flags.push('STRONG_COMMERCIAL_WEAK_MODEL');
+    } else {
+      const t2 = inputs.transaction[1];
+      const m2 = inputs.model[1];
+      const m3 = inputs.model[2];
+      const isolatedTransaction = t2 === 0 || t2 === 'NA';
+      const negativeEconomics = m2 === 0;
+      const structurallyUnsustainable = m3 === 0;
+      const concentrationRisk = inputs.concentrationDependency === 'YES';
+
+      if(negativeEconomics || structurallyUnsustainable){
+        assignmentCondition = 'REMODEL';
+        assignmentReason = negativeEconomics
+          ? "The demand and outcomes are real, but on your own numbers the economics don't currently work. That's a Model problem to fix, not a reason to doubt the assignment."
+          : "Everything else here is working, but right now it only works because of your direct hours. If it doubled tomorrow, it would break you before it scaled. That's a structure problem, not an assignment problem.";
+        flags.push(negativeEconomics ? 'OVERRIDE_NEGATIVE_ECONOMICS' : 'OVERRIDE_FOUNDER_DEPENDENCY');
+      } else if(isolatedTransaction){
+        assignmentCondition = 'TEST';
+        assignmentReason = "The evidence so far is encouraging, but the paid evidence hasn't repeated yet. One result is a signal, not proof. A little more testing will tell you a lot.";
+        flags.push('OVERRIDE_ISOLATED_TRANSACTION');
+      } else if(concentrationRisk){
+        assignmentCondition = 'REMODEL';
+        assignmentReason = "Something real is working here, but it currently leans heavily on one customer, launch, or event. Before treating this as provable at scale, it needs to become a repeatable pattern rather than a single win.";
+        flags.push('OVERRIDE_CONCENTRATION_DEPENDENCY');
+        needsInterpretation = true;
+      } else {
+        assignmentCondition = 'SCALE';
+        assignmentReason = 'There is credible, repeated evidence across Fruit, Demand, Transaction, and Model, and you have tested this enough to trust it. The evidence supports this carrying more economic responsibility, if you want it to.';
+      }
+    }
+    if(inputs.concentrationDependency === 'SOMEWHAT' && assignmentCondition === 'SCALE'){
+      needsInterpretation = true;
+      flags.push('PARTIAL_CONCENTRATION_RISK');
+    }
+  }
+
+  const p1 = inputs.provision.p1, p2 = inputs.provision.p2, p3 = inputs.provision.p3;
+  const shortRunway = p2 === 'LT_3' || p2 === '3_6';
+  const noOtherSource = p3 === 'NO';
+  const meaningfulDependency = p1 === 'SOMEWHAT' || p1 === 'SIGNIFICANTLY' || p1 === 'COMPLETELY';
+  const needsMoney = meaningfulDependency || shortRunway || noOtherSource;
+
+  let provisionCondition = '', provisionReason = '';
+
+  if(assignmentCondition === 'SERVE'){
+    provisionCondition = 'LET PROVISION COME THROUGH ANOTHER DOOR';
+    provisionReason = "This assignment isn't carrying your income right now by design, and it doesn't need to. Provision can legitimately come from somewhere else while you carry this well.";
+    if(p1 === 'COMPLETELY'){
+      needsInterpretation = true;
+      flags.push('SERVE_BUT_COMPLETELY_DEPENDENT');
+      provisionReason += ' One thing worth naming honestly: you said your life is completely dependent on this right now, which sits in tension with SERVE. That tension is worth a direct look, not a form.';
+    }
+  } else if(assignmentCondition === 'TEST'){
+    if(needsMoney){
+      provisionCondition = 'FUND WHILE YOU TEST';
+      provisionReason = "Your current financial needs are ahead of what this assignment has demonstrated it can carry right now. That doesn't mean stop testing, it means let provision come from somewhere else while you do.";
+    } else {
+      provisionCondition = 'YOU HAVE ROOM TO KEEP TESTING';
+      provisionReason = "You're not under financial pressure to force a verdict yet. Use that room to actually test, rather than deciding early.";
+    }
+  } else if(assignmentCondition === 'REMODEL'){
+    if(needsMoney){
+      provisionCondition = 'FUND WHILE YOU REMODEL';
+      provisionReason = 'Something here is worth preserving, but it needs rebuilding before it can reliably carry your provision. Let another door carry you while that rebuilding happens.';
+    } else {
+      provisionCondition = 'YOU HAVE ROOM TO REMODEL BEFORE PROVISION PRESSURE HITS';
+      provisionReason = "You have some runway before this needs to carry your provision. Use it to fix the model, not to rush the timeline.";
+    }
+  } else if(assignmentCondition === 'SCALE'){
+    if(p1 === 'NOT_AT_ALL' || p1 === 'SOMEWHAT'){
+      provisionCondition = 'YOUR CURRENT PROVISION HAS ROOM TO SUPPORT THIS';
+      provisionReason = "Your life doesn't currently depend on this financially, so any decision to lean into it can be made from evidence and desire, not urgency.";
+    } else {
+      provisionCondition = 'THE EVIDENCE SUPPORTS THIS CARRYING MORE OF YOUR PROVISION';
+      provisionReason = 'The evidence is strong enough that this can reasonably begin carrying more of what your life needs, if that is what you want it to do.';
+    }
+  }
+
+  let confidence = 'MODERATE';
+  if(tooManyNA || exposureInsufficient){
+    confidence = 'EMERGING';
+  } else if(totalNA <= 1 && flags.length === 0){
+    confidence = 'HIGH';
+  }
+  if(needsInterpretation && confidence === 'HIGH') confidence = 'MODERATE';
+
+  return {
+    assignmentCondition, assignmentReason, provisionCondition, provisionReason,
+    confidence, needsInterpretation, flags,
+    diagnostics:{ fruitAvg, demandAvg, transactionAvg, modelAvg, exposureAvg, fruitTier, demandTier, transactionTier, modelTier, exposureTier, totalNA, exposureInsufficient }
+  };
+}
+
+/* ============================================================
+   CONTENT — question text pulled directly from the spec
+   ============================================================ */
+const INTENTION_OPTIONS = [
+  {v:'SERVE', label:'A. SERVE', text:'I want to carry this assignment well. I am not currently asking it to become a meaningful source of income.'},
+  {v:'SUPPORT', label:'B. SUPPORT ITSELF', text:'I want it to generate enough income to cover what it costs me to carry or build it.'},
+  {v:'SUPPLEMENT', label:'C. SUPPLEMENT', text:'I want it to contribute meaningful income alongside another source of provision.'},
+  {v:'EVENTUALLY', label:'D. EVENTUALLY PROVIDE', text:'I want it eventually to become my primary source of income.'},
+  {v:'PROVIDE_NOW', label:'E. PROVIDE NOW', text:'I currently need or expect it to become a significant or primary source of income.'},
+];
+
+const SCALE_OPTIONS = [
+  {v:0, label:'0 — No evidence yet'},
+  {v:1, label:'1 — A signal'},
+  {v:2, label:'2 — A repeated pattern'},
+  {v:3, label:'3 — Strong, consistent evidence'},
+  {v:'NA', label:"N/A — I don't know / haven't measured this"},
+];
+
+const DIMENSIONS = [
+  {
+    key:'fruit', title:'Fruit', sub:'Is something meaningful actually happening?',
+    items:[
+      'I can identify specific people who have experienced a meaningful result because of this work.',
+      'People have returned, referred someone else, requested more, or continued engaging after experiencing what I offer.',
+      'I receive specific feedback about what changed or became possible for someone, not simply general encouragement such as "this is great."'
+    ],
+    teaching:'Compliments are not the same as fruit.'
+  },
+  {
+    key:'demand', title:'Demand', sub:'Are people pulling for this?',
+    items:[
+      'People outside my immediate personal circle have expressed interest in what I offer.',
+      'When I speak about the problem I address, people take meaningful action such as requesting information, signing up, joining, inquiring, or purchasing.',
+      'Interest has appeared more than once and extends beyond a single post, launch, event, or group of supportive friends.'
+    ],
+    teaching:'Followers are not customers. Comments are not demand. Compliments are not transactions. Content demand is not automatically offer demand.'
+  },
+  {
+    key:'transaction', title:'Transaction', sub:'Will people exchange money for this value?',
+    items:[
+      'People outside my close personal circle have paid for what I offer.',
+      'More than one person has paid for the same or substantially similar offer.',
+      'I have evidence that people will pay at a price that makes economic sense relative to what it costs me to deliver.'
+    ],
+    teaching:'Someone saying "I would absolutely buy that" is not a transaction. Neither are likes, shares, compliments, inquiries, followers, or encouragement.'
+  },
+  {
+    key:'model', title:'Model', sub:'Does the way I’ve built this make economic sense?',
+    items:[
+      'Someone can quickly understand what I’m offering, who it’s for, and why they would pay for it.',
+      'After considering the money, time, and direct costs required to deliver what I sell, the economics make sense.',
+      'If twice as many people bought tomorrow, I could serve that growth without simply doubling my personal workload.'
+    ],
+    teaching:'Revenue doesn’t automatically mean you built a business. You may have built yourself another job.'
+  },
+  {
+    key:'exposure', title:'Exposure', sub:'Have I actually tested this enough to know?',
+    items:[
+      'I have put a clear offer in front of enough of the right people to learn something meaningful from their response.',
+      'I have tested this more than once rather than drawing conclusions from one launch, post, event, conversation, or attempt.',
+      'I can separate what the evidence has actually shown me from what I am assuming because of fear, disappointment, comparison, impatience, or hope.'
+    ],
+    teaching:'Time is not the same as testing. Stop counting how long you’ve been building. Start counting how much you’ve actually tested.'
+  },
+];
+
+const CONDITION_COPY = {
+  SERVE: {
+    meaning:'This assignment can be real, fruitful, and worth carrying without requiring it to become your primary source of income.',
+    notConclude:'Not: it has no economic potential. Not: you can never charge for it. Not: it will always remain SERVE.'
+  },
+  TEST: {
+    meaning:'You have promising signals, but there isn’t enough repeated market evidence yet to support the larger financial decision you’re trying to make.',
+    notConclude:'Not: "this doesn’t work." Not: "I missed God." Not: "nobody wants this." Not: "I should quit."'
+  },
+  REMODEL: {
+    meaning:'The assignment may be right. The way you’ve built it may be wrong. Fruit, Demand, or Transaction may already be real, but something in the model is limiting it.',
+    notConclude:'Not: because the first model didn’t work, the assignment didn’t work.'
+  },
+  SCALE: {
+    meaning:'The evidence supports treating this as something capable of carrying greater economic responsibility.',
+    notConclude:'This does not automatically mean quit your job, hire a team, spend aggressively, or assume future growth. The next question is whether you’re scaling evidence or excitement.'
+  }
+};
+
+/* ============================================================
+   STATE + STEP CONTROLLER
+   ============================================================ */
+const state = {
+  scope:'',
+  intention:null,
+  fruit:[null,null,null],
+  demand:[null,null,null],
+  transaction:[null,null,null],
+  model:[null,null,null],
+  exposure:[null,null,null],
+  offersLast90:null,
+  reach:'',
+  reachUnknown:false,
+  actionsTaken:null,
+  concentrationDependency:null,
+  numbersSkip:false,
+  provision:{p1:null,p2:null,p3:null},
+  reflectionStop:'',
+  reflectionDecide:''
+};
+
+let stepIndex = 0;
+const card = document.getElementById('stepCard');
+const progressLabel = document.getElementById('progressLabel');
+const progressFill = document.getElementById('progressFill');
+
+function setStep(i){ stepIndex = i; render(); window.scrollTo({top:0, behavior:'smooth'}); }
+function next(){ if(steps[stepIndex].validate && !steps[stepIndex].validate()) return; setStep(stepIndex+1); }
+function back(){ setStep(stepIndex-1); }
+
+function scaleRow(name, idx, currentVal, onPick){
+  const wrap = document.createElement('div');
+  wrap.className = 'scale-row';
+  SCALE_OPTIONS.forEach(opt=>{
+    const b = document.createElement('button');
+    b.type='button';
+    b.className='scale-btn' + (currentVal === opt.v ? ' selected' : '');
+    b.textContent = opt.label;
+    b.onclick = ()=>{ onPick(opt.v); render(); };
+    wrap.appendChild(b);
+  });
+  return wrap;
+}
+
+function radioOption(name, value, label, text, currentVal, onPick){
+  const wrap = document.createElement('label');
+  wrap.className = 'option' + (currentVal === value ? ' selected' : '');
+  const input = document.createElement('input');
+  input.type='radio'; input.name=name; input.value=value;
+  input.checked = currentVal === value;
+  input.onchange = ()=>{ onPick(value); render(); };
+  wrap.appendChild(input);
+  const span = document.createElement('span');
+  span.innerHTML = '<span class="opt-label">'+label+'</span>' + (text ? '<span class="opt-text">'+text+'</span>' : '');
+  wrap.appendChild(span);
+  return wrap;
+}
+
+function showError(msg){
+  let el = card.querySelector('.error-msg');
+  if(!el){ el = document.createElement('div'); el.className='error-msg'; card.appendChild(el); }
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+function clearError(){
+  const el = card.querySelector('.error-msg');
+  if(el) el.style.display = 'none';
+}
+
+const steps = [];
+
+// Step 0 — Intro
+steps.push({
+  render(){
+    card.innerHTML = '';
+    const h = document.createElement('h2'); h.className='step-title'; h.textContent = 'Given what you believe God has assigned you to carry…';
+    const p = document.createElement('p'); p.className='step-sub';
+    p.innerHTML = '…what does the evidence say about its economic role in your life right now, what does it need from you next, and how should you think about provision while you carry it?';
+    const box = document.createElement('div'); box.className='quote-box';
+    box.innerHTML = '<strong>This does not measure:</strong> whether God called you, your faith, your obedience, or your spiritual maturity. It does not predict whether this will eventually become profitable, and it will not tell you to leave a job, get a job, scale a business, or stop building. It separates four questions you’ve likely been trying to answer as one: what you’re asking this to become, what has actually happened, what the evidence supports doing next, and what your life needs while you carry it.';
+    card.appendChild(h); card.appendChild(p); card.appendChild(box);
+    const navRow = document.createElement('div'); navRow.className='nav-row';
+    navRow.innerHTML = '<span></span>';
+    const btn = document.createElement('button'); btn.className='btn gold'; btn.textContent='Begin';
+    btn.onclick = next;
+    navRow.appendChild(btn);
+    card.appendChild(navRow);
+  }
+});
+
+// Step 1 — Scope gate
+steps.push({
+  validate(){
+    if(!state.scope.trim()){ showError('Name the one thing you’re evaluating tonight before continuing.'); return false; }
+    return true;
+  },
+  render(){
+    card.innerHTML = '';
+    const h = document.createElement('h2'); h.className='step-title'; h.textContent = 'What are we evaluating?';
+    const p = document.createElement('p'); p.className='step-sub';
+    p.textContent = 'You may have several expressions of the same assignment. Pick one specific offer, ministry, course, product, or service, answer every question below about this one thing only.';
+    const label = document.createElement('label'); label.className='field-label';
+    label.textContent = 'The specific expression, offer, business, ministry, product, service, or initiative I’m evaluating tonight:';
+    const input = document.createElement('textarea');
+    input.value = state.scope;
+    input.placeholder = 'e.g. my 1:1 coaching offer, my membership, my ministry’s teaching series…';
+    input.oninput = (e)=>{ state.scope = e.target.value; };
+    card.appendChild(h); card.appendChild(p); card.appendChild(label); card.appendChild(input);
+    addNav();
+  }
+});
+
+// Step 2 — Intention (unscored)
+steps.push({
+  validate(){
+    if(!state.intention){ showError('Choose the option that’s truest right now.'); return false; }
+    return true;
+  },
+  render(){
+    card.innerHTML = '';
+    const h = document.createElement('h2'); h.className='step-title'; h.textContent = 'What are you asking this to become?';
+    const p = document.createElement('p'); p.className='step-sub'; p.textContent = 'This part is not scored. Right now, what are you expecting this assignment to do financially?';
+    card.appendChild(h); card.appendChild(p);
+    INTENTION_OPTIONS.forEach(o=>{
+      card.appendChild(radioOption('intention', o.v, o.label, o.text, state.intention, v=>state.intention=v));
+    });
+    const box = document.createElement('div'); box.className='quote-box';
+    box.innerHTML = 'You can’t decide whether your assignment is financially working until you’ve decided what you’re expecting it to do financially. An economic expectation you attached to the assignment is not automatically an instruction God attached to the assignment.';
+    card.appendChild(box);
+    addNav();
+  }
+});
+
+// Steps 3-7 — Evidence dimensions
+DIMENSIONS.forEach((dim, dimIdx)=>{
+  steps.push({
+    validate(){
+      const vals = state[dim.key];
+      if(vals.some(v=>v===null)){ showError('Answer all three before continuing — N/A is a valid answer.'); return false; }
+      return true;
+    },
+    render(){
+      card.innerHTML = '';
+      const h = document.createElement('h2'); h.className='step-title'; h.textContent = dim.title;
+      const p = document.createElement('p'); p.className='step-sub'; p.textContent = dim.sub + ' — answer based on the last 12 months.';
+      card.appendChild(h); card.appendChild(p);
+      dim.items.forEach((text, i)=>{
+        const block = document.createElement('div'); block.className='item-block';
+        const t = document.createElement('div'); t.className='item-text'; t.textContent = text;
+        block.appendChild(t);
+        block.appendChild(scaleRow(dim.key, i, state[dim.key][i], v=>{ state[dim.key][i]=v; }));
+        card.appendChild(block);
+      });
+      const box = document.createElement('div'); box.className='quote-box';
+      box.innerHTML = dim.teaching;
+      card.appendChild(box);
+      addNav();
+    }
+  });
+});
+
+// Step 8 — Market exposure numbers
+steps.push({
+  validate(){
+    if(state.offersLast90 === null || state.offersLast90 === ''){ showError('Enter a number — zero is a fine answer.'); return false; }
+    return true;
+  },
+  render(){
+    card.innerHTML='';
+    const h=document.createElement('h2'); h.className='step-title'; h.textContent='Did you actually ask the market?';
+    const p=document.createElement('p'); p.className='step-sub'; p.textContent='In the last 90 days:';
+    card.appendChild(h); card.appendChild(p);
+
+    const l1=document.createElement('label'); l1.className='field-label';
+    l1.textContent='How many times have you made a clear offer asking someone to buy, join, book, register, donate, subscribe, or take the specific action you’re measuring?';
+    const i1=document.createElement('input'); i1.type='number'; i1.min='0'; i1.value = state.offersLast90 ?? '';
+    i1.oninput=(e)=>{ state.offersLast90 = e.target.value===''? null : parseInt(e.target.value,10); };
+    card.appendChild(l1); card.appendChild(i1);
+
+    const l2=document.createElement('label'); l2.className='field-label';
+    l2.textContent='Approximately how many qualified people saw that clear offer?';
+    const i2=document.createElement('input'); i2.type='text'; i2.placeholder='a number, or "I don’t know"'; i2.value=state.reach;
+    i2.oninput=(e)=>{ state.reach = e.target.value; state.reachUnknown = /don.t know/i.test(e.target.value.trim()); };
+    card.appendChild(l2); card.appendChild(i2);
+
+    const l3=document.createElement('label'); l3.className='field-label';
+    l3.textContent='How many people took the intended action?';
+    const i3=document.createElement('input'); i3.type='number'; i3.min='0'; i3.value = state.actionsTaken ?? '';
+    i3.oninput=(e)=>{ state.actionsTaken = e.target.value===''? null : parseInt(e.target.value,10); };
+    card.appendChild(l3); card.appendChild(i3);
+
+    const box=document.createElement('div'); box.className='quote-box';
+    box.textContent='You cannot call the market silent if you barely asked it a question.';
+    card.appendChild(box);
+    addNav();
+  }
+});
+
+// Step 9 — Concentration / anomaly check
+steps.push({
+  validate(){
+    if(!state.concentrationDependency){ showError('Pick the closest answer.'); return false; }
+    return true;
+  },
+  render(){
+    card.innerHTML='';
+    const h=document.createElement('h2'); h.className='step-title'; h.textContent='One honest gut-check';
+    const p=document.createElement('p'); p.className='step-sub'; p.textContent='Did most of what you just described come from one unusually large customer, launch, or event, rather than a pattern that’s repeated?';
+    card.appendChild(h); card.appendChild(p);
+    [['YES','Yes, mostly one thing'],['SOMEWHAT','Somewhat — one thing carried more than the rest'],['NO','No, it’s spread across multiple instances']].forEach(([v,label])=>{
+      card.appendChild(radioOption('concentration', v, label, '', state.concentrationDependency, val=>state.concentrationDependency=val));
+    });
+    addNav();
+  }
+});
+
+// Step 10 — The Numbers (optional/contextual)
+steps.push({
+  render(){
+    card.innerHTML='';
+    const h=document.createElement('h2'); h.className='step-title'; h.textContent='Bring the actual receipts';
+    const p=document.createElement('p'); p.className='step-sub'; p.textContent='Optional. These numbers don’t add or subtract points — they’re for your own clarity, based on the last 90 days.';
+    card.appendChild(h); card.appendChild(p);
+
+    if(!state.numbers) state.numbers = {revenue:'',costs:'',net:'',invested:'',hours:'',customers:'',repeat:'',dependence:''};
+    const fields = [
+      ['revenue','Revenue generated ($)'],
+      ['costs','Direct costs required to deliver the offer ($)'],
+      ['net','Approximate net amount before taxes/owner compensation ($)'],
+      ['invested','Approximate amount personally invested into building/supporting it ($)'],
+      ['hours','Average hours per week personally required'],
+      ['customers','Number of paying customers'],
+      ['repeat','Number of repeat customers or customers who came through referral'],
+    ];
+    fields.forEach(([key,label])=>{
+      const l=document.createElement('label'); l.className='field-label'; l.textContent=label;
+      const i=document.createElement('input'); i.type='text'; i.value=state.numbers[key];
+      i.oninput=(e)=>{ state.numbers[key]=e.target.value; };
+      card.appendChild(l); card.appendChild(i);
+    });
+
+    const l=document.createElement('label'); l.className='field-label'; l.textContent='How much of delivery depends directly on your personal time?';
+    card.appendChild(l);
+    ['0–25%','26–50%','51–75%','76–100%'].forEach(opt=>{
+      card.appendChild(radioOption('dependence', opt, opt, '', state.numbers.dependence, v=>state.numbers.dependence=v));
+    });
+
+    addNav();
+  }
+});
+
+// Step 11 — Provision
+steps.push({
+  validate(){
+    if(!state.provision.p1 || !state.provision.p2 || !state.provision.p3){ showError('Answer all three — this is about your life, not the assignment.'); return false; }
+    return true;
+  },
+  render(){
+    card.innerHTML='';
+    const h=document.createElement('h2'); h.className='step-title'; h.textContent='What does your life need while you carry it?';
+    const p=document.createElement('p'); p.className='step-sub'; p.textContent='This is a separate question from what your assignment needs.';
+    card.appendChild(h); card.appendChild(p);
+
+    const l1=document.createElement('div'); l1.className='item-text'; l1.style.fontWeight='600'; l1.textContent='How dependent are you on this assignment producing income right now?';
+    card.appendChild(l1);
+    [['NOT_AT_ALL','Not at all'],['SOMEWHAT','Somewhat'],['SIGNIFICANTLY','Significantly'],['COMPLETELY','Completely']].forEach(([v,label])=>{
+      card.appendChild(radioOption('p1', v, label, '', state.provision.p1, val=>state.provision.p1=val));
+    });
+
+    const l2=document.createElement('div'); l2.className='item-text'; l2.style.fontWeight='600'; l2.style.marginTop='18px'; l2.textContent='At your current spending, how long can you responsibly keep investing without meaningful additional income from this assignment?';
+    card.appendChild(l2);
+    [['LT_3','Less than 3 months'],['3_6','3–6 months'],['6_12','6–12 months'],['12_PLUS','12+ months'],['NOT_INVESTING','I am not currently investing meaningful money']].forEach(([v,label])=>{
+      card.appendChild(radioOption('p2', v, label, '', state.provision.p2, val=>state.provision.p2=val));
+    });
+
+    const l3=document.createElement('div'); l3.className='item-text'; l3.style.fontWeight='600'; l3.style.marginTop='18px'; l3.textContent='Do you currently have another reliable source of provision?';
+    card.appendChild(l3);
+    [['YES','Yes'],['PARTIALLY','Partially'],['NO','No']].forEach(([v,label])=>{
+      card.appendChild(radioOption('p3', v, label, '', state.provision.p3, val=>state.provision.p3=val));
+    });
+
+    addNav('See my Assignment Economy™');
+  }
+});
+
+// Step 12 — Results
+steps.push({
+  render(){
+    const result = classify({
+      intention: state.intention,
+      fruit: state.fruit,
+      demand: state.demand,
+      transaction: state.transaction,
+      model: state.model,
+      exposure: state.exposure,
+      offersLast90: state.offersLast90,
+      reachKnown: !state.reachUnknown,
+      concentrationDependency: state.concentrationDependency,
+      provision: state.provision
+    });
+    const cc = CONDITION_COPY[result.assignmentCondition];
+
+    card.innerHTML = '';
+    const eyebrow = document.createElement('div'); eyebrow.className='result-eyebrow'; eyebrow.textContent='Your Assignment Economy™';
+    card.appendChild(eyebrow);
+
+    if(state.scope.trim()){
+      const scopeLine = document.createElement('div'); scopeLine.style.color='#6b6a65'; scopeLine.style.fontSize='13.5px'; scopeLine.style.marginBottom='18px';
+      scopeLine.textContent = 'Evaluated: ' + state.scope.trim();
+      card.appendChild(scopeLine);
+    }
+
+    const block1 = document.createElement('div'); block1.className='result-block';
+    const l1 = document.createElement('div'); l1.style.fontWeight='600'; l1.style.fontSize='13px'; l1.style.letterSpacing='.08em'; l1.style.textTransform='uppercase'; l1.textContent='What your assignment needs:';
+    const cond1 = document.createElement('div'); cond1.className='result-condition'; cond1.textContent = result.assignmentCondition;
+    const meaning1 = document.createElement('div'); meaning1.className='result-meaning'; meaning1.innerHTML = '<strong>What this means:</strong> ' + cc.meaning + ' ' + result.assignmentReason;
+    const not1 = document.createElement('div'); not1.className='result-not'; not1.textContent = 'What not to conclude: ' + cc.notConclude;
+    block1.appendChild(l1); block1.appendChild(cond1); block1.appendChild(meaning1); block1.appendChild(not1);
+    card.appendChild(block1);
+
+    const block2 = document.createElement('div'); block2.className='result-block';
+    const l2 = document.createElement('div'); l2.style.fontWeight='600'; l2.style.fontSize='13px'; l2.style.letterSpacing='.08em'; l2.style.textTransform='uppercase'; l2.textContent='What your life needs while you do it:';
+    const cond2 = document.createElement('div'); cond2.className='result-condition gold-text'; cond2.style.fontSize='26px'; cond2.textContent = result.provisionCondition;
+    const meaning2 = document.createElement('div'); meaning2.className='result-meaning'; meaning2.textContent = result.provisionReason;
+    block2.appendChild(l2); block2.appendChild(cond2); block2.appendChild(meaning2);
+    card.appendChild(block2);
+
+    const takeaway = document.createElement('div'); takeaway.className='takeaway-q';
+    takeaway.textContent = result.assignmentCondition === 'SCALE'
+      ? 'Are you scaling evidence, or excitement?'
+      : 'What evidence do I need before I make another decision about this assignment?';
+    card.appendChild(takeaway);
+
+    // Instant gratification reflection
+    const reflH = document.createElement('h3'); reflH.className='step-title'; reflH.style.fontSize='20px'; reflH.textContent='What does this change for me?';
+    card.appendChild(reflH);
+    const l3a = document.createElement('label'); l3a.className='field-label'; l3a.textContent='One thing I can stop assuming:';
+    const i3a = document.createElement('textarea'); i3a.style.minHeight='60px'; i3a.value=state.reflectionStop;
+    i3a.oninput=(e)=>{ state.reflectionStop = e.target.value; };
+    const l3b = document.createElement('label'); l3b.className='field-label'; l3b.textContent='One decision I can make differently now:';
+    const i3b = document.createElement('textarea'); i3b.style.minHeight='60px'; i3b.value=state.reflectionDecide;
+    i3b.oninput=(e)=>{ state.reflectionDecide = e.target.value; };
+    card.appendChild(l3a); card.appendChild(i3a); card.appendChild(l3b); card.appendChild(i3b);
+
+    const disclaimer = document.createElement('div'); disclaimer.className='disclaimer';
+    disclaimer.innerHTML = 'This result reflects the evidence you have right now. It is not a permanent label on your assignment. As the evidence changes, your Assignment Economy can change too.<br><br>This assessment answers the economic question only. If tonight revealed that the deeper issue is actually clarity, obedience, movement, or where you are in your assignment, that’s a different question, and the free Assignment Readiness Diagnostic™ is the place for it.';
+    card.appendChild(disclaimer);
+
+    const navRow = document.createElement('div'); navRow.className='nav-row no-print';
+    const backBtn = document.createElement('button'); backBtn.className='btn secondary'; backBtn.textContent='Back'; backBtn.onclick = back;
+    const printBtn = document.createElement('button'); printBtn.className='btn gold'; printBtn.textContent='Print / Save My Result'; printBtn.onclick = ()=>window.print();
+    navRow.appendChild(backBtn); navRow.appendChild(printBtn);
+    card.appendChild(navRow);
+
+    // Facilitator-only detail (hidden by default; for Jackie's review, not participant-facing per Section 25)
+    const facWrap = document.createElement('div'); facWrap.className='facilitator-toggle no-print';
+    const facBtn = document.createElement('button'); facBtn.textContent='Facilitator detail';
+    const facPanel = document.createElement('div'); facPanel.className='facilitator-panel';
+    facBtn.onclick = ()=>{ facPanel.classList.toggle('open'); };
+    const d = result.diagnostics;
+    facPanel.innerHTML =
+      '<div>Confidence: <code>'+result.confidence+'</code>' + (result.needsInterpretation ? ' &mdash; <code>NEEDS INTERPRETATION</code>' : '') + '</div>' +
+      '<div>Fruit: <code>'+d.fruitTier+'</code> (avg '+(d.fruitAvg===null?'N/A':d.fruitAvg.toFixed(2))+') &nbsp; Demand: <code>'+d.demandTier+'</code> (avg '+(d.demandAvg===null?'N/A':d.demandAvg.toFixed(2))+')</div>' +
+      '<div>Transaction: <code>'+d.transactionTier+'</code> (avg '+(d.transactionAvg===null?'N/A':d.transactionAvg.toFixed(2))+') &nbsp; Model: <code>'+d.modelTier+'</code> (avg '+(d.modelAvg===null?'N/A':d.modelAvg.toFixed(2))+')</div>' +
+      '<div>Exposure: <code>'+d.exposureTier+'</code> (avg '+(d.exposureAvg===null?'N/A':d.exposureAvg.toFixed(2))+') &nbsp; Total N/A: <code>'+d.totalNA+'</code> &nbsp; Exposure insufficient: <code>'+d.exposureInsufficient+'</code></div>' +
+      (result.flags.length ? '<div>Flags: <code>'+result.flags.join(', ')+'</code></div>' : '');
+    facWrap.appendChild(facBtn); facWrap.appendChild(facPanel);
+    card.appendChild(facWrap);
+  }
+});
+
+function addNav(nextLabel){
+  const navRow = document.createElement('div'); navRow.className='nav-row';
+  const backBtn = document.createElement('button'); backBtn.className='btn secondary'; backBtn.textContent='Back';
+  backBtn.disabled = stepIndex === 0;
+  backBtn.onclick = back;
+  const nextBtn = document.createElement('button'); nextBtn.className='btn'; nextBtn.textContent = nextLabel || 'Continue';
+  nextBtn.onclick = next;
+  navRow.appendChild(backBtn); navRow.appendChild(nextBtn);
+  card.appendChild(navRow);
+}
+
+function render(){
+  clearErrorSafe();
+  steps[stepIndex].render();
+  const pct = Math.round((stepIndex/(steps.length-1))*100);
+  progressFill.style.width = pct + '%';
+  progressLabel.textContent = stepIndex === steps.length-1 ? 'Your Result' : ('Step ' + stepIndex + ' of ' + (steps.length-2));
+}
+function clearErrorSafe(){ /* error lives inside the card that's about to be replaced */ }
+
+render();
+</script>
+
+</body>
+</html>
