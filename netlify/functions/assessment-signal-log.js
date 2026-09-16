@@ -54,7 +54,18 @@ exports.handler = async function (event) {
   try {
     const resp = await fetch('https://formspree.io/hello@assignmentroom.com', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        // A server-to-server call has no browser Referer, and Formspree's
+        // domain check rejects that with "Invalid Referer header" (caught
+        // live while testing this function - see also the note in
+        // stripe-workshop-webhook.js, which hits the same endpoint the same
+        // way and should get this same header added). Setting these to the
+        // site's own origin satisfies Formspree's allowed-domain check.
+        Referer: 'https://assignmentroom.com/',
+        Origin: 'https://assignmentroom.com'
+      },
       body: JSON.stringify({
         _subject: 'Assignment Economy Assessment - help signal: ' + letter,
         need_selected: LETTER_LABELS[letter],
