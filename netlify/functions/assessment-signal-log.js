@@ -52,7 +52,14 @@ exports.handler = async function (event) {
   const needsInterpretation = payload.needsInterpretation === true;
 
   try {
-    const resp = await fetch('https://formspree.io/hello@assignmentroom.com', {
+    // FIX (2026-09-16, part 2): the classic https://formspree.io/{email}
+    // endpoint was never fully activated on Jackie's Formspree account
+    // ("This form isn't set up yet" / FORM_NOT_FOUND), even after the
+    // Referer fix below. Jackie confirmed the real, active form ID from her
+    // Formspree dashboard (mqevpdbl) - switching to the form-ID endpoint,
+    // which is the one Formspree actually expects server-to-server calls to
+    // use.
+    const resp = await fetch('https://formspree.io/f/mqevpdbl', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

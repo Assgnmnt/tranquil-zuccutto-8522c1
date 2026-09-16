@@ -150,7 +150,12 @@ return { statusCode: 502, body: 'Mailchimp tagging failed' };
 // sale notification has likely been silently failing since it shipped.
 // Setting Referer/Origin to the site's own domain satisfies Formspree's
 // allowed-domain check.
-fetch('https://formspree.io/hello@assignmentroom.com', {
+// FIX (2026-09-16, part 2): the classic https://formspree.io/{email}
+// endpoint was never fully activated on the Formspree account ("This
+// form isn't set up yet" / FORM_NOT_FOUND), even with the header fix
+// above. Jackie confirmed the real, active form ID from her Formspree
+// dashboard (mqevpdbl) - switching to the form-ID endpoint.
+fetch('https://formspree.io/f/mqevpdbl', {
 method: 'POST',
 headers: {
 'Content-Type': 'application/json',
