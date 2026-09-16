@@ -716,6 +716,7 @@ const REVIEW_MODE = new URLSearchParams(window.location.search).get('review') ==
 
 const state = {
   scope:'',
+  assignmentCertainty:null,
   intention:null,
   fruit:[null,null,null],
   demand:[null,null,null],
@@ -824,7 +825,26 @@ steps.push({
     addNav();
   }
 });
+// Step 1b - Assignment certainty check (context only, not scored)
+  steps.push({
+      validate(){
+            if(!state.assignmentCertainty){ showError('Pick the closest answer.'); return false; }
+            return true;
+      },
+      render(){
+            card.innerHTML = '';
+            const h = document.createElement('h2'); h.className='step-title'; h.textContent = 'One more thing before we start';
+            const p = document.createElement('p'); p.className='step-sub';
+            p.textContent = 'How certain are you that what you just named is connected to your assignment? This is just for you. It won’t change tonight’s numbers.';
+            card.appendChild(h); card.appendChild(p);
+            [['KNOW','I know it is.'],['BELIEVE','I believe it is, but I still have questions.'],['EXPLORING','I’m exploring whether it is.'],['UNKNOWN','I don’t know yet. I just know there’s something here I need to pay attention to.']].forEach(([v,label])=>{
+                    card.appendChild(radioOption('assignmentCertainty', v, label, '', state.assignmentCertainty, val=>state.assignmentCertainty=val));
+            });
+            addNav();
+      }
+  });
 
+  
 // Step 2 — Intention (unscored)
 steps.push({
   validate(){
