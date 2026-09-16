@@ -317,7 +317,7 @@
 </main>
 
 <footer class="banner">
-  &copy; <span id="year"></span> The Assignment Room™ &middot; This assessment is private to you and is not stored or sent anywhere.
+  &copy; <span id="year"></span> The Assignment Room™ &middot; Your answers stay in your browser and are never stored or sent anywhere. The one exception: if you choose to tell us what kind of help you need next, that single anonymous signal is shared, with no name, email, or identifying detail attached.
 </footer>
 
 <script>
@@ -634,6 +634,78 @@ const TEST_FOCUS_COPY = {
   }
 };
 
+// "What kind of help do you need next" - added after discussing the ecosystem
+// bridge. Deliberately NOT derived from assignmentCondition or testFocus: she
+// picks her own answer, and The Assignment Room only points to an existing
+// paid room when it genuinely fits what she picked. No result auto-sells
+// anything. Prices/links pulled from the live site on 2026-09-16 - re-check
+// before reusing this list if it's been a while.
+const HELP_OPTIONS = [
+  {
+    v:'A',
+    label:'I need to know where I actually am, and what has really been holding me back.',
+    product:'The Readiness Diagnostic™',
+    price:'Free · 3 minutes',
+    url:'https://assignmentroom.com/entry-room',
+    cta:'Take the Readiness Diagnostic™ →',
+    copy:'That’s exactly what the free Readiness Diagnostic™ is built for. Three minutes, no cost, and it names your stage and the actual barrier in the way, not just the money question this Assessment answers.'
+  },
+  {
+    v:'B',
+    label:'I know what I’m building. I just haven’t made the decision to actually move on it.',
+    product:'The Reveal™',
+    price:'$397 · 60-minute private session',
+    url:'https://assignmentroom.com/the-reveal',
+    cta:'Book The Reveal™ →',
+    copy:'That’s a decision problem, not an evidence problem. The Reveal™ is a single private session built to name the decision you’ve been circling and help you actually move on it.'
+  },
+  {
+    v:'C',
+    label:'I need to get precise about what I’m building and how I explain it.',
+    product:'Intensive or Discovery Lab™',
+    price:'$797–$997',
+    url:'https://assignmentroom.com/intensive',
+    cta:'Explore this room →',
+    copy:'That’s a definition problem. The Intensive or Discovery Lab™ is where you get the language and structure for what you’re actually building, so it stops living in your head as a feeling and becomes something you can hand someone.'
+  },
+  {
+    v:'D',
+    label:'I understand it. I need structure to actually execute it.',
+    product:'Activation Program™',
+    price:'$1,997 · 8 weeks',
+    url:'https://assignmentroom.com/activation-program',
+    cta:'Apply →',
+    copy:'That’s not a clarity gap or a decision gap, it’s an execution gap. The 8-week Activation Program™ was built specifically to close that one.'
+  },
+  {
+    v:'E',
+    label:'Tonight showed me I don’t know if people will actually pay for this, repeatedly, at a price that works.',
+    product:null,
+    copy:'That’s real, and there isn’t an Assignment Room program built for that exact problem yet. I’m not going to hand you something that wasn’t built for this just to hand you something. If this is where you landed, reply to your workshop email or write to hello@assignmentroom.com and tell me what you’re seeing. That’s exactly the kind of thing I’m trying to learn right now.'
+  },
+  {
+    v:'F',
+    label:'Nothing right now. I know what to do next.',
+    product:null,
+    copy:'Good. Go do it.'
+  }
+];
+
+function logHelpSignal(result, letter){
+  try {
+    fetch('/.netlify/functions/assessment-signal-log', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        letter: letter,
+        assignmentCondition: result.assignmentCondition,
+        testFocus: result.testFocus || '',
+        needsInterpretation: !!result.needsInterpretation
+      })
+    }).catch(function(){});
+  } catch(e){}
+}
+
 /* ============================================================
    STATE + STEP CONTROLLER
    ============================================================ */
@@ -658,7 +730,8 @@ const state = {
   numbersSkip:false,
   provision:{p1:null,p2:null,p3:null},
   reflectionStop:'',
-  reflectionDecide:''
+  reflectionDecide:'',
+  helpNeeded:null
 };
 
 let stepIndex = 0;
@@ -1009,6 +1082,40 @@ steps.push({
     const i3b = document.createElement('textarea'); i3b.style.minHeight='60px'; i3b.value=state.reflectionDecide;
     i3b.oninput=(e)=>{ state.reflectionDecide = e.target.value; };
     card.appendChild(l3a); card.appendChild(i3a); card.appendChild(l3b); card.appendChild(i3b);
+
+    // What kind of help do you need next - self-selected, never derived from
+    // her result. See HELP_OPTIONS above for the reasoning.
+    const helpH = document.createElement('h3'); helpH.className='step-title'; helpH.style.fontSize='20px'; helpH.textContent='What kind of help do you need next?';
+    card.appendChild(helpH);
+    const helpP = document.createElement('p'); helpP.className='step-sub';
+    helpP.textContent = 'This result told you what your assignment needs economically. This part is about you. Pick whichever is actually true, even if it isn’t the one you wish were true.';
+    card.appendChild(helpP);
+
+    if(result.needsInterpretation){
+      const interpNote = document.createElement('div'); interpNote.className='quote-box';
+      interpNote.innerHTML = '<strong>Worth naming:</strong> this result had some real tension in it worth a second look. That’s exactly what <strong>The Reveal™</strong> session was built to help interpret, whatever you pick below.';
+      card.appendChild(interpNote);
+    }
+
+    const helpWrap = document.createElement('div');
+    HELP_OPTIONS.forEach(opt=>{
+      helpWrap.appendChild(radioOption('helpNeeded', opt.v, opt.v + '.', opt.label, state.helpNeeded, v=>{
+        state.helpNeeded = v;
+        logHelpSignal(result, v);
+      }));
+    });
+    card.appendChild(helpWrap);
+
+    if(state.helpNeeded){
+      const chosen = HELP_OPTIONS.find(o=>o.v===state.helpNeeded);
+      const bridge = document.createElement('div'); bridge.className='quote-box'; bridge.style.marginTop='6px';
+      if(chosen.product){
+        bridge.innerHTML = '<strong>'+chosen.product+'</strong> &middot; '+chosen.price+'<br>' + chosen.copy + '<br><br><a href="'+chosen.url+'" target="_blank" rel="noopener" style="color:var(--teal); font-weight:600;">'+chosen.cta+'</a>';
+      } else {
+        bridge.innerHTML = chosen.copy;
+      }
+      card.appendChild(bridge);
+    }
 
     const disclaimer = document.createElement('div'); disclaimer.className='disclaimer';
     disclaimer.innerHTML = 'This result reflects the evidence you have right now. It is not a permanent label on your assignment. As the evidence changes, your Assignment Economy can change too.<br><br>This assessment answers the economic question only. If tonight revealed that the deeper issue is actually clarity, obedience, movement, or where you are in your assignment, that’s a different question, and the free Assignment Readiness Diagnostic™ is the place for it.';
