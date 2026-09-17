@@ -323,9 +323,15 @@
 <script>
 document.getElementById('year').textContent = new Date().getFullYear();
 
+
 /* ============================================================
-   ENGINE — ported verbatim from engine.js, validated against the
-   12 cases in Section 31 of the spec before this page was built.
+   ENGINE — rebuilt against THE ASSIGNMENT ECONOMY ASSESSMENT (AE-1.0)
+   Final Build Specification, Founding Workshop Edition, locked 2026-09-17.
+   Every threshold and branch below traces to a specific Part in that
+   document; see the inline Part references. Where the spec left an
+   operational detail unstated (how a hard override gets measured from
+   the actual questions on this page), that choice is called out below
+   and was flagged separately, not guessed silently.
    ============================================================ */
 function avg(items){
   const nums = items.filter(v => v !== null && v !== undefined && v !== 'NA');
@@ -333,15 +339,25 @@ function avg(items){
   return nums.reduce((a,b)=>a+b,0)/nums.length;
 }
 function naCount(items){ return items.filter(v => v === 'NA').length; }
+
+// Part 18 — Evidence States, locked table:
+// 0 -> NO EVIDENCE, 0.01-1.49 -> SIGNAL, 1.50-2.49 -> PATTERN, 2.50-3.00 -> PROOF.
+// Zero must never display as SIGNAL.
 function tier(a){
   if(a === null) return 'UNKNOWN';
   if(a === 0) return 'NO_EVIDENCE';
-  if(a < 1) return 'SIGNAL';
+  if(a < 1.5) return 'SIGNAL';
   if(a < 2.5) return 'PATTERN';
   return 'PROOF';
 }
-function isWeak(t){ return t === 'SIGNAL' || t === 'UNKNOWN' || t === 'NO_EVIDENCE'; }
-function isAtLeastPattern(t){ return t === 'PATTERN' || t === 'PROOF'; }
+function isWeak(t){ return t === 'SIGNAL' || t === 'UNKNOWN' || t === 'NO_EVIDENCE'; } // "not established," Part 18
+function isProof(t){ return t === 'PROOF'; }
+
+// Part 21 — Minimum Dimension Data: a dimension needs at least 2 of its 3
+// items answered with a real number. 2+ N/A on one dimension makes that
+// dimension INSUFFICIENT DATA, even if avg() could still compute a number
+// from the one remaining answer.
+function dimensionSufficient(items){ return naCount(items) < 2; }
 
 function classify(inputs){
   const fruitAvg = avg(inputs.fruit);
@@ -350,163 +366,184 @@ function classify(inputs){
   const modelAvg = avg(inputs.model);
   const exposureAvg = avg(inputs.exposure);
 
-  const fruitTier = tier(fruitAvg);
-  const demandTier = tier(demandAvg);
-  const transactionTier = tier(transactionAvg);
-  const modelTier = tier(modelAvg);
-  const exposureTier = tier(exposureAvg);
+  const fruitSufficient = dimensionSufficient(inputs.fruit);
+  const demandSufficient = dimensionSufficient(inputs.demand);
+  const transactionSufficient = dimensionSufficient(inputs.transaction);
+  const modelSufficient = dimensionSufficient(inputs.model);
+  const exposureSufficient = dimensionSufficient(inputs.exposure);
+  const sufficientCount = [fruitSufficient, demandSufficient, transactionSufficient, modelSufficient, exposureSufficient].filter(Boolean).length;
+
+  // Part 21 — fewer than 3 of 5 dimensions usable: don't manufacture a result.
+  const needsMoreEvidence = sufficientCount < 3;
+
+  const fruitTier = fruitSufficient ? tier(fruitAvg) : 'UNKNOWN';
+  const demandTier = demandSufficient ? tier(demandAvg) : 'UNKNOWN';
+  const transactionTier = transactionSufficient ? tier(transactionAvg) : 'UNKNOWN';
+  const modelTier = modelSufficient ? tier(modelAvg) : 'UNKNOWN';
+  const exposureTier = exposureSufficient ? tier(exposureAvg) : 'UNKNOWN';
 
   const totalNA = naCount(inputs.fruit)+naCount(inputs.demand)+naCount(inputs.transaction)+naCount(inputs.model)+naCount(inputs.exposure);
 
+  // Part 22 — Exposure Gate. Exposure explains "why we don't know." It never
+  // creates its own TEST subtype and never short-circuits the Fruit -> Demand
+  // -> Transaction -> Model sequence below; it only feeds confidence and the
+  // "sufficient real-world operating evidence" check inside the Model branch.
   const offersLast90 = typeof inputs.offersLast90 === 'number' ? inputs.offersLast90 : 0;
   const exposureInsufficient = isWeak(exposureTier) || offersLast90 < 2 || inputs.reachKnown === false;
-  const tooManyNA = totalNA >= 4;
+
+  if(needsMoreEvidence){
+    return {
+      needsMoreEvidence: true,
+      diagnostics:{ fruitAvg, demandAvg, transactionAvg, modelAvg, exposureAvg, fruitTier, demandTier, transactionTier, modelTier, exposureTier, totalNA, exposureInsufficient, sufficientCount,
+        fruitSufficient, demandSufficient, transactionSufficient, modelSufficient, exposureSufficient }
+    };
+  }
 
   const flags = [];
   let needsInterpretation = false;
   let assignmentCondition = null;
-  let assignmentReason = '';
+  let testFocus = null;
 
+  // Part 26 — SERVE always stays SERVE. Commercial weakness, or even weak
+  // Fruit, never forces a downgrade to TEST; weak Fruit just adds a callout.
   if(inputs.intention === 'SERVE'){
-    if(!isWeak(fruitTier)){
-      assignmentCondition = 'SERVE';
-      assignmentReason = "You intentionally chose not to ask this assignment to carry income right now, and there's real evidence it's doing what you built it to do.";
-    } else {
-      assignmentCondition = 'TEST';
-      assignmentReason = "You chose SERVE, but there isn't yet evidence of the Fruit that SERVE depends on. That's not a contradiction to panic over, it just means the next right step is gathering that evidence, not a financial one.";
-      needsInterpretation = true;
-      flags.push('SERVE_CLAIMED_WITHOUT_FRUIT_EVIDENCE');
-    }
+    assignmentCondition = 'SERVE';
+    if(isWeak(fruitTier)){ flags.push('SERVE_WEAK_FRUIT'); }
   } else {
-    if(exposureInsufficient || tooManyNA){
-      assignmentCondition = 'TEST';
-      assignmentReason = tooManyNA
-        ? "There's too much you genuinely don't know yet to responsibly classify this. That's a measurement gap, not a failure."
-        : "You haven't put this in front of enough of the right people yet, or asked clearly enough, to know what the market actually thinks.";
-    } else if(isWeak(fruitTier)){
-      if(isAtLeastPattern(transactionTier) || isAtLeastPattern(demandTier)){
-        assignmentCondition = 'REMODEL';
-        assignmentReason = "People are engaging or paying, but there isn't enough evidence yet that they're getting the result this is supposed to produce. Revenue can't stand in for outcomes.";
-        flags.push('HIGH_TRANSACTION_LOW_FRUIT');
-      } else {
-        assignmentCondition = 'TEST';
-        assignmentReason = "There isn't yet clear evidence this is producing the result it's meant to produce, and not enough commercial activity either to read a different pattern. This needs more real-world exposure before any bigger decision.";
-        needsInterpretation = true;
-        flags.push('WEAK_ACROSS_BOARD_WITH_SUFFICIENT_EXPOSURE');
-      }
+    // Part 27 — TEST decision sequence: Fruit -> Demand -> Transaction -> Model.
+    if(isWeak(fruitTier)){
+      assignmentCondition = 'TEST'; testFocus = 'FRUIT';
     } else if(isWeak(demandTier)){
-      assignmentCondition = 'REMODEL';
-      assignmentReason = "People who experience this value it, but there isn't enough evidence yet that the wider market is pulling for it. That's usually a positioning or access question, not a sign the assignment is wrong.";
-      flags.push('HIGH_FRUIT_LOW_DEMAND');
+      assignmentCondition = 'TEST'; testFocus = 'DEMAND';
     } else if(isWeak(transactionTier)){
-      assignmentCondition = 'REMODEL';
-      assignmentReason = "People are interested and taking real steps, but they aren't yet paying. That points to the offer, price, or model, not to whether people want this.";
-      flags.push('HIGH_DEMAND_LOW_TRANSACTION');
-    } else if(isWeak(modelTier)){
-      assignmentCondition = 'REMODEL';
-      assignmentReason = "People want it, people buy it, and it works. But the way it's currently built doesn't hold up economically or won't hold up if it grew. The assignment looks right. The structure needs work.";
-      flags.push('STRONG_COMMERCIAL_WEAK_MODEL');
+      assignmentCondition = 'TEST'; testFocus = 'TRANSACTION';
     } else {
+      // Fruit, Demand and Transaction are all established (Part 27-30).
+      // These three raw item scores are how the SCALE hard overrides in
+      // Part 31 get measured from this page's actual questions — the spec
+      // names the overrides but doesn't restate the inputs, so this mapping
+      // was flagged and confirmed rather than assumed:
+      //  - T2 ("more than one person paid for the same offer") = 0/NA -> isolated transaction
+      //  - M2 ("the economics make sense") = 0 -> negative economics
+      //  - M3 ("could serve 2x growth without doubling workload") = 0 -> founder dependency
+      //  - the retained concentration gut-check question -> customer/launch/event concentration
       const t2 = inputs.transaction[1];
       const m2 = inputs.model[1];
       const m3 = inputs.model[2];
       const isolatedTransaction = t2 === 0 || t2 === 'NA';
       const negativeEconomics = m2 === 0;
-      const structurallyUnsustainable = m3 === 0;
+      const founderDependency = m3 === 0;
       const concentrationRisk = inputs.concentrationDependency === 'YES';
 
-      if(negativeEconomics || structurallyUnsustainable){
+      if(negativeEconomics || founderDependency){
+        // Part 29 REMODEL examples: "repeated sales with inadequate margins,"
+        // "more volume increases founder workload" — both are material Model
+        // weaknesses the participant's own numbers already confirm.
         assignmentCondition = 'REMODEL';
-        assignmentReason = negativeEconomics
-          ? "The demand and outcomes are real, but on your own numbers the economics don't currently work. That's a Model problem to fix, not a reason to doubt the assignment."
-          : "Everything else here is working, but right now it only works because of your direct hours. If it doubled tomorrow, it would break you before it scaled. That's a structure problem, not an assignment problem.";
         flags.push(negativeEconomics ? 'OVERRIDE_NEGATIVE_ECONOMICS' : 'OVERRIDE_FOUNDER_DEPENDENCY');
-      } else if(isolatedTransaction){
-        assignmentCondition = 'TEST';
-        assignmentReason = "The evidence so far is encouraging, but the paid evidence hasn't repeated yet. One result is a signal, not proof. A little more testing will tell you a lot.";
-        flags.push('OVERRIDE_ISOLATED_TRANSACTION');
       } else if(concentrationRisk){
+        // Part 31 hard override: dependence on one customer/launch/event
+        // blocks SCALE. Routed to REMODEL because the issue is structural
+        // (needs to become a repeatable pattern), matching Part 29's frame.
         assignmentCondition = 'REMODEL';
-        assignmentReason = "Something real is working here, but it currently leans heavily on one customer, launch, or event. Before treating this as provable at scale, it needs to become a repeatable pattern rather than a single win.";
         flags.push('OVERRIDE_CONCENTRATION_DEPENDENCY');
         needsInterpretation = true;
+      } else if(isolatedTransaction){
+        // Part 31 hard override: isolated transactions block SCALE. Part 28's
+        // own definition of TEST: MODEL — "the paid evidence hasn't repeated
+        // yet" — is an exact match, so this reuses that subtype rather than
+        // inventing a fifth one (the spec has no TEST: REPEATABILITY block).
+        assignmentCondition = 'TEST'; testFocus = 'MODEL';
+        flags.push('OVERRIDE_ISOLATED_TRANSACTION');
+      } else if(isWeak(modelTier)){
+        // Model reads weak. Part 29 requires "sufficient real-world operating
+        // evidence" before calling this REMODEL rather than TEST; Exposure is
+        // the evidence-sufficiency signal Part 22 assigns that role to.
+        if(!exposureInsufficient){
+          assignmentCondition = 'REMODEL';
+          flags.push('WEAK_MODEL_WITH_SUFFICIENT_EXPOSURE');
+        } else {
+          assignmentCondition = 'TEST'; testFocus = 'MODEL';
+          flags.push('WEAK_MODEL_INSUFFICIENT_EXPOSURE');
+        }
       } else {
-        assignmentCondition = 'SCALE';
-        assignmentReason = 'There is credible, repeated evidence across Fruit, Demand, Transaction, and Model, and you have tested this enough to trust it. The evidence supports this carrying more economic responsibility, if you want it to.';
+        // Part 30 — SCALE is intentionally conservative: PROOF (>=2.50) is
+        // required across all five dimensions, with no hard override standing.
+        const allProof = isProof(fruitTier) && isProof(demandTier) && isProof(transactionTier) && isProof(modelTier) && isProof(exposureTier);
+        if(allProof){
+          assignmentCondition = 'SCALE';
+        } else {
+          // Established (>=1.50) everywhere, not yet PROOF (>=2.50)
+          // everywhere — not broken, just not fully proven yet. Part 28's own
+          // description ("limited repetition," "insufficient operating
+          // history") covers this residual case.
+          assignmentCondition = 'TEST'; testFocus = 'MODEL';
+          flags.push('ESTABLISHED_BUT_NOT_YET_PROOF');
+        }
       }
     }
+
     if(inputs.concentrationDependency === 'SOMEWHAT' && assignmentCondition === 'SCALE'){
       needsInterpretation = true;
       flags.push('PARTIAL_CONCENTRATION_RISK');
     }
   }
 
-  // TEST focus: reads the real dimension tiers, independent of which branch put us
-  // in TEST, and names the specific thing to go test next in the same causal order
-  // Fruit -> Demand -> Transaction -> Model the rest of the hierarchy already uses.
-  let testFocus = null;
-  if(assignmentCondition === 'TEST'){
-    if(isWeak(fruitTier)) testFocus = 'VALIDATE_VALUE';
-    else if(isWeak(demandTier)) testFocus = 'VALIDATE_DEMAND';
-    else if(isWeak(transactionTier)) testFocus = 'VALIDATE_TRANSACTION';
-    else if(isWeak(modelTier)) testFocus = 'VALIDATE_MODEL';
-    else testFocus = 'VALIDATE_REPEATABILITY';
+  // Part 32 — contradiction flags (the mechanically checkable ones; two
+  // equally-plausible classifications and a financial-vs-Model contradiction
+  // aren't reliably detectable from structured inputs alone and were left
+  // for the Oct 21 NEEDS INTERPRETATION review pass instead of guessed at).
+  if(isWeak(fruitTier) && transactionTier==='PROOF'){ needsInterpretation = true; flags.push('CONTRADICTION_LOW_FRUIT_HIGH_TRANSACTION'); }
+  if(isWeak(demandTier) && transactionTier==='PROOF'){ needsInterpretation = true; flags.push('CONTRADICTION_LOW_DEMAND_HIGH_TRANSACTION'); }
+  if(exposureInsufficient && isProof(fruitTier) && isProof(demandTier) && isProof(transactionTier) && isProof(modelTier)){
+    needsInterpretation = true; flags.push('CONTRADICTION_LOW_EXPOSURE_OTHERWISE_SCALE_READY');
   }
 
+  // Part 34-35 — Provision. "AND/OR" in the spec is read the stricter, more
+  // conservative way (consistent with how conservative SCALE and the hard
+  // overrides are elsewhere): material dependency (Significantly/Completely)
+  // AND (short runway OR no other source) — not just any one of the three.
   const p1 = inputs.provision.p1, p2 = inputs.provision.p2, p3 = inputs.provision.p3;
   const shortRunway = p2 === 'LT_3' || p2 === '3_6';
   const noOtherSource = p3 === 'NO';
-  const meaningfulDependency = p1 === 'SOMEWHAT' || p1 === 'SIGNIFICANTLY' || p1 === 'COMPLETELY';
-  const needsMoney = meaningfulDependency || shortRunway || noOtherSource;
+  const materialDependency = p1 === 'SIGNIFICANTLY' || p1 === 'COMPLETELY';
+  const needsMoney = materialDependency && (shortRunway || noOtherSource);
 
-  let provisionCondition = '', provisionReason = '';
-
+  let provisionCondition = '';
   if(assignmentCondition === 'SERVE'){
     provisionCondition = 'LET PROVISION COME THROUGH ANOTHER DOOR';
-    provisionReason = "This assignment isn't carrying your income right now by design, and it doesn't need to. Provision can legitimately come from somewhere else while you carry this well.";
     if(p1 === 'COMPLETELY'){
       needsInterpretation = true;
       flags.push('SERVE_BUT_COMPLETELY_DEPENDENT');
-      provisionReason += ' One thing worth naming honestly: you said your life is completely dependent on this right now, which sits in tension with SERVE. That tension is worth a direct look, not a form.';
     }
-  } else if(assignmentCondition === 'TEST'){
-    if(needsMoney){
-      provisionCondition = 'FUND WHILE YOU TEST';
-      provisionReason = "Your current financial needs are ahead of what this assignment has demonstrated it can carry right now. Don't force an unproven economic model to carry a financial responsibility it hasn't demonstrated it can support yet. Provision may need to come through another door while you gather the evidence.";
-    } else {
-      provisionCondition = 'YOU HAVE ROOM TO KEEP TESTING';
-      provisionReason = "You're not under financial pressure to force a verdict yet. Use that room to actually test, rather than deciding early.";
-    }
-  } else if(assignmentCondition === 'REMODEL'){
-    if(needsMoney){
-      provisionCondition = 'FUND WHILE YOU REMODEL';
-      provisionReason = "Something here is worth preserving, but it needs rebuilding before it can reliably carry your provision. Don't force a structure that hasn't been fixed yet to carry a financial responsibility it can't reliably support. Let another door carry you while that rebuilding happens.";
-    } else {
-      provisionCondition = 'YOU HAVE ROOM TO REMODEL BEFORE PROVISION PRESSURE HITS';
-      provisionReason = "You have some runway before this needs to carry your provision. Use it to fix the model, not to rush the timeline.";
-    }
-  } else if(assignmentCondition === 'SCALE'){
-    if(p1 === 'NOT_AT_ALL' || p1 === 'SOMEWHAT'){
-      provisionCondition = 'YOUR CURRENT PROVISION HAS ROOM TO SUPPORT THIS';
-      provisionReason = "Your life doesn't currently depend on this financially, so any decision to lean into it can be made from evidence and desire, not urgency.";
-    } else {
-      provisionCondition = 'THE EVIDENCE SUPPORTS THIS CARRYING MORE OF YOUR PROVISION';
-      provisionReason = 'The evidence is strong enough that this can reasonably begin carrying more of what your life needs, if that is what you want it to do.';
-    }
+  } else if(needsMoney && assignmentCondition === 'TEST'){
+    provisionCondition = 'FUND WHILE YOU TEST';
+  } else if(needsMoney && assignmentCondition === 'REMODEL'){
+    provisionCondition = 'FUND WHILE YOU REMODEL';
+  } else {
+    // Part 46 — the one generic "stable" result for everything else,
+    // including SCALE. The spec defines no SCALE-specific provision copy
+    // even when SCALE co-occurs with real dependency; that gap was flagged
+    // rather than a new result invented for it.
+    provisionCondition = 'YOUR PROVISION IS CURRENTLY STABLE';
   }
 
+  // Part 33 — internal confidence, never shown to the participant.
   let confidence = 'MODERATE';
-  if(tooManyNA || exposureInsufficient){
+  const anyInsufficientDim = !fruitSufficient || !demandSufficient || !transactionSufficient || !modelSufficient || !exposureSufficient;
+  if(exposureInsufficient || totalNA >= 4 || anyInsufficientDim){
     confidence = 'EMERGING';
-  } else if(totalNA <= 1 && flags.length === 0){
+  } else if(totalNA <= 1 && flags.length === 0 && isProof(exposureTier)){
     confidence = 'HIGH';
   }
   if(needsInterpretation && confidence === 'HIGH') confidence = 'MODERATE';
 
   return {
-    assignmentCondition, assignmentReason, testFocus, provisionCondition, provisionReason,
+    needsMoreEvidence:false,
+    assignmentCondition, testFocus, provisionCondition,
     confidence, needsInterpretation, flags,
-    diagnostics:{ fruitAvg, demandAvg, transactionAvg, modelAvg, exposureAvg, fruitTier, demandTier, transactionTier, modelTier, exposureTier, totalNA, exposureInsufficient }
+    diagnostics:{ fruitAvg, demandAvg, transactionAvg, modelAvg, exposureAvg, fruitTier, demandTier, transactionTier, modelTier, exposureTier, totalNA, exposureInsufficient, sufficientCount,
+      fruitSufficient, demandSufficient, transactionSufficient, modelSufficient, exposureSufficient }
   };
 }
 
@@ -577,73 +614,266 @@ const DIMENSIONS = [
   },
 ];
 
+
+/* ============================================================
+   PARTICIPANT-FACING RESULT COPY — transcribed verbatim from AE-1.0
+   Parts XVII (Economy Condition results) and XVIII (Provision results).
+   Do not paraphrase or shorten this copy; it is locked.
+   ============================================================ */
 const CONDITION_COPY = {
   SERVE: {
-    meaning:'This assignment can be real, fruitful, and worth carrying without requiring it to become your primary source of income.',
-    notConclude:'Not: it has no economic potential. Not: you can never charge for it. Not: it will always remain SERVE.'
-  },
-  TEST: {
-    meaning:'You have promising signals, but there isn’t enough repeated market evidence yet to support the larger financial decision you’re trying to make.',
-    notConclude:'Not: "this doesn’t work." Not: "I missed God." Not: "nobody wants this." Not: "I should quit."'
+    heading:'SERVE',
+    opening:'This may be doing exactly what you need it to do right now.',
+    bodyParas:[
+      'You are not currently asking this work to become a meaningful source of income, and there is evidence that it is creating value for the people it reaches.',
+      'That matters.',
+      'Not everything God asks you to carry has to become the thing that pays you.',
+      'SERVE means you can stop measuring this work against a financial expectation you never actually decided it needed to meet.'
+    ],
+    notConcludeHeading:'WHAT THIS DOES NOT MEAN',
+    notConcludeParas:[
+      'SERVE does not mean:',
+      'This could never generate income.',
+      'You should never charge for it.',
+      'You aren’t building something valuable.',
+      'This is less important than work that makes money.',
+      'It simply means income is not the question you are asking this work to answer right now.'
+    ],
+    nextHeading:'WHAT YOU NEED TO KNOW NEXT',
+    nextQuestion:'What would carrying this well look like if I stopped requiring it to prove itself financially?'
   },
   REMODEL: {
-    meaning:'The assignment may be right. The way you’ve built it may be wrong. Fruit, Demand, or Transaction may already be real, but something in the model is limiting it.',
-    notConclude:'Not: because the first model didn’t work, the assignment didn’t work.'
+    heading:'REMODEL',
+    opening:'The evidence says there is something here worth preserving.',
+    bodyParas:[
+      'People are receiving value.',
+      'There is meaningful market response.',
+      'People have demonstrated a willingness to pay.',
+      'Your problem isn’t necessarily whether this can work.',
+      'The question is whether the way you’ve built it can work.',
+      'Pricing. Delivery. Positioning. Margins. Capacity. Offer structure. How dependent the whole thing is on you.',
+      'One or more parts of the model are limiting what otherwise appears to have real economic evidence behind it.'
+    ],
+    notConcludeHeading:'DON’T CONCLUDE',
+    notConcludeParas:[
+      'Don’t automatically throw away the work because the current model isn’t working.',
+      'And don’t keep forcing a model the evidence is telling you needs to change.'
+    ],
+    nextHeading:'WHAT YOU NEED TO LEARN NEXT',
+    nextQuestion:'What needs to change about how this is built without losing the value people are already responding to?',
+    closingParas:[
+      'This is not starting over.',
+      'It’s learning from what the evidence has already shown you.',
+      'The work may be right. The way you built it may need to change.'
+    ]
   },
   SCALE: {
-    meaning:'The evidence supports treating this as something capable of carrying greater economic responsibility.',
-    notConclude:'This does not automatically mean quit your job, hire a team, spend aggressively, or assume future growth. The next question is whether you’re scaling evidence or excitement.'
+    heading:'SCALE',
+    opening:'The evidence supports allowing this work to carry greater economic responsibility.',
+    bodyParas:[
+      'You have meaningful evidence across the areas that matter.',
+      'People are receiving value.',
+      'There is demand.',
+      'People are paying.',
+      'The economics show signs of working.',
+      'And this isn’t based on one isolated result.',
+      'That is significant.',
+      'But SCALE is not permission to become reckless.'
+    ],
+    notConcludeHeading:'WHAT THIS DOES NOT MEAN',
+    notConcludeParas:[
+      'SCALE does not mean:',
+      'Quit your job tomorrow.',
+      'Spend a large amount of money.',
+      'Hire a team immediately.',
+      'Assume future growth.',
+      'Make a major financial decision because an assessment told you to.',
+      'It means the evidence has become strong enough to support a different level of economic consideration.'
+    ],
+    nextHeading:'WHAT YOU NEED TO LEARN NEXT',
+    nextQuestion:'What responsibility am I prepared to let this carry now that the evidence is stronger?',
+    closingParas:[
+      'More customers? More revenue? More investment? More capacity? More of your working time?',
+      'That’s a decision.',
+      'The Assessment doesn’t make it for you.',
+      'Scale the evidence. Not the excitement.'
+    ]
   }
 };
 
-// TEST result modifiers (added after live test #1). TEST can be reached several
-// different ways, but a participant doesn't need to know which branch of the
-// hierarchy fired - she needs to know which of the five dimensions is actually
-// the open question. This is what replaces the one generic TEST message with
-// the specific thing to go find out next.
+// Part 26/27 — SERVE with weak Fruit stays SERVE, but gets this extra
+// callout instead of a different condition.
+const SERVE_WEAK_FRUIT_ADDENDUM = {
+  heading:'THE EVIDENCE WORTH WATCHING',
+  bodyParas:[
+    'Because you are choosing to SERVE through this work rather than requiring it to generate meaningful income right now, your most important evidence is not sales.',
+    'It’s Fruit.',
+    'Your next question is:'
+  ],
+  question:'Is this actually serving people in the way I believe it is supposed to?'
+};
+
+// TEST subtypes — Part 27's decision sequence (Fruit -> Demand -> Transaction
+// -> Model) names which dimension to validate next; copy transcribed from
+// Parts 37-40. Keys match the raw dimension name, not a paraphrase, so the
+// heading rendered under "WHAT YOU NEED TO VALIDATE" is exactly "FRUIT" /
+// "DEMAND" / "TRANSACTION" / "MODEL" as the spec shows it.
 const TEST_FOCUS_COPY = {
-  VALIDATE_VALUE: {
-    label:'Validate the Value',
-    meaning:'There isn’t yet clear evidence this is creating the specific result it’s meant to produce. That’s the first thing to test, not whether anyone will pay for it. The money question doesn’t matter yet if the outcome itself hasn’t been established.',
-    notConclude:'Not: "this doesn’t work." Not: "I missed God." Not: "nobody wants this." You don’t have enough evidence yet to conclude any of those, in either direction.',
-    evidenceNeededNext:'Can I point to specific people who experienced a real, repeatable result because of this?'
+  FRUIT: {
+    heading:'FRUIT',
+    opening:'Before you ask whether people will pay for it, make sure it actually helps them.',
+    bodyParas:[
+      'You may have interest, activity or even sales.',
+      'But the evidence isn’t strong enough yet to show that people are consistently receiving the value or outcome this work is supposed to create.',
+      'That is the next thing to learn.'
+    ],
+    notConcludeParas:[
+      'Don’t conclude: “This isn’t working.”',
+      'And don’t conclude: “People bought it, so it must be working.”',
+      'Neither statement is supported yet.'
+    ],
+    nextQuestion:'When people actually experience this, what changes for them?',
+    closingParas:[
+      'Look for outcomes. Return behavior. Referrals. Specific stories about what changed. Requests for more.',
+      'Before you scale what sells, make sure you’re scaling something that works.'
+    ]
   },
-  VALIDATE_DEMAND: {
-    label:'Validate the Demand',
-    meaning:'People who’ve experienced this value it. What isn’t established yet is whether people beyond the ones already close to you are pulling for it. That’s usually a positioning or reach question, not a sign the assignment is wrong.',
-    notConclude:'Not: "nobody wants this." Not: "I should quit." What you don’t know yet is whether the value you’re creating reaches people who don’t already know you.',
-    evidenceNeededNext:'If I put this in front of people outside my existing circle, do they take real action, not just say something kind?'
+  DEMAND: {
+    heading:'DEMAND',
+    opening:'People may like it. The question is whether they want it enough to do something about it.',
+    bodyParas:[
+      'There isn’t enough evidence yet that the right people will consistently take meaningful action when this work is put in front of them.',
+      'That’s different from whether the idea is good.',
+      'And it’s different from whether you’re good at it.'
+    ],
+    notConcludeParas:[
+      'Don’t turn “people aren’t acting yet” into “God didn’t tell me to do this.”',
+      'But don’t turn likes, compliments and encouragement into market demand either.'
+    ],
+    nextQuestion:'When the right people encounter a clear expression of this work, will they take meaningful action?',
+    closingParas:[
+      'Inquire. Register. Join. Book. Request information. Move closer.',
+      'The next step isn’t necessarily to build more.',
+      'It’s to get enough real-world response to know whether people actually want what you’re building.'
+    ]
   },
-  VALIDATE_TRANSACTION: {
-    label:'Validate the Transaction',
-    meaning:'You have strong evidence that the work is creating value and that people are responding to it. What you don’t have yet is enough commercial evidence to know whether that response consistently converts into revenue. The next thing to test isn’t whether the assignment matters. It’s whether people will pay for a clear expression of it, repeatedly, at a price and in a model that works.',
-    notConclude:'Not: "this doesn’t work." Not: "I missed God." Not: "nobody wants this." Your evidence says otherwise. What you don’t know yet is whether the demand you’ve created can become a viable economic exchange.',
-    evidenceNeededNext:'Can people who already show demand for this be converted into paying customers, for a clear offer, repeatedly, at a price that makes sense?'
+  TRANSACTION: {
+    heading:'TRANSACTION',
+    opening:'People may love what you’re doing. The question now is whether they will pay for a clear expression of that value.',
+    bodyParas:[
+      'Your evidence suggests there is value here.',
+      'People may be responding. They may be asking for more. There may even be strong demand.',
+      'But you don’t yet have enough evidence that people will consistently exchange money for a clear expression of that value.',
+      'That’s the question in front of you now.'
+    ],
+    notConcludeParas:[
+      'Don’t assume: “If people value it, they’ll pay for it.” Those are two different pieces of evidence.',
+      'And don’t assume: “If they didn’t buy this version, they won’t buy anything.” One offer is not an entire market.'
+    ],
+    nextQuestion:'Will people who demonstrate demand for this work become paying customers, repeatedly, at a price that makes sense?',
+    closingParas:[
+      '“I would buy that” is not a transaction.',
+      'A transaction is.'
+    ]
   },
-  VALIDATE_MODEL: {
-    label:'Validate the Model',
-    meaning:'People want this, and some of them are paying. What isn’t established yet is whether the way it’s priced or delivered actually holds up. That’s a model question, not a sign the assignment is wrong.',
-    notConclude:'Not: "this doesn’t work." Not: "nobody wants this." What you don’t know yet is whether the offer itself, the price, the delivery, the margin, holds up under real testing.',
-    evidenceNeededNext:'When someone pays for this, does the math behind it actually work once every cost of delivering it is counted?'
-  },
-  VALIDATE_REPEATABILITY: {
-    label:'Validate the Repeat',
-    meaning:'The evidence so far is encouraging across the board, but it hasn’t repeated enough times, or reached enough people, for you to trust it yet. One result, or one small round of testing, is a signal, not proof.',
-    notConclude:'Not: "this doesn’t work." Not: "I should quit." One data point either way isn’t enough evidence to conclude anything yet.',
-    evidenceNeededNext:'Does this hold up the second, third, and fourth time, with different people, not just the first?'
+  MODEL: {
+    heading:'MODEL',
+    opening:'You’ve established something important: people will pay.',
+    bodyParas:[
+      'But making money once, or even several times, doesn’t yet tell you whether the way you’ve built this actually works economically.',
+      'Now the question changes.',
+      'Can you deliver it at this price? What does it cost you? How much of you does it require? What happens if more people buy?',
+      'Is there enough evidence to know whether this can carry greater financial responsibility?'
+    ],
+    notConcludeParas:[
+      'Revenue alone does not mean you have a viable model.',
+      'And needing to change the model does not mean the underlying work is wrong.'
+    ],
+    nextQuestion:'Can this create value for the customer and make economic sense for you at the same time?',
+    closingParas:[
+      'Look at pricing, direct cost, delivery time, margin, capacity and founder dependency.',
+      'Making money and making money in a way that works are two different things.'
+    ]
   }
 };
 
-// "What kind of help do you need next" - added after discussing the ecosystem
-// bridge. Deliberately NOT derived from assignmentCondition or testFocus: she
-// picks her own answer, and The Assignment Room only points to an existing
-// paid room when it genuinely fits what she picked. No result auto-sells
-// anything. Prices/links pulled from the live site on 2026-09-16 - re-check
-// before reusing this list if it's been a while.
+/* ============================================================
+   PROVISION COPY — Parts XVIII (43-46).
+   ============================================================ */
+const PROVISION_COPY = {
+  'FUND WHILE YOU TEST': {
+    heading:'FUND WHILE YOU TEST',
+    opening:'Your financial needs are currently ahead of what this work has demonstrated it can carry.',
+    bodyParas:[
+      'That doesn’t make the work less real.',
+      'It means you should not force an unproven economic model to carry a financial responsibility it hasn’t demonstrated it can support.',
+      'Provision may need to come through another door while you gather the evidence.'
+    ],
+    questionHeading:'THE QUESTION NOW',
+    question:'What would allow me to test this responsibly without requiring it to pay my bills before it has demonstrated that it can?',
+    closing:'Funding the test is not abandoning the assignment.'
+  },
+  'FUND WHILE YOU REMODEL': {
+    heading:'FUND WHILE YOU REMODEL',
+    opening:'There is evidence worth preserving here, but your current model needs work.',
+    bodyParas:[
+      'If your life requires more financially than this model can reliably provide right now, don’t make financial pressure choose the model for you.',
+      'Secure the provision you need while you repair what the evidence says isn’t working.'
+    ],
+    questionHeading:'THE QUESTION NOW',
+    question:'What provision would give me enough room to change the model without forcing it to perform before it’s ready?'
+  },
+  'LET PROVISION COME THROUGH ANOTHER DOOR': {
+    heading:'LET PROVISION COME THROUGH ANOTHER DOOR',
+    opening:'This work does not have to become your paycheck to justify its existence.',
+    bodyParas:[
+      'If its current economic role is SERVE, provision can legitimately come through employment, another business, investments, consulting or another source while you continue carrying this work.'
+    ],
+    questionHeading:'THE QUESTION NOW',
+    question:'Have I been asking this assignment to provide something I never actually decided it was responsible for providing?',
+    closing:'Your assignment and your provision don’t always have to come through the same door.'
+  },
+  'YOUR PROVISION IS CURRENTLY STABLE': {
+    heading:'YOUR PROVISION IS CURRENTLY STABLE',
+    bodyParas:[
+      'Based on what you’ve told us, your immediate financial needs do not require this work to carry more responsibility than it currently does.',
+      'That gives you something valuable:'
+    ],
+    emphasis:'Room to make the next economic decision based on evidence rather than urgency.',
+    closingParas:[
+      'This does not tell you whether to keep your current provision source indefinitely.',
+      'It simply means financial urgency does not need to make this particular decision for you.'
+    ]
+  }
+};
+
+// Part 21 — shown instead of a result when fewer than 3 of the 5 dimensions
+// have enough usable data.
+const NEEDS_MORE_EVIDENCE_COPY = {
+  heading:'WE NEED A LITTLE MORE EVIDENCE',
+  bodyParas:[
+    'Some of your answers don’t give us enough information to interpret your Economy Condition responsibly yet.',
+    'That’s not a bad result.',
+    'It means there are still important things you don’t know or haven’t measured.'
+  ]
+};
+
+// Part 47 — the reflection step's exact closing line.
+const REFLECTION_CLOSING = 'Your result reflects the evidence you have right now. It is not a permanent label on what you’re building. As the evidence changes, your Assignment Economy can change too.';
+
+/* ============================================================
+   POST-RESULT HELP OPTIONS — Parts XX-XXI. Per Jackie's decision
+   (2026-09-17): only A auto-routes to an existing paid room (the free
+   Readiness Diagnostic). B, C, D and E capture what she needs and show a
+   short acknowledgment only — no product, price, or link — until Jackie
+   has approved the exact product fit for each. That acknowledgment copy
+   below is a placeholder in AR voice pending a pass from Chat, since
+   Chat owns AR voice/copy per the two-track split; it is not spec text.
+   ============================================================ */
 const HELP_OPTIONS = [
   {
     v:'A',
-    label:'I need to know where I actually am, and what has really been holding me back.',
+    label:'Figuring out what my assignment actually is or where I am in it.',
     product:'The Readiness Diagnostic™',
     price:'Free · 3 minutes',
     url:'https://assignmentroom.com/entry-room',
@@ -652,40 +882,31 @@ const HELP_OPTIONS = [
   },
   {
     v:'B',
-    label:'I know what I’m building. I just haven’t made the decision to actually move on it.',
-    product:'The Reveal™',
-    price:'$397 · 60-minute private session',
-    url:'https://assignmentroom.com/the-reveal',
-    cta:'Book The Reveal™ →',
-    copy:'That’s a decision problem, not an evidence problem. The Reveal™ is a single private session built to name the decision you’ve been circling and help you actually move on it.'
+    label:'Getting more precise about what I’m supposed to build, offer, or carry.',
+    product:null,
+    copy:'Noted. Precision is usually the next real step, not more content or more effort. We’re working out the right room for exactly this.'
   },
   {
     v:'C',
-    label:'I need to get precise about what I’m building and how I explain it.',
-    product:'Intensive or Discovery Lab™',
-    price:'$797–$997',
-    url:'https://assignmentroom.com/intensive',
-    cta:'Explore this room →',
-    copy:'That’s a definition problem. The Intensive or Discovery Lab™ is where you get the language and structure for what you’re actually building, so it stops living in your head as a feeling and becomes something you can hand someone.'
+    label:'Moving something I already understand into action.',
+    product:null,
+    copy:'Noted. You don’t need more clarity right now, you need to move. Watch for what’s next inside The Assignment Room.'
   },
   {
     v:'D',
-    label:'I understand it. I need structure to actually execute it.',
-    product:'Activation Program™',
-    price:'$1,997 · 8 weeks',
-    url:'https://assignmentroom.com/activation-program',
-    cta:'Apply →',
-    copy:'That’s not a clarity gap or a decision gap, it’s an execution gap. The 8-week Activation Program™ was built specifically to close that one.'
+    label:'Testing whether people will actually pay for what I’m building.',
+    product:null,
+    copy:'Noted, and it’s an honest answer. The next right step is more real-world testing, not a bigger investment yet.'
   },
   {
     v:'E',
-    label:'Tonight showed me I don’t know if people will actually pay for this, repeatedly, at a price that works.',
+    label:'Working through the business or model questions around something that’s already generating interest or revenue.',
     product:null,
-    copy:'That’s real, and there isn’t an Assignment Room program built for that exact problem yet. I’m not going to hand you something that wasn’t built for this just to hand you something. If this is where you landed, reply to your workshop email or write to hello@assignmentroom.com and tell me what you’re seeing. That’s exactly the kind of thing I’m trying to learn right now.'
+    copy:'Noted. Once something is working, the model questions deserve real attention. We’re working out the right resource for this stage.'
   },
   {
     v:'F',
-    label:'Nothing right now. I know what to do next.',
+    label:'Nothing right now. I know what I need to do next.',
     product:null,
     copy:'Good. Go do it.'
   }
@@ -697,8 +918,9 @@ function logHelpSignal(result, letter){
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body: JSON.stringify({
+        assessmentVersion: 'AE-1.0',
         letter: letter,
-        assignmentCondition: result.assignmentCondition,
+        assignmentCondition: result.needsMoreEvidence ? 'NEEDS_MORE_EVIDENCE' : result.assignmentCondition,
         testFocus: result.testFocus || '',
         needsInterpretation: !!result.needsInterpretation
       })
@@ -731,6 +953,7 @@ const state = {
   numbersSkip:false,
   provision:{p1:null,p2:null,p3:null},
   reflectionStop:'',
+  reflectionTest:'',
   reflectionDecide:'',
   helpNeeded:null
 };
@@ -1019,6 +1242,21 @@ steps.push({
 });
 
 // Step 12 — Results
+function sectionHeading(text, extraStyle){
+  const h = document.createElement('div');
+  h.style.fontWeight='600'; h.style.fontSize='12.5px'; h.style.letterSpacing='.08em';
+  h.style.textTransform='uppercase'; h.style.color='var(--grey-3)'; h.style.marginTop='22px'; h.style.marginBottom='8px';
+  if(extraStyle) Object.assign(h.style, extraStyle);
+  h.textContent = text;
+  return h;
+}
+function paraBlock(text, cls){
+  const p = document.createElement('div'); p.className = cls || 'result-meaning'; p.textContent = text; return p;
+}
+function appendParas(container, paras, cls){
+  (paras||[]).forEach(t=>container.appendChild(paraBlock(t, cls)));
+}
+
 steps.push({
   render(){
     const result = classify({
@@ -1033,11 +1271,10 @@ steps.push({
       concentrationDependency: state.concentrationDependency,
       provision: state.provision
     });
-    const cc = CONDITION_COPY[result.assignmentCondition];
 
     card.innerHTML = '';
-    const eyebrow = document.createElement('div'); eyebrow.className='result-eyebrow'; eyebrow.textContent='Your Assignment Economy™';
-    card.appendChild(eyebrow);
+    const eyebrowTop = document.createElement('div'); eyebrowTop.className='result-eyebrow'; eyebrowTop.textContent='Your Assignment Economy™';
+    card.appendChild(eyebrowTop);
 
     if(state.scope.trim()){
       const scopeLine = document.createElement('div'); scopeLine.style.color='#6b6a65'; scopeLine.style.fontSize='13.5px'; scopeLine.style.marginBottom='18px';
@@ -1045,75 +1282,128 @@ steps.push({
       card.appendChild(scopeLine);
     }
 
-    const tf = result.testFocus ? TEST_FOCUS_COPY[result.testFocus] : null;
+    // Part 21 — fewer than 3 of 5 dimensions had enough usable data. Don't
+    // manufacture an Economy Condition; tell her what to go answer instead.
+    if(result.needsMoreEvidence){
+      const h = document.createElement('div'); h.className='result-condition'; h.style.fontSize='30px'; h.textContent = NEEDS_MORE_EVIDENCE_COPY.heading;
+      card.appendChild(h);
+      appendParas(card, NEEDS_MORE_EVIDENCE_COPY.bodyParas);
+
+      const d = result.diagnostics;
+      const order = [
+        ['fruitSufficient','Fruit'], ['demandSufficient','Demand'], ['transactionSufficient','Transaction'],
+        ['modelSufficient','Model'], ['exposureSufficient','Exposure']
+      ];
+      const earliest = order.find(([key]) => !d[key]);
+      if(earliest){
+        const tip = document.createElement('div'); tip.className='quote-box';
+        tip.innerHTML = 'Start with <strong>'+earliest[1]+'</strong>: go back and answer at least two of its three questions with a real number instead of N/A, then come back through.';
+        card.appendChild(tip);
+      }
+      const navRow = document.createElement('div'); navRow.className='nav-row no-print';
+      const backBtn = document.createElement('button'); backBtn.className='btn secondary'; backBtn.textContent='Back and answer more'; backBtn.onclick = back;
+      navRow.appendChild(backBtn);
+      card.appendChild(navRow);
+      return;
+    }
+
+    const copy = result.assignmentCondition === 'TEST' ? TEST_FOCUS_COPY[result.testFocus] : CONDITION_COPY[result.assignmentCondition];
 
     const block1 = document.createElement('div'); block1.className='result-block';
-    const l1 = document.createElement('div'); l1.style.fontWeight='600'; l1.style.fontSize='13px'; l1.style.letterSpacing='.08em'; l1.style.textTransform='uppercase'; l1.textContent='What your assignment needs:';
+    const l1 = sectionHeading('Your Economy Condition', {marginTop:'0'});
     const cond1 = document.createElement('div'); cond1.className='result-condition'; cond1.textContent = result.assignmentCondition;
     block1.appendChild(l1); block1.appendChild(cond1);
-    if(tf){
-      // TEST result modifier: names the specific dimension to go validate next,
-      // in place of the one generic "you haven't tested this enough" message.
-      const tfLabel = document.createElement('div'); tfLabel.className='result-condition gold-text'; tfLabel.style.fontSize='22px'; tfLabel.style.marginTop='-6px'; tfLabel.textContent = tf.label;
-      block1.appendChild(tfLabel);
+
+    if(result.assignmentCondition === 'TEST'){
+      const tfEyebrow = document.createElement('div'); tfEyebrow.style.fontSize='12px'; tfEyebrow.style.letterSpacing='.1em'; tfEyebrow.style.textTransform='uppercase'; tfEyebrow.style.color='var(--teal)'; tfEyebrow.style.marginTop='4px'; tfEyebrow.textContent='What You Need To Validate';
+      const tfHeading = document.createElement('div'); tfHeading.className='result-condition gold-text'; tfHeading.style.fontSize='30px'; tfHeading.style.marginTop='-4px'; tfHeading.textContent = copy.heading;
+      block1.appendChild(tfEyebrow); block1.appendChild(tfHeading);
     }
-    const meaning1 = document.createElement('div'); meaning1.className='result-meaning';
-    if(tf){
-      let meaningHtml = '<strong>What this means:</strong> ';
-      if(result.flags.includes('SERVE_CLAIMED_WITHOUT_FRUIT_EVIDENCE')){
-        meaningHtml += 'You chose SERVE, but there isn’t yet evidence of the Fruit that SERVE depends on. That’s not a contradiction to panic over. ';
-      }
-      meaningHtml += tf.meaning;
-      meaning1.innerHTML = meaningHtml;
-    } else {
-      meaning1.innerHTML = '<strong>What this means:</strong> ' + cc.meaning + ' ' + result.assignmentReason;
-    }
-    const not1 = document.createElement('div'); not1.className='result-not'; not1.textContent = 'What not to conclude: ' + (tf ? tf.notConclude : cc.notConclude);
-    block1.appendChild(meaning1); block1.appendChild(not1);
+
+    const opening = document.createElement('div'); opening.className='result-meaning'; opening.style.fontWeight='600'; opening.style.fontSize='17px'; opening.textContent = copy.opening;
+    block1.appendChild(opening);
+    const bodyWrap = document.createElement('div'); appendParas(bodyWrap, copy.bodyParas); block1.appendChild(bodyWrap);
+
+    const notHeading = sectionHeading(copy.notConcludeHeading || 'DON’T CONCLUDE');
+    block1.appendChild(notHeading);
+    appendParas(block1, copy.notConcludeParas, 'result-not');
+
     card.appendChild(block1);
 
-    const block2 = document.createElement('div'); block2.className='result-block';
-    const l2 = document.createElement('div'); l2.style.fontWeight='600'; l2.style.fontSize='13px'; l2.style.letterSpacing='.08em'; l2.style.textTransform='uppercase'; l2.textContent='What your life needs while you do it:';
-    const cond2 = document.createElement('div'); cond2.className='result-condition gold-text'; cond2.style.fontSize='26px'; cond2.textContent = result.provisionCondition;
-    const meaning2 = document.createElement('div'); meaning2.className='result-meaning'; meaning2.textContent = result.provisionReason;
-    block2.appendChild(l2); block2.appendChild(cond2); block2.appendChild(meaning2);
-    card.appendChild(block2);
-
     const takeaway = document.createElement('div'); takeaway.className='takeaway-q';
-    if(tf){
-      const tfEyebrow = document.createElement('div'); tfEyebrow.className='result-eyebrow'; tfEyebrow.style.textAlign='center'; tfEyebrow.style.marginBottom='10px'; tfEyebrow.textContent='The Evidence You Need Next';
-      const tfQ = document.createElement('div'); tfQ.textContent = tf.evidenceNeededNext;
-      takeaway.appendChild(tfEyebrow); takeaway.appendChild(tfQ);
-    } else {
-      takeaway.textContent = result.assignmentCondition === 'SCALE'
-        ? 'Are you scaling evidence, or excitement?'
-        : 'What evidence do I need before I make another decision about this assignment?';
-    }
+    const tfE = document.createElement('div'); tfE.className='result-eyebrow'; tfE.style.textAlign='center'; tfE.style.marginBottom='10px';
+    tfE.textContent = copy.nextHeading || 'THE EVIDENCE YOU NEED NEXT';
+    const tfQ = document.createElement('div'); tfQ.textContent = copy.nextQuestion;
+    takeaway.appendChild(tfE); takeaway.appendChild(tfQ);
     card.appendChild(takeaway);
 
-    // Instant gratification reflection
+    if(copy.closingParas && copy.closingParas.length){
+      const closingWrap = document.createElement('div'); closingWrap.style.marginBottom='10px';
+      appendParas(closingWrap, copy.closingParas, 'result-not');
+      card.appendChild(closingWrap);
+    }
+
+    // Part 26/27 — SERVE with weak Fruit gets this extra callout, condition unchanged.
+    if(result.flags.includes('SERVE_WEAK_FRUIT')){
+      const addendum = document.createElement('div'); addendum.className='result-block';
+      addendum.appendChild(sectionHeading(SERVE_WEAK_FRUIT_ADDENDUM.heading));
+      appendParas(addendum, SERVE_WEAK_FRUIT_ADDENDUM.bodyParas);
+      const q = document.createElement('div'); q.className='result-meaning'; q.style.fontStyle='italic'; q.textContent = SERVE_WEAK_FRUIT_ADDENDUM.question;
+      addendum.appendChild(q);
+      card.appendChild(addendum);
+    }
+
+    // WHAT YOUR LIFE NEEDS — Provision (Parts 34-46).
+    const pc = PROVISION_COPY[result.provisionCondition];
+    const block2 = document.createElement('div'); block2.className='result-block';
+    block2.appendChild(sectionHeading('What your life needs'));
+    const cond2 = document.createElement('div'); cond2.className='result-condition gold-text'; cond2.style.fontSize='24px'; cond2.textContent = pc.heading;
+    block2.appendChild(cond2);
+    if(pc.opening){ const po = document.createElement('div'); po.className='result-meaning'; po.style.fontWeight='600'; po.textContent = pc.opening; block2.appendChild(po); }
+    appendParas(block2, pc.bodyParas);
+    if(pc.emphasis){ const em = document.createElement('div'); em.className='result-meaning'; em.style.fontWeight='600'; em.textContent = pc.emphasis; block2.appendChild(em); }
+    appendParas(block2, pc.closingParas);
+    if(pc.question){
+      block2.appendChild(sectionHeading(pc.questionHeading || 'THE QUESTION NOW'));
+      const pq = document.createElement('div'); pq.className='result-meaning'; pq.style.fontStyle='italic'; pq.textContent = pc.question;
+      block2.appendChild(pq);
+    }
+    if(pc.closing){ const pcl = document.createElement('div'); pcl.className='result-not'; pcl.textContent = pc.closing; block2.appendChild(pcl); }
+    if(result.flags.includes('SERVE_BUT_COMPLETELY_DEPENDENT')){
+      const tension = document.createElement('div'); tension.className='quote-box'; tension.style.marginTop='10px';
+      tension.textContent = 'One thing worth naming honestly: you said your life is completely dependent on this right now, which sits in tension with SERVE. That tension is worth a direct look, not a form.';
+      block2.appendChild(tension);
+    }
+    card.appendChild(block2);
+
+    // Part 47 — the 60-second reflection, three fields.
     const reflH = document.createElement('h3'); reflH.className='step-title'; reflH.style.fontSize='20px'; reflH.textContent='What does this change for me?';
     card.appendChild(reflH);
-    const l3a = document.createElement('label'); l3a.className='field-label';
-    l3a.textContent = tf ? 'What would be the simplest real-world test that could give me that evidence?' : 'One thing I can stop assuming:';
-    const i3a = document.createElement('textarea'); i3a.style.minHeight='60px'; i3a.value=state.reflectionStop;
+    const l3a = document.createElement('label'); l3a.className='field-label'; l3a.textContent='One thing I can stop assuming:';
+    const i3a = document.createElement('textarea'); i3a.style.minHeight='56px'; i3a.value=state.reflectionStop;
     i3a.oninput=(e)=>{ state.reflectionStop = e.target.value; };
-    const l3b = document.createElement('label'); l3b.className='field-label'; l3b.textContent='One decision I can make differently now:';
-    const i3b = document.createElement('textarea'); i3b.style.minHeight='60px'; i3b.value=state.reflectionDecide;
-    i3b.oninput=(e)=>{ state.reflectionDecide = e.target.value; };
-    card.appendChild(l3a); card.appendChild(i3a); card.appendChild(l3b); card.appendChild(i3b);
+    const l3b = document.createElement('label'); l3b.className='field-label'; l3b.textContent='What I’m going to pay attention to or test next:';
+    const i3b = document.createElement('textarea'); i3b.style.minHeight='56px'; i3b.value=state.reflectionTest;
+    i3b.oninput=(e)=>{ state.reflectionTest = e.target.value; };
+    const l3c = document.createElement('label'); l3c.className='field-label'; l3c.textContent='One decision I’m going to wait to make until I have better evidence:';
+    const i3c = document.createElement('textarea'); i3c.style.minHeight='56px'; i3c.value=state.reflectionDecide;
+    i3c.oninput=(e)=>{ state.reflectionDecide = e.target.value; };
+    card.appendChild(l3a); card.appendChild(i3a); card.appendChild(l3b); card.appendChild(i3b); card.appendChild(l3c); card.appendChild(i3c);
 
-    // What kind of help do you need next - self-selected, never derived from
-    // her result. See HELP_OPTIONS above for the reasoning.
+    const reflClose = document.createElement('div'); reflClose.className='result-not'; reflClose.style.marginTop='6px'; reflClose.textContent = REFLECTION_CLOSING;
+    card.appendChild(reflClose);
+
+    // Part 48-49 — post-result help question. Unscored; per Jackie's decision
+    // (2026-09-17) only A auto-routes to an existing paid room.
     const helpH = document.createElement('h3'); helpH.className='step-title'; helpH.style.fontSize='20px'; helpH.textContent='What kind of help do you need next?';
     card.appendChild(helpH);
     const helpP = document.createElement('p'); helpP.className='step-sub';
-    helpP.textContent = 'This result told you what your assignment needs economically. This part is about you. Pick whichever is actually true, even if it isn’t the one you wish were true.';
+    helpP.textContent = 'That told you your Economy Condition. This part is about you. Pick whichever is actually true, even if it isn’t the one you wish were true.';
     card.appendChild(helpP);
 
     if(result.needsInterpretation){
       const interpNote = document.createElement('div'); interpNote.className='quote-box';
-      interpNote.innerHTML = '<strong>Worth naming:</strong> this result had some real tension in it worth a second look. That’s exactly what <strong>The Reveal™</strong> session was built to help interpret, whatever you pick below.';
+      interpNote.innerHTML = '<strong>Worth naming:</strong> this result had some real tension in it worth a second look, whatever you pick below.';
       card.appendChild(interpNote);
     }
 
@@ -1122,6 +1412,7 @@ steps.push({
       helpWrap.appendChild(radioOption('helpNeeded', opt.v, opt.v + '.', opt.label, state.helpNeeded, v=>{
         state.helpNeeded = v;
         logHelpSignal(result, v);
+        render();
       }));
     });
     card.appendChild(helpWrap);
@@ -1138,7 +1429,7 @@ steps.push({
     }
 
     const disclaimer = document.createElement('div'); disclaimer.className='disclaimer';
-    disclaimer.innerHTML = 'This result reflects the evidence you have right now. It is not a permanent label on your assignment. As the evidence changes, your Assignment Economy can change too.<br><br>This assessment answers the economic question only. If tonight revealed that the deeper issue is actually clarity, obedience, movement, or where you are in your assignment, that’s a different question, and the free Assignment Readiness Diagnostic™ is the place for it.';
+    disclaimer.innerHTML = 'This assessment answers the economic question only. If tonight revealed that the deeper issue is actually clarity, obedience, movement, or where you are in your assignment, that’s a different question, and the free Assignment Readiness Diagnostic™ is the place for it.';
     card.appendChild(disclaimer);
 
     const navRow = document.createElement('div'); navRow.className='nav-row no-print';
@@ -1147,9 +1438,8 @@ steps.push({
     navRow.appendChild(backBtn); navRow.appendChild(printBtn);
     card.appendChild(navRow);
 
-    // Facilitator-only detail. Never rendered for a real participant - only appears
-    // at all when the page is opened with ?review=1 (see REVIEW_MODE above). Section
-    // 25 says this is an internal review flag, not a fifth condition participants see.
+    // Facilitator-only detail. Never rendered for a real participant — only
+    // appears when the page is opened with ?review=1 (Part 25).
     if(REVIEW_MODE){
       const fmtTier = t => t.replace('_',' ');
       const facWrap = document.createElement('div'); facWrap.className='facilitator-toggle no-print';
@@ -1158,10 +1448,11 @@ steps.push({
       facBtn.onclick = ()=>{ facPanel.classList.toggle('open'); };
       const d = result.diagnostics;
       facPanel.innerHTML =
+        '<div>Assessment Engine Version: <code>AE-1.0</code></div>' +
         '<div>Confidence: <code>'+result.confidence+'</code>' + (result.needsInterpretation ? ' &mdash; <code>NEEDS INTERPRETATION</code>' : '') + (result.testFocus ? ' &nbsp; Test focus: <code>'+result.testFocus+'</code>' : '') + '</div>' +
-        '<div>Fruit: <code>'+fmtTier(d.fruitTier)+'</code> (avg '+(d.fruitAvg===null?'N/A':d.fruitAvg.toFixed(2))+') &nbsp; Demand: <code>'+fmtTier(d.demandTier)+'</code> (avg '+(d.demandAvg===null?'N/A':d.demandAvg.toFixed(2))+')</div>' +
-        '<div>Transaction: <code>'+fmtTier(d.transactionTier)+'</code> (avg '+(d.transactionAvg===null?'N/A':d.transactionAvg.toFixed(2))+') &nbsp; Model: <code>'+fmtTier(d.modelTier)+'</code> (avg '+(d.modelAvg===null?'N/A':d.modelAvg.toFixed(2))+')</div>' +
-        '<div>Exposure: <code>'+fmtTier(d.exposureTier)+'</code> (avg '+(d.exposureAvg===null?'N/A':d.exposureAvg.toFixed(2))+') &nbsp; Total N/A: <code>'+d.totalNA+'</code> &nbsp; Exposure insufficient: <code>'+d.exposureInsufficient+'</code></div>' +
+        '<div>Fruit: <code>'+fmtTier(d.fruitTier)+'</code> (avg '+(d.fruitAvg===null?'N/A':d.fruitAvg.toFixed(2))+(d.fruitSufficient?'':' — insufficient data')+') &nbsp; Demand: <code>'+fmtTier(d.demandTier)+'</code> (avg '+(d.demandAvg===null?'N/A':d.demandAvg.toFixed(2))+(d.demandSufficient?'':' — insufficient data')+')</div>' +
+        '<div>Transaction: <code>'+fmtTier(d.transactionTier)+'</code> (avg '+(d.transactionAvg===null?'N/A':d.transactionAvg.toFixed(2))+(d.transactionSufficient?'':' — insufficient data')+') &nbsp; Model: <code>'+fmtTier(d.modelTier)+'</code> (avg '+(d.modelAvg===null?'N/A':d.modelAvg.toFixed(2))+(d.modelSufficient?'':' — insufficient data')+')</div>' +
+        '<div>Exposure: <code>'+fmtTier(d.exposureTier)+'</code> (avg '+(d.exposureAvg===null?'N/A':d.exposureAvg.toFixed(2))+(d.exposureSufficient?'':' — insufficient data')+') &nbsp; Total N/A: <code>'+d.totalNA+'</code> &nbsp; Exposure insufficient: <code>'+d.exposureInsufficient+'</code></div>' +
         (result.flags.length ? '<div>Flags: <code>'+result.flags.join(', ')+'</code></div>' : '');
       facWrap.appendChild(facBtn); facWrap.appendChild(facPanel);
       card.appendChild(facWrap);
