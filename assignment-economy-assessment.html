@@ -455,10 +455,23 @@ function classify(inputs){
         // inventing a fifth one (the spec has no TEST: REPEATABILITY block).
         assignmentCondition = 'TEST'; testFocus = 'MODEL';
         flags.push('OVERRIDE_ISOLATED_TRANSACTION');
+      } else if(modelTier === 'UNKNOWN'){
+        // Sept 18 fix (Case 5 QA finding): Model genuinely unmeasured
+        // (insufficient data on margins/delivery burden/capacity/repeatability)
+        // is a Model EVIDENCE GAP, not evidence the model is broken. "We
+        // don't yet know whether the model works" always routes to
+        // TEST: Model to close the gap, regardless of Exposure — Exposure
+        // establishes whether the work has had enough opportunity to
+        // generate evidence, it does not convert missing Model evidence
+        // into evidence of Model weakness.
+        assignmentCondition = 'TEST'; testFocus = 'MODEL';
+        flags.push('MODEL_UNMEASURED');
       } else if(isWeak(modelTier)){
-        // Model reads weak. Part 29 requires "sufficient real-world operating
-        // evidence" before calling this REMODEL rather than TEST; Exposure is
-        // the evidence-sufficiency signal Part 22 assigns that role to.
+        // Model was actually measured (real scores, not N/A) and reads
+        // materially weak. Part 29 requires "sufficient real-world
+        // operating evidence" before calling this REMODEL rather than
+        // TEST; Exposure is the evidence-sufficiency signal Part 22
+        // assigns that role to.
         if(!exposureInsufficient){
           assignmentCondition = 'REMODEL';
           flags.push('WEAK_MODEL_WITH_SUFFICIENT_EXPOSURE');
