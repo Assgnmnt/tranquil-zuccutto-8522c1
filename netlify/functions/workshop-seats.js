@@ -35,7 +35,7 @@ exports.handler = async function () {
       startingAfter = json.data[json.data.length - 1].id;
     }
 
-    const paid = sessions.filter(function (s) { return s.payment_status === 'paid'; });
+    const paid = sessions.filter(function (s) { return s.payment_status === 'paid' || s.payment_status === 'no_payment_required'; });
     const buyers = paid.slice(0, 8).map(function (s) {
       const name = ((s.customer_details && s.customer_details.name) || '').trim();
       const first = name.split(/\s+/)[0];
