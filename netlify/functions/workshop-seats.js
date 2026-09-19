@@ -38,7 +38,9 @@ exports.handler = async function () {
     const paid = sessions.filter(function (s) { return s.payment_status === 'paid'; });
     const buyers = paid.slice(0, 8).map(function (s) {
       const name = ((s.customer_details && s.customer_details.name) || '').trim();
-      return name.split(/\s+/)[0];
+      const first = name.split(/\s+/)[0];
+      // Buyer preference: this buyer goes by her middle name.
+      return first === 'Shameka' ? 'Michelle' : first;
     }).filter(Boolean);
 
     return {
