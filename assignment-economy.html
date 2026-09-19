@@ -438,9 +438,41 @@
     .bio-section{ flex-direction:column; align-items:center; text-align:center; }
     .bio-photo{ flex:0 0 auto; width:190px; }
   }
+
+/* ===== Seat ticker, banner, notification ===== */
+.ae-bar{position:sticky;top:0;z-index:1000;background:var(--charcoal);border-bottom:1px solid var(--gold-line);display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 20px;color:#fff;font-family:inherit}
+.ae-bar-left{display:flex;align-items:center;gap:14px;min-width:0}
+.ae-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);flex:none;animation:aePulse 2s ease-in-out infinite}
+.ae-bar-eyebrow{font-size:11px;letter-spacing:1.6px;text-transform:uppercase;font-weight:700;color:var(--gold)}
+.ae-bar-head{font-size:15px;font-weight:700;margin-top:4px}
+.ae-bar-right{display:flex;align-items:center;gap:18px;flex:none}
+.ae-count{text-align:center;line-height:1}
+.ae-count b{display:block;font-family:Georgia,'Times New Roman',serif;font-size:26px;font-weight:700}
+.ae-count span{display:block;font-size:9px;letter-spacing:1.4px;text-transform:uppercase;color:rgba(255,255,255,0.65);margin-top:4px}
+.ae-bar-btn{background:var(--gold);color:var(--charcoal);font-weight:700;font-size:13px;text-decoration:none;padding:12px 24px;border-radius:999px;white-space:nowrap}
+.ae-marquee{background:var(--teal-deep);border-top:1px solid var(--gold-line);border-bottom:1px solid var(--gold-line);overflow:hidden;padding:16px 0;white-space:nowrap}
+.ae-track{display:inline-flex;animation:aeScroll 40s linear infinite}
+.ae-track span{display:inline-block;padding:0 26px;font-size:13px;letter-spacing:2px;text-transform:uppercase;font-weight:700;color:var(--cream)}
+.ae-track i{font-style:normal;color:var(--gold);padding:0 4px}
+.ae-toast{position:fixed;left:20px;bottom:20px;z-index:1000;max-width:300px;background:var(--cream);border:1px solid var(--gold-line);border-radius:10px;box-shadow:0 8px 24px rgba(58,50,38,0.22);padding:14px 16px;display:flex;align-items:flex-start;gap:12px;font-size:14px;line-height:1.4;color:var(--charcoal);opacity:0;transform:translateY(14px);pointer-events:none;transition:opacity .4s,transform .4s}
+.ae-toast.show{opacity:1;transform:none;pointer-events:auto}
+.ae-check{width:22px;height:22px;border-radius:50%;background:var(--teal);color:#fff;font-size:12px;display:flex;align-items:center;justify-content:center;flex:none}
+.ae-x{margin-left:auto;background:none;border:0;color:rgba(58,50,38,0.5);font-size:16px;cursor:pointer;line-height:1;padding:0 0 0 4px}
+@keyframes aeScroll{to{transform:translateX(-50%)}}
+@keyframes aePulse{50%{opacity:.35}}
+@media(max-width:640px){.ae-bar-head{display:none}.ae-bar{padding:10px 12px}.ae-bar-head{font-size:13px}.ae-bar-eyebrow{font-size:9px}.ae-bar-btn{padding:10px 14px;font-size:12px}.ae-count b{font-size:22px}.ae-bar-right{gap:10px}.ae-toast{left:10px;right:10px;max-width:none;bottom:10px}}
+@media(prefers-reduced-motion:reduce){.ae-track,.ae-dot{animation:none}}
 </style>
 </head>
 <body>
+<!-- SEAT TICKER -->
+<div class="ae-bar" id="aeBar">
+  <div class="ae-bar-left"><span class="ae-dot"></span><div>
+    <div class="ae-bar-eyebrow">The Assignment Economy&trade; &middot; Oct 14 &middot; Live on Google Meet</div>
+    <div class="ae-bar-head">The Founding Workshop Is Filling. Save Your Seat.</div></div></div>
+  <div class="ae-bar-right"><div class="ae-count"><b id="aeSeats">47</b><span>Seats left</span></div>
+  <a class="ae-bar-btn" href="#register">Save My Seat &rarr;</a></div>
+</div>
 
 <!-- HERO — ENTER THE ROOM -->
 <section class="room-section">
@@ -469,6 +501,8 @@
   </div>
 </section>
 
+<!-- SCROLLING BANNER -->
+<div class="ae-marquee" aria-hidden="true"><div class="ae-track"><span>Wednesday, October 14</span><i>&#10022;</i><span>7:00&ndash;8:30 PM ET</span><i>&#10022;</i><span>Live on Google Meet</span><i>&#10022;</i><span>$47 Founding Workshop</span><i>&#10022;</i><span>50 Seats Only</span><i>&#10022;</i><span>Save My Seat</span><i>&#10022;</i><span>Wednesday, October 14</span><i>&#10022;</i><span>7:00&ndash;8:30 PM ET</span><i>&#10022;</i><span>Live on Google Meet</span><i>&#10022;</i><span>$47 Founding Workshop</span><i>&#10022;</i><span>50 Seats Only</span><i>&#10022;</i><span>Save My Seat</span><i>&#10022;</i></div></div>
 <!-- DIAGNOSTIC BRIDGE -->
 <section style="max-width:640px; margin:60px auto; padding:36px 32px; text-align:center; border:1px solid var(--gold-line); border-radius:10px; background:var(--cream);">
   <p style="font-weight:700; font-size:12px; letter-spacing:2px; text-transform:uppercase; color:var(--teal); margin-bottom:14px;">Haven't named it yet?</p>
@@ -661,5 +695,22 @@
   The Assignment Room&trade; &nbsp;|&nbsp; AssignmentRoom.com &nbsp;|&nbsp; &copy; 2026
 </footer>
 
+<div class="ae-toast" id="aeToast" role="status" aria-live="polite"><span class="ae-check">&#10003;</span><div id="aeToastText"></div><button class="ae-x" id="aeToastX" aria-label="Dismiss">&times;</button></div>
+<script>
+(function(){
+  // Seats sold as of 2026-09-19 (Stripe, $47 Founding Workshop link). Update SOLD and BUYERS by hand.
+  var CAP=50, SOLD=3;
+  var BUYERS=[{n:'Rukiya',c:'Atlanta'},{n:'Keisha'},{n:'Michelle'}];
+  var el=document.getElementById('aeSeats'); if(el) el.textContent=Math.max(CAP-SOLD,0);
+  var t=document.getElementById('aeToast'),tx=document.getElementById('aeToastText'),i=0,off=false;
+  document.getElementById('aeToastX').onclick=function(){off=true;t.classList.remove('show');};
+  function show(){
+    if(off) return; var b=BUYERS[i%BUYERS.length]; i++;
+    tx.innerHTML='<strong>'+b.n+'</strong>'+(b.c?' from '+b.c:'')+' just grabbed a seat in the room.';
+    t.classList.add('show'); setTimeout(function(){t.classList.remove('show');},6000);
+  }
+  setTimeout(function(){show();setInterval(show,20000);},6000);
+})();
+</script>
 </body>
 </html>
