@@ -698,10 +698,18 @@
 <div class="ae-toast" id="aeToast" role="status" aria-live="polite"><span class="ae-check">&#10003;</span><div id="aeToastText"></div><button class="ae-x" id="aeToastX" aria-label="Dismiss">&times;</button></div>
 <script>
 (function(){
-  // Seats sold as of 2026-09-19 (Stripe, $47 Founding Workshop link). Update SOLD and BUYERS by hand.
-  var CAP=50, SOLD=3;
-  var BUYERS=[{n:'Rukiya',c:'Atlanta'},{n:'Keisha'},{n:'Michelle'}];
+  // Fallback numbers, used until the live feed answers or if it is unavailable.
+  // Live numbers come from /.netlify/functions/workshop-seats (Stripe, first names only).
+  var CAP=50, SOLD=4;
+  var BUYERS=[{n:'LeRon'},{n:'Michelle'},{n:'Rukiya'},{n:'Keisha'}];
   var el=document.getElementById('aeSeats'); if(el) el.textContent=Math.max(CAP-SOLD,0);
+  try{
+    fetch('/.netlify/functions/workshop-seats').then(function(r){return r.ok?r.json():null;}).then(function(d){
+      if(!d||typeof d.left!=='number') return;
+      if(el) el.textContent=d.left;
+      if(d.buyers&&d.buyers.length){BUYERS=d.buyers.map(function(n){return {n:n};});}
+    }).catch(function(){});
+  }catch(e){}
   var t=document.getElementById('aeToast'),tx=document.getElementById('aeToastText'),i=0,off=false;
   document.getElementById('aeToastX').onclick=function(){off=true;t.classList.remove('show');};
   function show(){
