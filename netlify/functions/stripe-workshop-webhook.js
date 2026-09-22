@@ -27,6 +27,76 @@ const crypto = require('crypto');
 
 const LIST_ID = '697372b43e'; // The Assignment Room audience
 
+// Payment links, verified in Stripe 2026-09-22.
+const WORKSHOP_PAYMENT_LINK = 'plink_1UG6toFGAdsHSJ1n3xJ42sfD'; // $47 Founding Workshop
+const OTHER_PURCHASE_TAGS = {
+'plink_1TSfpyFGAdsHSJ1neZlu3WT6': 'AR-Reveal-Purchased',    // $397 The Reveal
+'plink_1TSfr8FGAdsHSJ1nsXFslMLX': 'AR-Intensive-Purchased'  // $797 Assignment Brief Intensive
+};
+
+// Records a Reveal or Intensive purchase on the buyer's Mailchimp contact.
+// Only a purchase tag is added. No AR-Welcome, so no welcome journey fires.
+// A buyer who isn't already in the audience is added as "transactional"
+// (a record, not a marketing subscriber), since Stripe checkout doesn't
+// ask for email-marketing consent. An existing contact's status is left
+// exactly as it is.
+async function handleOtherPurchase(session, details) {
+const tag = OTHER_PURCHASE_TAGS[session.payment_link];
+if (!tag) {
+console.log('stripe-workshop-webhook: ignoring checkout for payment link', session.payment_link || '(none)');
+return { statusCode: 200, body: JSON.stringify({ ok: true, skipped: 'not a tracked Assignment Room payment link' }) };
+}
+
+const email = String(details.email || session.customer_email || '').trim().toLowerCase();
+if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+console.error('stripe-workshop-webhook: missing/invalid email on completed session', session.id);
+return { statusCode: 400, body: 'Missing or invalid email' };
+}
+
+const API_KEY = process.env.MAILCHIMP_API_KEY;
+const SERVER = process.env.MAILCHIMP_SERVER_PREFIX;
+if (!API_KEY || !SERVER) {
+console.error('stripe-workshop-webhook: missing MAILCHIMP_API_KEY or MAILCHIMP_SERVER_PREFIX env var');
+return { statusCode: 500, body: 'Server not configured' };
+}
+
+const fullName = String(details.name || '').trim();
+const subscriberHash = crypto.createHash('md5').update(email).digest('hex');
+const baseUrl = 'https://' + SERVER + '.api.mailchimp.com/3.0';
+const authHeader = 'Basic ' + Buffer.from('anystring:' + API_KEY).toString('base64');
+
+try {
+const upsertResp = await fetch(baseUrl + '/lists/' + LIST_ID + '/members/' + subscriberHash, {
+method: 'PUT',
+headers: { Authorization: authHeader, 'Content-Type': 'application/json' },
+body: JSON.stringify({
+email_address: email,
+status_if_new: 'transactional',
+merge_fields: { FNAME: fullName ? fullName.split(' ')[0] : '', LNAME: fullName.split(' ').slice(1).join(' ') }
+})
+});
+if (!upsertResp.ok) {
+console.error('stripe-workshop-webhook: purchase upsert failed', upsertResp.status, await upsertResp.text());
+return { statusCode: 502, body: 'Mailchimp upsert failed' };
+}
+
+const tagResp = await fetch(baseUrl + '/lists/' + LIST_ID + '/members/' + subscriberHash + '/tags', {
+method: 'POST',
+headers: { Authorization: authHeader, 'Content-Type': 'application/json' },
+body: JSON.stringify({ tags: [{ name: tag, status: 'active' }] })
+});
+if (!tagResp.ok) {
+console.error('stripe-workshop-webhook: purchase tagging failed', tagResp.status, await tagResp.text());
+return { statusCode: 502, body: 'Mailchimp tagging failed' };
+}
+
+return { statusCode: 200, body: JSON.stringify({ ok: true, tags: [tag] }) };
+} catch (err) {
+console.error('stripe-workshop-webhook: purchase request error', err);
+return { statusCode: 500, body: 'Request to Mailchimp failed' };
+}
+}
+
 // Verifies the request really came from Stripe. Stripe's signature scheme:
 // header looks like "t=<timestamp>,v1=<hex signature>", and the signature
 // is HMAC-SHA256 of "<timestamp>.<raw body>" using the webhook secret.
@@ -84,6 +154,17 @@ return { statusCode: 200, body: JSON.stringify({ ok: true, skipped: stripeEvent.
 
 const session = (stripeEvent.data && stripeEvent.data.object) || {};
 const details = session.customer_details || {};
+
+// FIX (2026-09-22): this endpoint receives EVERY checkout.session.completed
+// on the Stripe account, not just workshop sales (Stripe can't filter a
+// webhook by payment link). Before this check, a Reveal or Intensive buyer
+// would have been tagged AR-Workshop-Purchased and triggered a "Workshop
+// seat sold" alert. Only the $47 workshop link continues down the original
+// workshop path below, unchanged. Reveal and Intensive purchases get their
+// own purchase tag. Anything else is ignored.
+if (session.payment_link !== WORKSHOP_PAYMENT_LINK) {
+return handleOtherPurchase(session, details);
+}
 
 const email = String(details.email || session.customer_email || '').trim().toLowerCase();
 if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
