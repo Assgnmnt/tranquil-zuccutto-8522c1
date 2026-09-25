@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<title>Alerts · The Assignment Room</title>
+</head>
+<body>
+<!-- Hidden form so Netlify registers "ar-alerts" at deploy. Site functions
+     post sale and high-intent alerts here, and Netlify emails each one to
+     jackie@assignmentroom.com. Not linked anywhere on the site. -->
+<form name="ar-alerts" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="text" name="bot-field">
+  <input type="text" name="subject">
+  <input type="text" name="alert_type">
+  <input type="text" name="name">
+  <input type="email" name="email">
+  <input type="text" name="stage">
+  <input type="text" name="amount">
+  <textarea name="details"></textarea>
+</form>
+</body>
+</html>
