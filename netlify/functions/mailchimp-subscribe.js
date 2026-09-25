@@ -26,6 +26,35 @@ const LIST_ID = '697372b43e'; // The Assignment Room audience
 // to carry those, not a notification to Jackie's inbox.
 const HIGH_INTENT_STAGES = ['definition', 'activation', 'sustainment', 'multiplication'];
 
+// AR-owned alerts (2026-09-25). Every heads-up to Jackie now goes to the
+// Netlify Forms form "ar-alerts" on assignmentroom.com (hidden form in
+// ar-alerts.html). Netlify emails each submission to
+// jackie@assignmentroom.com (Netlify > Forms > Form notifications).
+// This replaces the DeepSight / Fully Staffing Formspree form (mqevpdbl)
+// and the formspree.io/hello@ endpoint, which was never activated.
+// Awaited with a short timeout so the call finishes before the function
+// returns, and it can never fail the request it rides on.
+async function notifyJackie(fields) {
+  try {
+    const params = new URLSearchParams();
+    params.append('form-name', 'ar-alerts');
+    Object.keys(fields).forEach(function (k) { params.append(k, fields[k] == null ? '' : String(fields[k])); });
+    const ctrl = new AbortController();
+    const timer = setTimeout(function () { ctrl.abort(); }, 3000);
+    const resp = await fetch('https://assignmentroom.com/ar-alerts.html', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params.toString(),
+      redirect: 'manual',
+      signal: ctrl.signal
+    });
+    clearTimeout(timer);
+    if (resp.status >= 400) console.error('notifyJackie: ar-alerts returned', resp.status);
+  } catch (err) {
+    console.error('notifyJackie: alert failed', err);
+  }
+}
+
 exports.handler = async function (event) {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: JSON.stringify({ error: 'Method Not Allowed' }) };
@@ -144,19 +173,13 @@ exports.handler = async function (event) {
     // block or slow down the response to the browser, the diagnostic page
     // is already waiting on this function, so we fire this and move on.
     if (HIGH_INTENT_STAGES.indexOf(stage) !== -1) {
-      fetch('https://formspree.io/hello@assignmentroom.com', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({
-          _subject: 'High-intent diagnostic result: ' + stage + ' — ' + (firstName || email),
-          name: (firstName + ' ' + lastName).trim() || '(not given)',
-          email: email,
-          stage: stage,
-          tags: mcTags.join(', '),
-          note: 'This person landed in a stage worth a personal look. No action is automated here on purpose, this is just the heads-up that was missing before.'
-        })
-      }).catch(function (err) {
-        console.error('mailchimp-subscribe: high-intent alert failed', err);
+      await notifyJackie({
+        subject: 'High-intent diagnostic result: ' + stage + ' - ' + (firstName || email),
+        alert_type: 'High-intent diagnostic',
+        name: (firstName + ' ' + lastName).trim() || '(not given)',
+        email: email,
+        stage: stage,
+        details: 'Tags: ' + mcTags.join(', ') + '. This person landed in a stage worth a personal look. Nothing is automated here on purpose.'
       });
     }
 
