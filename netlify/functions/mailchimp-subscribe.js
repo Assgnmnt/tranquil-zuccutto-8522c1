@@ -55,6 +55,85 @@ async function notifyJackie(fields) {
   }
 }
 
+// ---- Diagnostic tracking (2026-09-25) ----
+// Mailchimp stays the single client record. Every completed Diagnostic:
+//   1. updates five contact fields: latest stage, first-ever stage, date
+//      last taken, number of attempts, latest barrier
+//   2. adds a contact note with that attempt's full result, so retakes
+//      build a history and never overwrite an earlier result.
+// The fields are created in the audience the first time they're needed.
+// Any failure here is logged and ignored: it can never block the
+// Diagnostic result or the Journey tags above.
+const DIAG_FIELDS = [
+  { tag: 'DIAGSTAGE', name: 'Diagnostic Stage (latest)', type: 'text' },
+  { tag: 'DIAGFIRST', name: 'Diagnostic Stage (first)', type: 'text' },
+  { tag: 'DIAGDATE', name: 'Diagnostic Last Taken', type: 'text' },
+  { tag: 'DIAGCOUNT', name: 'Diagnostic Attempts', type: 'number' },
+  { tag: 'DIAGBARR', name: 'Diagnostic Barrier (latest)', type: 'text' }
+];
+
+async function ensureDiagFields(baseUrl, authHeader) {
+  const resp = await fetch(baseUrl + '/lists/' + LIST_ID + '/merge-fields?count=100&fields=merge_fields.tag', {
+    headers: { Authorization: authHeader }
+  });
+  if (!resp.ok) throw new Error('merge-fields list failed ' + resp.status);
+  const existing = ((await resp.json()).merge_fields || []).map(function (f) { return f.tag; });
+  for (const f of DIAG_FIELDS) {
+    if (existing.indexOf(f.tag) !== -1) continue;
+    const c = await fetch(baseUrl + '/lists/' + LIST_ID + '/merge-fields', {
+      method: 'POST',
+      headers: { Authorization: authHeader, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tag: f.tag, name: f.name, type: f.type, public: false, required: false })
+    });
+    if (!c.ok) console.error('mailchimp-subscribe: could not create field', f.tag, c.status, await c.text());
+  }
+}
+
+async function recordAttempt(baseUrl, authHeader, subscriberHash, info) {
+  try {
+    await ensureDiagFields(baseUrl, authHeader);
+    const memberResp = await fetch(baseUrl + '/lists/' + LIST_ID + '/members/' + subscriberHash + '?fields=merge_fields', {
+      headers: { Authorization: authHeader }
+    });
+    const current = memberResp.ok ? ((await memberResp.json()).merge_fields || {}) : {};
+    const count = (parseInt(current.DIAGCOUNT, 10) || 0) + 1;
+    const date = (info.completedAt || new Date().toISOString()).slice(0, 10);
+
+    const upd = await fetch(baseUrl + '/lists/' + LIST_ID + '/members/' + subscriberHash, {
+      method: 'PATCH',
+      headers: { Authorization: authHeader, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ merge_fields: {
+        DIAGSTAGE: info.stage,
+        DIAGFIRST: current.DIAGFIRST || info.stage,
+        DIAGDATE: date,
+        DIAGCOUNT: count,
+        DIAGBARR: info.barrier || 'none'
+      } })
+    });
+    if (!upd.ok) console.error('mailchimp-subscribe: field update failed', upd.status, await upd.text());
+
+    const s = info.scores || {};
+    const lines = [
+      'Readiness Diagnostic, attempt ' + count + ' (' + date + ')',
+      'Stage: ' + info.stage,
+      'Barrier: ' + (info.barrier || 'none') + (info.tags ? ' | Tags: ' + info.tags : ''),
+      'Scores: awakening ' + (s.awakening || '?') + ', clarity ' + (s.clarity || '?') + ', activation ' + (s.activation || '?') +
+        ', agreements/protection ' + (s.agreements_protection || '?') + ', release/security ' + (s.release_security || '?') +
+        ', precise language item ' + (s.precise_language || '?'),
+      'Movement context: ' + (s.movement_context || 'n/a') + ' | Financial reality: ' + (s.financial_reality || 'n/a'),
+      'Attempt ID: ' + (info.attemptId || 'n/a')
+    ];
+    const note = await fetch(baseUrl + '/lists/' + LIST_ID + '/members/' + subscriberHash + '/notes', {
+      method: 'POST',
+      headers: { Authorization: authHeader, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ note: lines.join('\n') })
+    });
+    if (!note.ok) console.error('mailchimp-subscribe: attempt note failed', note.status, await note.text());
+  } catch (err) {
+    console.error('mailchimp-subscribe: recordAttempt error', err);
+  }
+}
+
 exports.handler = async function (event) {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: JSON.stringify({ error: 'Method Not Allowed' }) };
@@ -182,6 +261,15 @@ exports.handler = async function (event) {
         details: 'Tags: ' + mcTags.join(', ') + '. This person landed in a stage worth a personal look. Nothing is automated here on purpose.'
       });
     }
+
+    await recordAttempt(baseUrl, authHeader, subscriberHash, {
+      stage: stage,
+      barrier: barrierTag,
+      tags: tagsArr.join(', '),
+      attemptId: String(data.attempt_id || ''),
+      completedAt: String(data.completed_at || ''),
+      scores: (data.scores && typeof data.scores === 'object') ? data.scores : {}
+    });
 
     return { statusCode: 200, body: JSON.stringify({ ok: true, tags: mcTags }) };
   } catch (err) {
