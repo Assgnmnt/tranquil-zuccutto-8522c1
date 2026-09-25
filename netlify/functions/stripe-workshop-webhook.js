@@ -31,7 +31,21 @@ const LIST_ID = '697372b43e'; // The Assignment Room audience
 const WORKSHOP_PAYMENT_LINK = 'plink_1UG6toFGAdsHSJ1n3xJ42sfD'; // $47 Founding Workshop
 const OTHER_PURCHASE_TAGS = {
 'plink_1TSfpyFGAdsHSJ1neZlu3WT6': 'AR-Reveal-Purchased',    // $397 The Reveal
-'plink_1TSfr8FGAdsHSJ1nsXFslMLX': 'AR-Intensive-Purchased'  // $797 Assignment Brief Intensive
+'plink_1TSfr8FGAdsHSJ1nsXFslMLX': 'AR-Intensive-Purchased', // $797 Assignment Brief Intensive
+// Added 2026-09-25, verified in Stripe:
+'plink_1UIz86FGAdsHSJ1nwW1ZlHpa': 'AR-Lab-Founding-Purchased',  // $697 Discovery Lab Founding Cohort
+'plink_1TWFbVFGAdsHSJ1nIcDWFxjA': 'AR-Lab-Purchased',           // $997 Discovery Lab
+'plink_1UJfmmFGAdsHSJ1nqFltnEt1': 'AR-Lab-Plan-Purchased',      // Discovery Lab, 2 x $525 monthly
+'plink_1TZKthFGAdsHSJ1nAEfyqYf8': 'AR-Activation-Purchased',    // $1,997 Activation Program
+'plink_1UJfoMFGAdsHSJ1nD8eYTbwH': 'AR-Activation-Plan-Purchased' // Activation, 3 x $699 monthly
+};
+
+// Payment plans are Stripe subscriptions. Stripe payment links can't stop
+// a subscription on their own, so each plan sale alert says how many
+// payments the plan has, and the subscription gets an end date in Stripe.
+const PLAN_PAYMENTS = {
+'AR-Lab-Plan-Purchased': 2,
+'AR-Activation-Plan-Purchased': 3
 };
 
 // AR-owned alerts (2026-09-25). Every heads-up to Jackie now goes to the
@@ -120,12 +134,16 @@ return { statusCode: 502, body: 'Mailchimp tagging failed' };
 }
 
 const paid = typeof session.amount_total === 'number' ? '$' + (session.amount_total / 100).toFixed(2) : 'unknown';
+const planPayments = PLAN_PAYMENTS[tag];
 await notifyJackie({
-subject: tag.replace('AR-', '').replace('-Purchased', '') + ' purchased - ' + (fullName || email),
+subject: tag.replace('AR-', '').replace('-Purchased', '').replace(/-/g, ' ') + ' purchased - ' + (fullName || email),
 alert_type: tag,
 name: fullName || '(not given)',
 email: email,
-amount: paid
+amount: paid + (planPayments ? ' (payment 1 of ' + planPayments + ')' : ''),
+details: planPayments
+? 'Payment plan. Set this subscription to end after payment ' + planPayments + ' in Stripe (Subscriptions, ' + (session.subscription || 'see customer') + ').'
+: ''
 });
 
 return { statusCode: 200, body: JSON.stringify({ ok: true, tags: [tag] }) };
