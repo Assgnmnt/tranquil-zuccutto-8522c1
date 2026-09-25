@@ -1,0 +1,8 @@
+{
+  "name": "assignmentroom-site",
+  "private": true,
+  "description": "The Assignment Room site. Dependencies for Netlify Functions only.",
+  "dependencies": {
+    "@netlify/blobs": "^8.1.0"
+  }
+}
