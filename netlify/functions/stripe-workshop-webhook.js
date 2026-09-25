@@ -34,6 +34,35 @@ const OTHER_PURCHASE_TAGS = {
 'plink_1TSfr8FGAdsHSJ1nsXFslMLX': 'AR-Intensive-Purchased'  // $797 Assignment Brief Intensive
 };
 
+// AR-owned alerts (2026-09-25). Every heads-up to Jackie now goes to the
+// Netlify Forms form "ar-alerts" on assignmentroom.com (hidden form in
+// ar-alerts.html). Netlify emails each submission to
+// jackie@assignmentroom.com (Netlify > Forms > Form notifications).
+// This replaces the DeepSight / Fully Staffing Formspree form (mqevpdbl)
+// and the formspree.io/hello@ endpoint, which was never activated.
+// Awaited with a short timeout so the call finishes before the function
+// returns, and it can never fail the request it rides on.
+async function notifyJackie(fields) {
+  try {
+    const params = new URLSearchParams();
+    params.append('form-name', 'ar-alerts');
+    Object.keys(fields).forEach(function (k) { params.append(k, fields[k] == null ? '' : String(fields[k])); });
+    const ctrl = new AbortController();
+    const timer = setTimeout(function () { ctrl.abort(); }, 3000);
+    const resp = await fetch('https://assignmentroom.com/ar-alerts.html', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params.toString(),
+      redirect: 'manual',
+      signal: ctrl.signal
+    });
+    clearTimeout(timer);
+    if (resp.status >= 400) console.error('notifyJackie: ar-alerts returned', resp.status);
+  } catch (err) {
+    console.error('notifyJackie: alert failed', err);
+  }
+}
+
 // Records a Reveal or Intensive purchase on the buyer's Mailchimp contact.
 // Only a purchase tag is added. No AR-Welcome, so no welcome journey fires.
 // A buyer who isn't already in the audience is added as "transactional"
@@ -89,6 +118,15 @@ if (!tagResp.ok) {
 console.error('stripe-workshop-webhook: purchase tagging failed', tagResp.status, await tagResp.text());
 return { statusCode: 502, body: 'Mailchimp tagging failed' };
 }
+
+const paid = typeof session.amount_total === 'number' ? '$' + (session.amount_total / 100).toFixed(2) : 'unknown';
+await notifyJackie({
+subject: tag.replace('AR-', '').replace('-Purchased', '') + ' purchased - ' + (fullName || email),
+alert_type: tag,
+name: fullName || '(not given)',
+email: email,
+amount: paid
+});
 
 return { statusCode: 200, body: JSON.stringify({ ok: true, tags: [tag] }) };
 } catch (err) {
@@ -222,36 +260,13 @@ console.error('stripe-workshop-webhook: tagging failed', tagResp.status, errBody
 return { statusCode: 502, body: 'Mailchimp tagging failed' };
 }
 
-// Heads-up to Jackie for every paid seat, same pattern as the
-// Discernment Report notification. Doesn't block the response.
-// FIX (2026-09-16): a server-to-server call has no browser Referer, and
-// Formspree's domain check was rejecting this with "Invalid Referer
-// header" - caught while building the Assessment's signal-log function,
-// which hit the exact same endpoint the exact same way. That means this
-// sale notification has likely been silently failing since it shipped.
-// Setting Referer/Origin to the site's own domain satisfies Formspree's
-// allowed-domain check.
-// FIX (2026-09-16, part 2): the classic https://formspree.io/{email}
-// endpoint was never fully activated on the Formspree account ("This
-// form isn't set up yet" / FORM_NOT_FOUND), even with the header fix
-// above. Jackie confirmed the real, active form ID from her Formspree
-// dashboard (mqevpdbl) - switching to the form-ID endpoint.
-fetch('https://formspree.io/f/mqevpdbl', {
-method: 'POST',
-headers: {
-'Content-Type': 'application/json',
-'Accept': 'application/json',
-'Referer': 'https://assignmentroom.com/',
-'Origin': 'https://assignmentroom.com'
-},
-body: JSON.stringify({
-_subject: 'Assignment Economy Workshop seat sold - ' + (fullName || email),
+// Heads-up to Jackie for every paid seat, through the AR-owned alert.
+await notifyJackie({
+subject: 'Assignment Economy Workshop seat sold - ' + (fullName || email),
+alert_type: 'Workshop sale',
 name: fullName || '(not given)',
 email: email,
 amount: amount
-})
-}).catch(function (err) {
-console.error('stripe-workshop-webhook: sale notification failed', err);
 });
 
 return { statusCode: 200, body: JSON.stringify({ ok: true, tags: mcTags }) };
