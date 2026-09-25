@@ -11,11 +11,8 @@
 // traced back to a specific person. Just which letter she picked, and the
 // (already anonymous) diagnostic shape that produced her result.
 //
-// Reuses the exact notification pattern already proven in
-// stripe-workshop-webhook.js: a plain fetch to Formspree's email-forwarding
-// endpoint, no API key, no new dependency, no new infrastructure to trust.
-// Jackie sees these land in the same hello@assignmentroom.com inbox she
-// already checks, one line per selection.
+// Sends one line per selection through the AR-owned alert (Netlify Forms
+// "ar-alerts", emailed to jackie@assignmentroom.com).
 //
 // If this fails for any reason, it must never affect the participant's
 // experience - the assessment page fires this fire-and-forget and ignores
@@ -29,6 +26,35 @@ const LETTER_LABELS = {
   E: 'E - Do not know if people will actually pay for this, repeatedly',
   F: 'F - Nothing right now, I know what to do next'
 };
+
+// AR-owned alerts (2026-09-25). Every heads-up to Jackie now goes to the
+// Netlify Forms form "ar-alerts" on assignmentroom.com (hidden form in
+// ar-alerts.html). Netlify emails each submission to
+// jackie@assignmentroom.com (Netlify > Forms > Form notifications).
+// This replaces the DeepSight / Fully Staffing Formspree form (mqevpdbl)
+// and the formspree.io/hello@ endpoint, which was never activated.
+// Awaited with a short timeout so the call finishes before the function
+// returns, and it can never fail the request it rides on.
+async function notifyJackie(fields) {
+  try {
+    const params = new URLSearchParams();
+    params.append('form-name', 'ar-alerts');
+    Object.keys(fields).forEach(function (k) { params.append(k, fields[k] == null ? '' : String(fields[k])); });
+    const ctrl = new AbortController();
+    const timer = setTimeout(function () { ctrl.abort(); }, 3000);
+    const resp = await fetch('https://assignmentroom.com/ar-alerts.html', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params.toString(),
+      redirect: 'manual',
+      signal: ctrl.signal
+    });
+    clearTimeout(timer);
+    if (resp.status >= 400) console.error('notifyJackie: ar-alerts returned', resp.status);
+  } catch (err) {
+    console.error('notifyJackie: alert failed', err);
+  }
+}
 
 exports.handler = async function (event) {
   if (event.httpMethod !== 'POST') {
@@ -51,47 +77,12 @@ exports.handler = async function (event) {
   const testFocus = typeof payload.testFocus === 'string' ? payload.testFocus : '';
   const needsInterpretation = payload.needsInterpretation === true;
 
-  try {
-    // FIX (2026-09-16, part 2): the classic https://formspree.io/{email}
-    // endpoint was never fully activated on Jackie's Formspree account
-    // ("This form isn't set up yet" / FORM_NOT_FOUND), even after the
-    // Referer fix below. Jackie confirmed the real, active form ID from her
-    // Formspree dashboard (mqevpdbl) - switching to the form-ID endpoint,
-    // which is the one Formspree actually expects server-to-server calls to
-    // use.
-    const resp = await fetch('https://formspree.io/f/mqevpdbl', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        // A server-to-server call has no browser Referer, and Formspree's
-        // domain check rejects that with "Invalid Referer header" (caught
-        // live while testing this function - see also the note in
-        // stripe-workshop-webhook.js, which hits the same endpoint the same
-        // way and should get this same header added). Setting these to the
-        // site's own origin satisfies Formspree's allowed-domain check.
-        Referer: 'https://assignmentroom.com/',
-        Origin: 'https://assignmentroom.com'
-      },
-      body: JSON.stringify({
-        _subject: 'Assignment Economy Assessment - help signal: ' + letter,
-        need_selected: LETTER_LABELS[letter],
-        assignment_condition: assignmentCondition,
-        test_focus: testFocus || '(n/a)',
-        needs_interpretation: needsInterpretation ? 'yes' : 'no',
-        note: 'Anonymous - no name, email, or identifying detail is collected by this form.'
-      })
-    });
-
-    if (!resp.ok) {
-      const errBody = await resp.text();
-      console.error('assessment-signal-log: formspree failed', resp.status, errBody);
-      // Still 200 to the caller - a failed notification should never surface
-      // as an error to the participant, who never sees this call at all.
-    }
-  } catch (err) {
-    console.error('assessment-signal-log: request error', err);
-  }
+  await notifyJackie({
+    subject: 'Assignment Economy Assessment - help signal: ' + letter,
+    alert_type: 'Assessment help signal',
+    stage: assignmentCondition,
+    details: LETTER_LABELS[letter] + ' | test focus: ' + (testFocus || '(n/a)') + ' | needs interpretation: ' + (needsInterpretation ? 'yes' : 'no') + ' | Anonymous: no name or email is collected.'
+  });
 
   return { statusCode: 200, body: JSON.stringify({ ok: true }) };
 };
