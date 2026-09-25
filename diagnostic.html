@@ -953,7 +953,24 @@ function continueFromConditional() {
   }
 }
 
+// Anonymous completion count (2026-09-25): no name, email or answers,
+// only that someone finished the questions or submitted, plus the stage.
+// Totals are kept in Netlify Blobs (store "diagnostic-stats").
+function countDiagnostic(eventName) {
+  try {
+    var stage = '';
+    try { stage = resolveStage().stage; } catch (e) {}
+    var body = JSON.stringify({ event: eventName, stage: stage });
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon('/.netlify/functions/diagnostic-count', new Blob([body], { type: 'application/json' }));
+    } else {
+      fetch('/.netlify/functions/diagnostic-count', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: body, keepalive: true }).catch(function () {});
+    }
+  } catch (e) {}
+}
+
 function showEmailCapture() {
+  countDiagnostic('finished');
   document.getElementById('view-quiz').style.display = 'none';
   document.getElementById('view-conditional').style.display = 'none';
   document.getElementById('view-email').style.display = 'block';
@@ -1023,6 +1040,7 @@ function submitEmail() {
   document.getElementById('email-error').style.display = 'none';
 
   const resolved = resolveStage();
+  countDiagnostic('submitted');
   const utm = getUTMParams();
   const attemptId = 'att_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9);
 
@@ -1083,7 +1101,19 @@ function submitEmail() {
       email: email,
       stage: resolved.stage,
       tags: resolved.tags.join(','),
-      barrier_tag: resolved.barrierTag || ''
+      barrier_tag: resolved.barrierTag || '',
+      attempt_id: attemptId,
+      completed_at: payload.completed_at,
+      scores: {
+        awakening: payload.awakening_score,
+        clarity: payload.clarity_score,
+        activation: payload.activation_score,
+        agreements_protection: payload.agreements_protection_score,
+        release_security: payload.release_security_score,
+        precise_language: String(payload.precise_language_item),
+        movement_context: payload.movement_context,
+        financial_reality: payload.financial_reality
+      }
     })
   }).then(function (res) {
     if (!res.ok) {
