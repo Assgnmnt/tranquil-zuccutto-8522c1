@@ -24,6 +24,35 @@ const crypto = require('crypto');
 
 const LIST_ID = '697372b43e'; // The Assignment Room audience
 
+// AR-owned alerts (2026-09-25). Every heads-up to Jackie now goes to the
+// Netlify Forms form "ar-alerts" on assignmentroom.com (hidden form in
+// ar-alerts.html). Netlify emails each submission to
+// jackie@assignmentroom.com (Netlify > Forms > Form notifications).
+// This replaces the DeepSight / Fully Staffing Formspree form (mqevpdbl)
+// and the formspree.io/hello@ endpoint, which was never activated.
+// Awaited with a short timeout so the call finishes before the function
+// returns, and it can never fail the request it rides on.
+async function notifyJackie(fields) {
+  try {
+    const params = new URLSearchParams();
+    params.append('form-name', 'ar-alerts');
+    Object.keys(fields).forEach(function (k) { params.append(k, fields[k] == null ? '' : String(fields[k])); });
+    const ctrl = new AbortController();
+    const timer = setTimeout(function () { ctrl.abort(); }, 3000);
+    const resp = await fetch('https://assignmentroom.com/ar-alerts.html', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params.toString(),
+      redirect: 'manual',
+      signal: ctrl.signal
+    });
+    clearTimeout(timer);
+    if (resp.status >= 400) console.error('notifyJackie: ar-alerts returned', resp.status);
+  } catch (err) {
+    console.error('notifyJackie: alert failed', err);
+  }
+}
+
 exports.handler = async function (event) {
     if (event.httpMethod !== 'POST') {
           return { statusCode: 405, body: 'Method Not Allowed' };
@@ -100,17 +129,12 @@ exports.handler = async function (event) {
         return { statusCode: 502, body: 'Mailchimp tagging failed' };
     }
 
-    fetch('https://formspree.io/hello@assignmentroom.com', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({
-            _subject: 'Discernment Report sale - ' + email,
-            email: email,
-            product: productNames.join(', ') || 'Discernment Report',
-            amount: amount
-        })
-    }).catch(function (err) {
-        console.error('payhip-webhook: sale notification failed', err);
+    await notifyJackie({
+        subject: 'Discernment Report sale - ' + email,
+        alert_type: 'Discernment Report sale',
+        email: email,
+        amount: amount,
+        details: productNames.join(', ') || 'Discernment Report'
     });
 
     return { statusCode: 200, body: JSON.stringify({ ok: true, tags: mcTags }) };
