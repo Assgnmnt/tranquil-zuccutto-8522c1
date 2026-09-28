@@ -266,6 +266,27 @@ console.error('stripe-workshop-webhook: upsert failed', upsertResp.status, errBo
 return { statusCode: 502, body: 'Mailchimp upsert failed' };
 }
 
+// FIX (2026-09-28): status_if_new only applies to brand-new contacts. A
+// buyer already in the audience as non-subscribed ("transactional", e.g.
+// from the April import) stayed that way and got no workshop emails or
+// Meet link. A paid workshop seat now moves a transactional contact to
+// subscribed. Anyone who unsubscribed is left exactly as they are.
+try {
+const member = await upsertResp.json();
+if (member && member.status === 'transactional') {
+const subResp = await fetch(baseUrl + '/lists/' + LIST_ID + '/members/' + subscriberHash, {
+method: 'PATCH',
+headers: { Authorization: authHeader, 'Content-Type': 'application/json' },
+body: JSON.stringify({ status: 'subscribed' })
+});
+if (!subResp.ok) {
+console.error('stripe-workshop-webhook: subscribe of existing buyer failed', subResp.status, await subResp.text());
+}
+}
+} catch (e) {
+console.error('stripe-workshop-webhook: could not check buyer status', e);
+}
+
 const tagResp = await fetch(baseUrl + '/lists/' + LIST_ID + '/members/' + subscriberHash + '/tags', {
 method: 'POST',
 headers: { Authorization: authHeader, 'Content-Type': 'application/json' },
