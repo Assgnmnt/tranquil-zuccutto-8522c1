@@ -192,12 +192,18 @@ exports.handler = async function (event) {
   if (STAGE_TAG_MAP[stage]) mcTags.push(STAGE_TAG_MAP[stage]);
   if (tagsArr.indexOf('high_stirring_low_language') !== -1) mcTags.push('AR-Awakening');
   if (tagsArr.indexOf('misaligned_momentum') !== -1) mcTags.push('AR-Discernment');
-  if (barrierTag === 'agreements_protection' || tagsArr.indexOf('barrier_review') !== -1) {
-    mcTags.push('AR-Agreement-Barrier');
+  // One barrier sequence per person, never both. When both barriers are
+  // elevated (barrier_review), the higher score wins; a tie goes to
+  // Agreement. This keeps new contacts to one conversation at a time.
+  let barrierPick = barrierTag;
+  if (!barrierPick && tagsArr.indexOf('barrier_review') !== -1) {
+    const sc = (data.scores && typeof data.scores === 'object') ? data.scores : {};
+    const ap = parseFloat(sc.agreements_protection) || 0;
+    const rs = parseFloat(sc.release_security) || 0;
+    barrierPick = rs > ap ? 'release_security' : 'agreements_protection';
   }
-  if (barrierTag === 'release_security' || tagsArr.indexOf('barrier_review') !== -1) {
-    mcTags.push('AR-Detachment');
-  }
+  if (barrierPick === 'agreements_protection') mcTags.push('AR-Agreement-Barrier');
+  if (barrierPick === 'release_security') mcTags.push('AR-Detachment');
 
   const subscriberHash = crypto.createHash('md5').update(email).digest('hex');
   const baseUrl = 'https://' + SERVER + '.api.mailchimp.com/3.0';
@@ -216,7 +222,10 @@ exports.handler = async function (event) {
         status_if_new: 'subscribed',
         merge_fields: {
           FNAME: firstName,
-          LNAME: lastName
+          LNAME: lastName,
+          // Set at signup so the Welcome flow can skip diagnostic takers.
+          // Their stage email already welcomes them.
+          DIAGSTAGE: stage
         }
       })
     });
