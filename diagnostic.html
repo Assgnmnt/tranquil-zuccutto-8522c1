@@ -535,10 +535,13 @@ footer p { font-size: 13px; color: rgba(255,255,255,0.6); }
   body { font-size: 16px; }
   .main-card { margin: -1.5rem 1rem 3rem; padding: 1.75rem 1.25rem; }
   .intro-meta { flex-wrap: wrap; gap: 1rem; }
-  .scale-end { width: 56px; font-size: 12px; }
-  .scale-btn { width: 42px; height: 42px; font-size: 15px; }
-  .scale-btns { gap: 4px; }
-  .rating-scale { gap: 6px; }
+  /* Phone: buttons on their own row, end labels underneath (fixes the
+     cut-off "Very true for me" label on narrow screens). */
+  .rating-scale { flex-wrap: wrap; gap: 6px 0; }
+  .scale-btns { order: -1; flex: 1 1 100%; justify-content: space-between; gap: 4px; }
+  .scale-btn { width: 44px; height: 44px; font-size: 15px; }
+  .scale-end { width: auto; font-size: 12px; }
+  .scale-end.right { margin-left: auto; }
   .page-header { padding: 3rem 1.5rem 4rem; }
   .page-header p { font-size: 1.05rem; }
 }
@@ -568,7 +571,7 @@ footer p { font-size: 13px; color: rgba(255,255,255,0.6); }
       </div>
       <div class="meta-item">
         <span class="meta-label">Questions</span>
-        <span class="meta-value">16 statements</span>
+        <span class="meta-value">18 statements</span>
       </div>
       <div class="meta-item">
         <span class="meta-label">What you get</span>
@@ -673,6 +676,12 @@ const sections = [
       'I can describe, at least in part, the direction I feel drawn toward.',
       'I have seen confirmation patterns in my life pointing me toward a specific assignment.',
       'I can state my current assignment in one clear sentence.'
+    ],
+    // Calling statements (added 2026-09-29). Scored separately as the Calling
+    // layer. Not part of the Clarity average, so stages are unchanged.
+    extra: [
+      { key: 'c_0', text: 'I\'ve felt pulled toward different things, and I can\'t tell which one is really mine.' },
+      { key: 'c_1', text: 'If someone asked what God has called me to, I\'d have to say “I don\'t know.” But I know it\'s more than what I\'m doing now.' }
     ]
   },
   {
@@ -682,7 +691,7 @@ const sections = [
     statements: [
       'Fear about finances holds me back from moving toward my assignment.',
       'I worry about what others will think or say if I shift direction.',
-      'I question whether I am truly qualified or ready for what I sense God is calling me to.'
+      'Part of me still asks, “Who am I to do this?”'
     ]
   },
   {
@@ -690,7 +699,7 @@ const sections = [
     title: 'Letting go of what feels safe',
     sub: 'Assignments often require releasing what we\'ve built. Rate how true each statement is right now.',
     statements: [
-      'My identity is closely tied to my current role, title, or career.',
+      'I have a hard time describing who I am without mentioning my job, my role, or what I do for other people.',
       'I struggle to release the security and stability of what I have built.',
       'Letting go of my current position, even partially, feels genuinely difficult or frightening.'
     ]
@@ -713,7 +722,7 @@ let conditionalQueue = [];
 let conditionalIndex = 0;
 let conditionalAnswers = {};
 
-const TOTAL_CORE_STATEMENTS = sections.reduce(function(sum, s) { return sum + s.statements.length; }, 0);
+const TOTAL_CORE_STATEMENTS = sections.reduce(function(sum, s) { return sum + s.statements.length + (s.extra ? s.extra.length : 0); }, 0);
 
 function startQuiz() {
   document.getElementById('view-intro').style.display = 'none';
@@ -753,6 +762,22 @@ function renderSection() {
     html += '</div></div>';
   });
 
+  (s.extra || []).forEach(function(ex) {
+    const key = ex.key;
+    const val = answers[key] || 0;
+    html += '<div class="statement-card' + (val ? ' rated' : '') + '" id="card_' + key + '">';
+    html += '<div class="statement-text">"' + ex.text + '"</div>';
+    html += '<div class="rating-scale">';
+    html += '<span class="scale-end">Not true<br>for me</span>';
+    html += '<div class="scale-btns">';
+    for (let r = 1; r <= 5; r++) {
+      html += '<button class="scale-btn' + (val === r ? ' active' : '') + '" onclick="rate(\'' + key + '\',' + r + ')" data-key="' + key + '" data-val="' + r + '">' + r + '</button>';
+    }
+    html += '</div>';
+    html += '<span class="scale-end right">Very true<br>for me</span>';
+    html += '</div></div>';
+  });
+
   document.getElementById('section-body').innerHTML = html;
   checkNext();
 }
@@ -777,6 +802,7 @@ function countRated() {
     s.statements.forEach(function(_, i) {
       if (answers['s' + si + '_' + i]) count++;
     });
+    (s.extra || []).forEach(function(ex) { if (answers[ex.key]) count++; });
   });
   return count;
 }
@@ -787,6 +813,7 @@ function checkNext() {
   s.statements.forEach(function(_, i) {
     if (!answers['s' + current + '_' + i]) allDone = false;
   });
+  (s.extra || []).forEach(function(ex) { if (!answers[ex.key]) allDone = false; });
   const btn = document.getElementById('btn-next');
   if (!btn) return;
   btn.disabled = !allDone;
@@ -1014,7 +1041,17 @@ function resolveStage() {
     barrierTag = 'release_security';
   }
 
-  return { stage: stage, tags: tags, barrierTag: barrierTag, core: core };
+  // Layer (added 2026-09-29): identity first, then calling, then assignment.
+  // Identity = "what others will think", "Who am I to do this?", and the
+  // "describe who I am without my job/role" statement.
+  const identity = ((answers.s2_1 || 0) + (answers.s2_2 || 0) + (answers.s3_0 || 0)) / 3;
+  const calling = ((answers.c_0 || 0) + (answers.c_1 || 0)) / 2;
+  let layer;
+  if (identity >= 4.00) layer = 'identity';
+  else if (stage === 'awareness' || stage === 'definition' || calling >= 4.00) layer = 'calling';
+  else layer = 'assignment';
+
+  return { stage: stage, tags: tags, barrierTag: barrierTag, core: core, layer: layer, identity: identity, calling: calling };
 }
 
 function getUTMParams() {
@@ -1057,6 +1094,9 @@ function submitEmail() {
     agreements_protection_score: resolved.core.agreementsProtection.toFixed(2),
     release_security_score: resolved.core.releaseSecurity.toFixed(2),
     activation_score: resolved.core.activation.toFixed(2),
+    layer: resolved.layer,
+    identity_score: resolved.identity.toFixed(2),
+    calling_score: resolved.calling.toFixed(2),
     movement_context: conditionalAnswers.movement_context ? conditionalAnswers.movement_context.label : '',
     financial_reality: conditionalAnswers.financial_reality ? conditionalAnswers.financial_reality.label : '',
     source: 'Readiness Diagnostic',
@@ -1111,6 +1151,9 @@ function submitEmail() {
         agreements_protection: payload.agreements_protection_score,
         release_security: payload.release_security_score,
         precise_language: String(payload.precise_language_item),
+        identity: payload.identity_score,
+        calling: payload.calling_score,
+        layer: payload.layer,
         movement_context: payload.movement_context,
         financial_reality: payload.financial_reality
       }
@@ -1140,7 +1183,7 @@ function submitEmail() {
 
   withTimeout(Promise.allSettled([formspreeCall, mailchimpCall]), 4000).then(function () {
     document.getElementById('view-email').style.display = 'none';
-    window.location.href = '/results?stage=' + resolved.stage;
+    window.location.href = '/results?stage=' + resolved.stage + '&layer=' + resolved.layer;
   });
 }
 </script>

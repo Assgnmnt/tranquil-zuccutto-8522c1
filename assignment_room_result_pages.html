@@ -66,6 +66,8 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1.1rem
 .rs-label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);font-weight:600;margin-bottom:.8rem}
 .rs-content p{font-size:15px;color:var(--charcoal);opacity:.85;margin-bottom:.8rem;max-width:720px}
 .rs-content p:last-child{margin-bottom:0}
+.layer-block{border-left:3px solid var(--gold);padding:.2rem 0 .2rem 1.2rem}
+.layer-name{font-family:'Cormorant Garamond',Georgia,serif;font-size:28px;line-height:1.2;color:var(--charcoal);margin:0 0 .6rem}
 .dot-list{list-style:none;display:grid;gap:.7rem}
 .dot-list li{position:relative;padding-left:1.3rem;font-size:14.5px;color:var(--charcoal);opacity:.85;max-width:720px}
 .dot-list li::before{content:'';position:absolute;left:0;top:.55em;width:5px;height:5px;border-radius:50%;background:var(--gold)}
@@ -850,6 +852,34 @@ tabs.forEach(tab => {
   const params = new URLSearchParams(window.location.search);
   const stage = params.get('stage');
   if (stage) activateStage(stage, false);
+
+  // Layer block (added 2026-09-29): identity first, then calling, then assignment.
+  const LAYERS = {
+    identity: {
+      name: 'Identity',
+      text: 'You\'re not stuck because you lack a plan. Part of you is still asking whether you\'re allowed to want this, and whether people will see you the same way if you move. That question has to be settled first. Calling gets much easier to hear once you know who you are apart from what you do.'
+    },
+    calling: {
+      name: 'Calling',
+      text: 'You know who you are. What you can\'t do yet is name what you\'re called to in one sentence you\'d say out loud. That\'s why every option looks possible and none of them feels settled. Your next work is naming it, not doing more.'
+    },
+    assignment: {
+      name: 'Assignment',
+      text: 'You know who you are, and you have a real sense of what you\'re called to. The gap is movement: either starting, or keeping it going once life gets full. You don\'t need more confirmation. You need a next step with a date on it.'
+    }
+  };
+  const layer = LAYERS[params.get('layer')];
+  const page = stage ? document.getElementById('page-' + stage) : null;
+  const sectionsEl = page ? page.querySelector('.result-sections') : null;
+  if (layer && sectionsEl) {
+    const block = document.createElement('div');
+    block.className = 'layer-block';
+    block.innerHTML = '<div class="rs-label">Where the Work Starts</div>' +
+      '<p class="layer-name">' + layer.name + '</p>' +
+      '<div class="rs-content"><p>' + layer.text + '</p>' +
+      '<p style="font-size:13px;opacity:.65">The Assignment Room works in order: identity, then calling, then assignment. Your answers show which one to start with.</p></div>';
+    sectionsEl.insertBefore(block, sectionsEl.firstChild);
+  }
 })();
 </script>
 
