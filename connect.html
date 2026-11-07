@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jackie Parker · The Assignment Room</title>
+<meta name="description" content="What is my assignment? Start here. Take the free Readiness Diagnostic and book a free Reveal session with Jackie Parker.">
+<meta property="og:title" content="Jackie Parker · The Assignment Room">
+<meta property="og:description" content="What is my assignment? Start here with the free Readiness Diagnostic.">
+<meta property="og:image" content="https://assignmentroom.com/jackie-headshot.jpg">
+<link rel="canonical" href="https://assignmentroom.com/connect">
+<meta name="theme-color" content="#2B211C">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Montserrat:wght@400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --choc:#2B211C; --choc-2:#3A2C25; --cream:#FBF7F0; --beige:#E9DDCB;
+    --cognac:#6B4A36; --gold:#C49342; --teal:#1F5A55; --ink:#2B211C; --muted:#6E5D52;
+    --display:"Playfair Display", Georgia, "Times New Roman", serif;
+    --body:"Montserrat", "Helvetica Neue", Arial, sans-serif;
+    --script:"Great Vibes", "Snell Roundhand", cursive;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:radial-gradient(120% 80% at 50% 0%, var(--choc-2) 0%, var(--choc) 60%);
+    color:var(--ink); font-family:var(--body); font-size:15px; line-height:1.5;
+    min-height:100vh;
+    padding-top:max(24px, env(safe-area-inset-top));
+    padding-bottom:max(32px, env(safe-area-inset-bottom));
+    padding-left:max(16px, env(safe-area-inset-left));
+    padding-right:max(16px, env(safe-area-inset-right));
+    -webkit-font-smoothing:antialiased;
+  }
+  .brand{text-align:center; color:var(--beige); font-size:11px; font-weight:600; letter-spacing:.28em; text-transform:uppercase; margin:0 0 18px}
+  .card{max-width:420px; margin:0 auto; background:var(--cream); border-radius:28px; overflow:hidden; box-shadow:0 24px 60px rgba(0,0,0,.35)}
+  .top{background:linear-gradient(180deg, var(--beige) 0%, var(--cream) 100%); padding:28px 24px 8px; text-align:center}
+  .arch{width:190px; height:236px; margin:0 auto; border-radius:95px 95px 14px 14px; overflow:hidden; border:3px solid var(--cream); outline:1px solid var(--gold); outline-offset:5px; background:var(--beige)}
+  .arch img{width:100%; height:100%; object-fit:cover; object-position:50% 18%; display:block}
+  h1{font-family:var(--display); font-weight:600; font-size:30px; line-height:1.15; margin:22px 0 2px; color:var(--choc); text-wrap:balance}
+  .role{font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--cognac); font-weight:600; margin:0}
+  .body{padding:18px 24px 26px}
+  .q{font-family:var(--display); font-style:italic; font-size:22px; line-height:1.3; color:var(--teal); text-align:center; margin:4px 0 6px; text-wrap:balance}
+  .lead{text-align:center; color:var(--muted); margin:0 0 20px; font-size:14.5px}
+  .actions{display:grid; gap:12px}
+  .btn{display:flex; align-items:center; justify-content:center; gap:10px; text-decoration:none; font-weight:600; font-size:15px; letter-spacing:.01em; border-radius:999px; padding:16px 20px; min-height:54px; text-align:center; transition:transform .15s ease}
+  .btn:focus-visible{outline:3px solid var(--gold); outline-offset:3px}
+  .btn:active{transform:scale(.98)}
+  .primary{background:var(--choc); color:var(--cream); box-shadow:0 8px 20px rgba(43,33,28,.28)}
+  .primary small{display:block; font-weight:500; font-size:12px; opacity:.8; letter-spacing:.02em}
+  .secondary{background:transparent; color:var(--choc); border:1.5px solid var(--cognac)}
+  .stack{display:block}
+  .divider{display:flex; align-items:center; gap:12px; margin:24px 0 16px; color:var(--cognac); font-size:11px; letter-spacing:.22em; text-transform:uppercase; font-weight:600}
+  .divider::before,.divider::after{content:""; flex:1; height:1px; background:var(--beige)}
+  .contact{display:grid; grid-template-columns:repeat(3,1fr); gap:10px}
+  .tile{display:flex; flex-direction:column; align-items:center; gap:6px; padding:14px 6px; border-radius:16px; background:#F3ECE1; color:var(--choc); text-decoration:none; font-size:12.5px; font-weight:600}
+  .tile:focus-visible{outline:3px solid var(--gold); outline-offset:2px}
+  .tile svg{width:22px; height:22px; stroke:var(--cognac); fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round}
+  .save{margin-top:12px; width:100%; background:var(--gold); color:var(--choc)}
+  .details{margin:18px 0 0; padding:0; list-style:none; display:grid; gap:6px; text-align:center; font-size:14px}
+  .details a{color:var(--choc); text-decoration:none; border-bottom:1px solid var(--beige)}
+  .sig{font-family:var(--script); font-size:40px; color:var(--teal); text-align:center; margin:18px 0 0; line-height:1}
+  .handles{text-align:center; color:var(--beige); font-size:12px; margin:18px 0 0; letter-spacing:.04em}
+  .handles a{color:var(--beige); text-decoration:none}
+  @media (prefers-reduced-motion:reduce){.btn{transition:none}}
+</style>
+</head>
+<body>
+  <p class="brand">The Assignment Room™</p>
+  <main class="card">
+    <div class="top">
+      <div class="arch"><img src="/jackie-headshot.jpg" alt="Jackie Parker" width="750" height="1000"></div>
+      <h1>Jackie Parker</h1>
+      <p class="role">Founder, The Assignment Room</p>
+    </div>
+    <div class="body">
+      <p class="q">What is my assignment?</p>
+      <p class="lead">Start here. Take the free Diagnostic, then let's talk through your results together.</p>
+      <div class="actions">
+        <a class="btn primary" href="/diagnostic"><span class="stack">Take the free Readiness Diagnostic<small>Find where you are right now</small></span></a>
+        <a class="btn secondary" href="https://calendar.app.google/vF9NcVLGiR2M2xya7">Book a free Reveal session</a>
+      </div>
+      <div class="divider">Stay connected</div>
+      <div class="contact">
+        <a class="tile" href="tel:+14044223043" aria-label="Call Jackie"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>Call</a>
+        <a class="tile" href="sms:+14044223043" aria-label="Text Jackie"><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>Text</a>
+        <a class="tile" href="/" aria-label="Visit assignmentroom.com"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>Website</a>
+      </div>
+      <a class="btn save" href="/jackie-parker.vcf" download="Jackie Parker.vcf">Save my contact</a>
+      <ul class="details">
+        <li><a href="tel:+14044223043">404-422-3043</a></li>
+        <li><a href="mailto:jackie@assignmentroom.com">jackie@assignmentroom.com</a></li>
+        <li><a href="/">assignmentroom.com</a></li>
+      </ul>
+      <p class="sig">Jackie</p>
+    </div>
+  </main>
+  <p class="handles">
+    <a href="https://www.instagram.com/jackieintheassignmentroom/">IG @jackieintheassignmentroom</a>
+    &nbsp;·&nbsp;
+    <a href="https://www.tiktok.com/@iamjwp">TikTok @iamjwp</a>
+  </p>
+</body>
+</html>
