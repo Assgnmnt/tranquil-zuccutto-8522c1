@@ -1,0 +1,90 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Join the Community List | The Assignment Room</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --teal:        #058E97;
+  --teal-dark:   #046870;
+  --teal-deeper: #023c40;
+  --teal-light:  #88C8CD;
+  --teal-pale:   #e6f5f6;
+  --mustard:     #E0CE8D;
+  --grey:        #6A6A6A;
+  --beige:       #EADFB5;
+  --beige-dk:    #D9CFA0;
+  --charcoal:    #1C1C1A;
+  --ink:         #2e2e2b;
+  --cream:       #F8F4EE;
+  --white:       #ffffff;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{padding-top:70px;font-family:'DM Sans',sans-serif;color:var(--ink);background:var(--white);overflow-x:hidden}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{padding-top:70px;font-family:'DM Sans',sans-serif;color:var(--ink);background:var(--charcoal)}
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;background:rgba(28,28,26,0.98);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:0.5px solid rgba(224,206,141,0.3)}
+.nav-brand{font-family:'Cormorant Garamond',serif;font-size:15px;letter-spacing:.18em;text-transform:uppercase;color:var(--mustard);text-decoration:none}
+.nav-cta{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mustard);border:1px solid rgba(224,206,141,0.5);padding:.45rem 1.1rem;text-decoration:none;border-radius:2px;transition:all .2s}
+.nav-cta:hover{background:var(--mustard);color:var(--charcoal)}
+.btn-primary{display:inline-block;background:var(--teal);color:var(--white);padding:1rem 2.25rem;font-size:15px;font-weight:500;letter-spacing:.02em;text-decoration:none;border-radius:2px;transition:background .2s,transform .15s}
+.btn-primary:hover{background:var(--teal-dark);transform:translateY(-2px)}
+.eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);font-weight:500;display:block;margin-bottom:1rem}
+/* ── FOOTER ── */
+footer{background:var(--charcoal);padding:2.5rem 2rem 2rem;text-align:center;border-top:.5px solid rgba(224,206,141,0.15)}
+.footer-brand{font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--mustard);margin-bottom:.9rem}
+footer p{font-size:12px;color:rgba(255,255,255,0.3)}
+.footer-social{display:flex;justify-content:center;gap:1.5rem;margin-bottom:1.1rem}
+.footer-social a{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,0.55);text-decoration:none;transition:color .2s}
+.footer-social a:hover{color:var(--mustard)}
+
+.cm{min-height:calc(100vh - 70px);background:var(--charcoal);display:flex;align-items:center;justify-content:center;padding:5rem 1.5rem}
+.cm-in{max-width:560px;width:100%;text-align:left}
+.cm .eyebrow{color:var(--mustard)}
+.cm h1{font-family:'Cormorant Garamond',serif;font-weight:500;color:#fff;font-size:clamp(2.6rem,6vw,4rem);line-height:1.1;margin-bottom:1.25rem}
+.cm h1 em{font-style:italic;color:var(--mustard)}
+.cm p.lead{color:rgba(255,255,255,.82);font-size:1.05rem;line-height:1.75;margin-bottom:2rem}
+.cm form{display:flex;flex-direction:column;gap:.85rem}
+.cm input{padding:1rem 1.1rem;font-size:15px;font-family:inherit;border:1px solid rgba(224,206,141,.35);background:rgba(255,255,255,.06);color:#fff;border-radius:2px}
+.cm input::placeholder{color:rgba(255,255,255,.5)}
+.cm button{border:0;cursor:pointer;font-family:inherit;width:100%}
+.cm .fine{font-size:12px;color:rgba(255,255,255,.45);margin-top:.9rem;letter-spacing:.04em}
+.cm .back{display:inline-block;margin-top:2rem;font-size:13px;color:var(--teal-light);text-decoration:none}
+.ok{display:none;border:1px solid rgba(224,206,141,.4);padding:1.5rem;border-radius:2px;color:#fff;font-size:1.1rem;line-height:1.6}
+body{background:var(--charcoal)}</style></head><body><nav>
+  <a class="nav-brand" href="/">The Assignment Room™</a>
+  <a class="nav-cta" href="/entry-room">Take the Diagnostic</a>
+</nav>
+<main class="cm"><div class="cm-in">
+<span class="eyebrow">The Assignment Room Community</span>
+<h1>The Community is <em>coming.</em></h1>
+<p class="lead">A place to build your Assignment Brief, work your 30-day plan, and stay on it with a live weekly session. Join the list and you hear first.</p>
+<form id="f"><input name="name" placeholder="First name" required><input name="email" type="email" placeholder="Email" required><input name="company" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true"><button class="btn-primary" type="submit">Join the Community List</button></form>
+<div class="ok" id="ok">You're on the list. I'll email you first when the doors open.</div>
+<p class="fine">No spam. Just the day the doors open.</p>
+<a class="back" href="/entry-room">Not sure where you are yet? Take the free Readiness Diagnostic →</a>
+</div></main><footer>
+  <p class="footer-brand">The Assignment Room™</p>
+  <div class="footer-social">
+    <a href="https://www.instagram.com/jackieintheassignmentroom/" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://www.tiktok.com/@iamjwp" target="_blank" rel="noopener">TikTok</a>
+    <a href="https://www.linkedin.com/in/jackie-parker-atlanta" target="_blank" rel="noopener">LinkedIn</a>
+  </div>
+  <p>© 2026 The Assignment Room · assignmentroom.com · <a href="/privacy-policy" style="color:rgba(255,255,255,0.3);text-decoration:none">Privacy Policy</a> · <a href="/sms-terms" style="color:rgba(255,255,255,0.3);text-decoration:none">SMS Terms</a> · All rights reserved.</p>
+</footer>
+<script src="/ar-track.js" defer></script>
+<script>
+(function(){
+var f=document.getElementById('f'),ok=document.getElementById('ok'),btn=f.querySelector('button');
+f.addEventListener('submit',function(e){
+  e.preventDefault();
+  btn.disabled=true;btn.textContent='Joining...';
+  var d={name:f.name.value,email:f.email.value,company:f.company.value};
+  fetch('/.netlify/functions/community-subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)})
+  .then(function(r){if(!r.ok)throw new Error('x');f.style.display='none';ok.style.display='block';})
+  .catch(function(){btn.disabled=false;btn.textContent='Join the Community List';alert('Something went wrong. Please try again, or email jackie@assignmentroom.com.');});
+});
+})();
+</script>
+</body></html>
